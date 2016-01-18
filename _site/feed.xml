@@ -1,40 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Lucas Moore</title>
+    <title>Coding Notes</title>
     <description>I&#39;m a student at Learn.co Full-Stack Web Development Bootcamp, writing about accelerated learning, meditation and Ruby on Rails.
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 15 Jan 2016 20:07:43 -0600</pubDate>
-    <lastBuildDate>Fri, 15 Jan 2016 20:07:43 -0600</lastBuildDate>
+    <pubDate>Mon, 18 Jan 2016 13:01:03 -0600</pubDate>
+    <lastBuildDate>Mon, 18 Jan 2016 13:01:03 -0600</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>How and Why I Made this Blog</title>
+        <description>&lt;p&gt;This website is all about what I learn as a Web Developer as I complete the &lt;a href=&quot;http://learn.co&quot;&gt;Learn.co Coding Bootcamp&lt;/a&gt;. Here live my lessons, notes &amp;amp; reflections as I move towards a career as a Full-Stack Developer. 
+&lt;!--excerpt--&gt;&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;I believe in learning by doing, so my first lesson is building this very blog, venturing away from the complicated simplicity of Wordpress. I still have my &lt;a href=&quot;http://thelucasmoore.com&quot;&gt;personal blog&lt;/a&gt; for all things personal, but am writing about Ruby on Rails development here.&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;h3 id=&quot;how-i-made-this-blog&quot;&gt;How I Made this Blog&lt;/h3&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Tom&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &#39;Hi, Tom&#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/jekyll.png&quot; alt=&quot;Jekyll Documentation&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This blog is built with Jekyll and hosted on Github Pages. After reading through the documentation for &lt;a href=&quot;http://jekyllrb.com/docs/home/&quot;&gt;Jekyll&lt;/a&gt;, &lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt; and &lt;a href=&quot;http://daringfireball.net/projects/markdown/basics&quot;&gt;Markdown&lt;/a&gt;, I built this site in about five minutes and then started writing this post. Here’s how:&lt;/p&gt;
+
+&lt;h1 id=&quot;command-line-web-design&quot;&gt;1. Command Line Web Design&lt;/h1&gt;
+
+&lt;p&gt;Modern web design uses the command line to move swiftly. One can construct complete sites, like this one, in a few lines of code. That’s assuming your development environment is set up, which you can learn in &lt;a href=&quot;http://webdesign.tutsplus.com/articles/the-command-line-for-web-design-introduction--cms-23493&quot;&gt;this great tutorial series&lt;/a&gt; on Terminal for Web Design.&lt;/p&gt;
+
+&lt;h1 id=&quot;make-a-new-jekyll-blog-in-terminal&quot;&gt;2. Make a New Jekyll Blog in Terminal&lt;/h1&gt;
+
+&lt;p&gt;With the Jekyll gem installed, I typed the following into my terminal:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ jekyll new my_blog_name&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This makes a new Jekyll blog, all tidy and ready to go.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ cd my_blog_name&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This brings me into that newly created folder containing the Jekyll site. I also opened up this folder in &lt;a href=&quot;http://www.sublimetext.com/2&quot;&gt;Sublime Text&lt;/a&gt; to edit it.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ jekyll serve&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This runs the site on localhost, so I can see changes I make at localhost:4000 in my browser.&lt;/p&gt;
+
+&lt;p&gt;Lastly, I edited the &lt;code&gt;_config.yml&lt;/code&gt; to my own information in Sublime.&lt;/p&gt;
+
+&lt;h1 id=&quot;host-it-on-github&quot;&gt;3. Host it on Github&lt;/h1&gt;
+
+&lt;p&gt;I also have this folder set up as a repository on &lt;a href=&quot;https://github.com/TheLucasMoore/thelucasmoore.github.io&quot;&gt;my Github&lt;/a&gt;. Any repository that is set as &lt;em&gt;your-username&lt;/em&gt;.github.io is automatically structured to work on Github Pages. When I update the blog from my computer and push the updates to Github, this website updates. Effortless.&lt;/p&gt;
+
+&lt;h1 id=&quot;write-in-markdownmk&quot;&gt;4. Write in &lt;a href=&quot;http://daringfireball.net/projects/markdown/basics&quot;&gt;Markdown&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts.png&quot; alt=&quot;New Blog Post&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Markdown is a beautifully simple way to write for the web. The syntax took me about 15 minutes to learn, since it’s so intuitive. To make a new blog post, I just create a new file in the &lt;code&gt;_posts&lt;/code&gt; folder that follows the &lt;code&gt;YEAR-MONTH-DAY-title.markdown&lt;/code&gt; naming convention.&lt;/p&gt;
+
+&lt;h1 id=&quot;push-to-a-static-web-page&quot;&gt;5. Push to a Static Web Page&lt;/h1&gt;
+
+&lt;p&gt;Finally, any time I update this site, I push the changes to Github. Jekyll does all the work of compiling the file structure and converting the Markdown to HTML. There is no server database, simply an agile static page.&lt;/p&gt;
 
 </description>
-        <pubDate>Fri, 15 Jan 2016 19:48:03 -0600</pubDate>
-        <link>http://thelucasmoore.github.io/jekyll/update/2016/01/15/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/jekyll/update/2016/01/15/welcome-to-jekyll.html</guid>
+        <pubDate>Sat, 16 Jan 2016 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2016/01/16/How-and-Why-I-Created-This-Blog.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/01/16/How-and-Why-I-Created-This-Blog.html</guid>
         
-        
-        <category>jekyll</category>
-        
-        <category>update</category>
         
       </item>
     

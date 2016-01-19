@@ -9,8 +9,8 @@
 title: Coding Notes
 email: hey@thelucasmoore.com
 description: > # this means to ignore newlines until "baseurl:"
-  I'm a student at Learn.co Full-Stack Web Development Bootcamp,
-  writing about accelerated learning, meditation and Ruby on Rails.
+  Hey. I'm Lucas Moore, a student at Learn.co Full-Stack Web Development Bootcamp.
+  I write about Ruby on Rails, meditation and accelerated learning.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://thelucasmoore.github.io" # the base hostname & protocol for your site
 twitter_username: thelucasmoore

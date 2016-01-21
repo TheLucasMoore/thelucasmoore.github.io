@@ -12,8 +12,8 @@ dl, dd, ol, ul, figure {
  */
 body {
   font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #46494c;
-  background-color: #dcdcdd;
+  color: #474747;
+  background-color: #EDEDED;
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: "kern" 1;
   -moz-font-feature-settings: "kern" 1;
@@ -71,7 +71,7 @@ a {
   a:visited {
     color: #0f4e5f; }
   a:hover {
-    color: #46494c;
+    color: #474747;
     text-decoration: underline; }
 
 /**
@@ -79,7 +79,7 @@ a {
  */
 blockquote {
   color: #46494c;
-  border-left: 4px solid #acafb2;
+  border-left: 4px solid #a4a7ab;
   padding-left: 15px;
   font-size: 18px;
   letter-spacing: -1px;
@@ -93,7 +93,7 @@ blockquote {
 pre,
 code {
   font-size: 15px;
-  border: 1px solid #acafb2;
+  border: 1px solid #a4a7ab;
   border-radius: 3px;
   background-color: #eef; }
 
@@ -149,8 +149,9 @@ pre {
  */
 .site-header {
   border-top: 5px solid #09090a;
-  border-bottom: 1px solid #acafb2;
+  border-bottom: 1px solid #a4a7ab;
   min-height: 56px;
+  background-color: #FFFFFF;
   position: relative; }
 
 .site-title {
@@ -169,7 +170,7 @@ pre {
   .site-nav .menu-icon {
     display: none; }
   .site-nav .page-link {
-    color: #46494c;
+    color: #474747;
     line-height: 1.5; }
     .site-nav .page-link:not(:last-child) {
       margin-right: 20px; }
@@ -178,8 +179,8 @@ pre {
       position: absolute;
       top: 9px;
       right: 15px;
-      background-color: #dcdcdd;
-      border: 1px solid #acafb2;
+      background-color: #EDEDED;
+      border: 1px solid #a4a7ab;
       border-radius: 5px;
       text-align: right; }
       .site-nav .menu-icon {
@@ -212,8 +213,12 @@ pre {
  * Site footer
  */
 .site-footer {
-  border-top: 1px solid #acafb2;
-  padding: 30px 0; }
+  background-color: #46494c;
+  background: linear-gradient(#EDEDED, #a4a7ab);
+  border-top: 1px solid #a4a7ab;
+  padding: 30px 0;
+  height: 400px;
+  overflow: hidden; }
 
 .footer-heading {
   font-size: 18px;

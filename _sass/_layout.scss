@@ -5,6 +5,7 @@
     border-top: 5px solid $grey-color-dark;
     border-bottom: 1px solid $grey-color-light;
     min-height: 56px;
+    background-color: $header-color;
 
     // Positioning context for the mobile navigation icon
     position: relative;
@@ -98,9 +99,13 @@
  * Site footer
  */
 .site-footer {
+    background-color: $grey-color;
+    background: linear-gradient($background-color, $grey-color-light);
     border-top: 1px solid $grey-color-light;
     padding: $spacing-unit 0;
-}
+    height: 400px;
+    overflow: hidden;
+} 
 
 .footer-heading {
     font-size: 18px;

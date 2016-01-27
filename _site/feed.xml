@@ -6,9 +6,89 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 22 Jan 2016 11:12:02 -0600</pubDate>
-    <lastBuildDate>Fri, 22 Jan 2016 11:12:02 -0600</lastBuildDate>
+    <pubDate>Tue, 26 Jan 2016 22:51:52 -0600</pubDate>
+    <lastBuildDate>Tue, 26 Jan 2016 22:51:52 -0600</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>My Current Dev Environment and Workflow</title>
+        <description>&lt;p&gt;I enter full-time-bootcamp-mode in less than two weeks. I’m learning everything I can about optimizing my work flow, strengthening specific skills and I’m reading as much about web development as possible. I am building a workshop to practice my new craft in. Here’s what it looks like right now.&lt;/p&gt;
+
+&lt;h3 id=&quot;my-development-environment&quot;&gt;My Development Environment&lt;/h3&gt;
+
+&lt;p&gt;In this screenshot you can see this very article as I was writing it. Only the text outline is in the image, but the development environment I’m using is what’s important.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/workflow.png&quot; alt=&quot;workflow&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I work with &lt;em&gt;Firefox&lt;/em&gt;, &lt;em&gt;Sublime Text 3&lt;/em&gt; and &lt;em&gt;Terminal&lt;/em&gt; each as a full screen app. I swipe between them with a three fingers. 
+This arrangement is the quickest way to code that I’ve found. I code in Sublime in the center and can swipe left to see changes in the browser or swipe right to access Terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;workflow-magic-with-package-control&quot;&gt;Workflow Magic with Package Control&lt;/h3&gt;
+
+&lt;p&gt;I found &lt;a href=&quot;https://scotch.io/bar-talk/best-of-sublime-text-3-features-plugins-and-settings&quot;&gt;this amazing article&lt;/a&gt; about optimizing &lt;a href=&quot;http://www.sublimetext.com/3&quot;&gt;Sublime Text&lt;/a&gt; to do such magical things with &lt;em&gt;Package Control&lt;/em&gt;. I giggled a few times as the reality of Package Control washed over me. It’s full of so many amazing shortcuts!&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://packagecontrol.io/installation&quot;&gt;After installing Package Control&lt;/a&gt;, each repetitive task that had been part of my development process now has an quicker and more elegant solution. And in way fewer keystrokes. Those saved seconds add up into minutes and hours across a day of work.&lt;/p&gt;
+
+&lt;p&gt;I installed the Package Control script in Sublime text by copying and pasting the code and adding it into the console with &lt;code&gt;Tab + ~&lt;/code&gt;. I installed the following packages by hitting &lt;code&gt;Command + Shift + P&lt;/code&gt;to open the Command Palette, and typing &lt;code&gt;Install&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/package_control.png&quot; alt=&quot;package control&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then press &lt;code&gt;Enter&lt;/code&gt; and search the following packages and install them by hitting enter again.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/install.png&quot; alt=&quot;install&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;advanced-new-file&quot;&gt;Advanced New File&lt;/h3&gt;
+
+&lt;h1 id=&quot;time-saved-7-seconds-a-save-which-is-about-15-minutes-a-day-if-i-save-files-150-times&quot;&gt;Time Saved: 7 seconds a save, which is about 15 minutes a day if I save files 150 times.&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/advanced.png&quot; alt=&quot;advanced&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When making a new file in Sublime, the default requires us to hit &lt;code&gt;Command + S&lt;/code&gt; to save the file, to name it, then to save it. It took a few seconds each time I repeated the task, which was often. With &lt;em&gt;AdvancedNewFile&lt;/em&gt; installed, a menu pops up instantly in the status bar to name and save the new file just created.&lt;/p&gt;
+
+&lt;h3 id=&quot;git-for-sublime&quot;&gt;Git for Sublime&lt;/h3&gt;
+
+&lt;h1 id=&quot;time-saved-30-seconds-a-commit-which-is-about-10-minutes-a-day-if-i-commit-to-github-20-times-a-day&quot;&gt;Time Saved: 30 seconds a commit, which is about 10 minutes a day if I commit to Github 20 times a day.&lt;/h1&gt;
+
+&lt;p&gt;Throught the same shortcut process above, I can now use Git right from Sublime Text, to stage, commit and push all my files to Github.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Command + Shift + P&lt;/code&gt;
+Type “Quick Commit” to stage all the files and write your commit message. 
+&lt;code&gt;Command + Shift + P&lt;/code&gt;
+Type “Push” to push those changes to Github’s remote servers.&lt;/p&gt;
+
+&lt;h3 id=&quot;emmet&quot;&gt;Emmet&lt;/h3&gt;
+
+&lt;h1 id=&quot;time-saved-its-hard-to-estimate-but-ill-roughly-guess-itll-save-me-oodles-of-time&quot;&gt;Time Saved: It’s hard to estimate, but I’ll roughly guess it’ll save me oodles of time.&lt;/h1&gt;
+
+&lt;p&gt;Emmet is a HTML text-expander. I type a snippet in SublimeText and press &lt;code&gt;Tab&lt;/code&gt; to fill in the expanded and formatted code snippet.&lt;/p&gt;
+
+&lt;p&gt;It allows logical commands like writing “link” &lt;code&gt;+ Tab&lt;/code&gt; to autocomplete to&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;It also has ability to make nested syblings by typing &lt;code&gt;div&amp;gt;ul&amp;gt;li&lt;/code&gt; I can generate the code:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+		&lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;
+			
+		&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Those are my favorite three packages for Package Control. I’d appreciate any other work flow tips or your critiques of mine. You can reach out to me on &lt;a href=&quot;https://twitter.com/thelucasmoore&quot;&gt;Twitter&lt;/a&gt; or my email in the footer below.&lt;/p&gt;
+
+&lt;h1 id=&quot;prepare-the-preparations&quot;&gt;Prepare the Preparations&lt;/h1&gt;
+
+&lt;p&gt;The last things I’m doing before the bootcamp starts in polishing up my &lt;a href=&quot;https://www.codecademy.com/en/tracks/javascript&quot;&gt;Javascript skills on Codecademy&lt;/a&gt; and saving the most useful Web Development articles I find and tagging them carefully in &lt;a href=&quot;https://evernote.com&quot;&gt;Evernote&lt;/a&gt;, for later reference.&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 26 Jan 2016 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2016/01/26/My-Current-Dev-Environment-And-Workflow-Tips.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/01/26/My-Current-Dev-Environment-And-Workflow-Tips.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>How and Why I Made this Blog</title>

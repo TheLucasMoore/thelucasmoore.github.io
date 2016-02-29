@@ -8,7 +8,7 @@ This is one of the first tools that I've learned to use and instantly felt how p
 
 ![The links for each decade. A great starting point.](/assets/goodreads.png)
 
-#An Outline of this Project
+# An Outline of this Project
 
 In planning out this project, I envisioned three stages of interaction. 
 
@@ -18,7 +18,7 @@ In planning out this project, I envisioned three stages of interaction.
 
 This means building a few methods, one that scrapes information on the decades, one that gathers information on each book and a CLI (Command Line Interface) to interact with these data. (Yes, the word *data* is plural).
 
-#Scraping the Decade Information from Goodreads
+# Scraping the Decade Information from Goodreads
 
 We can open, read and parse HTML Pages by requiring both Nokogiri and Open-URI at the top of our document. Then I set the opened Nokogiri document equal to a variable called decades. All of this is contained within the Decade class and a class method called scraper. So *Decade.scraper* does exactly what it sounds: scrapes information on the decades. 
 
@@ -57,7 +57,7 @@ This gives us some nice and tidy data:
  #etc
 {% endhighlight %}
 
-#Gathering Book Information for each Decade
+# Gathering Book Information for each Decade
 
 So each decade has a top ten books. As the data get scraped above, it doesn't include the information on the top ten books of that decade: <code>@Top10 = nil</code>. I need to write code that opens each URL for the decade, pulls the data for each book and returns an array of those books, stored in the @Top10 attribute of the decade.
 
@@ -140,14 +140,14 @@ So the data for each decade now look like this:
  #etc, for all 10 books, for each decade. It's a lot of data. 
 {% endhighlight %}
 
-#Building a Command Line Interface
+# Building a Command Line Interface
 
 To be able to interact with this information, I've built a command line interface. The code is available on [my github](https://github.com/TheLucasMoore/best-books-of-the-century) and this video below shows a walkthrough of the program. 
 
 <iframe width="620" height="415" src="https://www.youtube.com/embed/uasxpR7s4zE" frameborder="0" allowfullscreen></iframe>
 
 
-#Time to Refactor
+# Time to Refactor
 
 So this works to achieve a function, but can do so much more elegantly. I plan on refactoring to:
 

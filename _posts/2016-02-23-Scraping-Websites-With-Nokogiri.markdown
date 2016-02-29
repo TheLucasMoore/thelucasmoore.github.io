@@ -144,7 +144,7 @@ So the data for each decade now look like this:
 
 To be able to interact with this information, I've built a command line interface. The code is available on [my github](https://github.com/TheLucasMoore/best-books-of-the-century) and this video below shows a walkthrough of the program. 
 
-<iframe width="620" height="415" src="https://www.youtube.com/embed/uasxpR7s4zE" frameborder="0" allowfullscreen></iframe>
+<iframe width="320" height="215" src="https://www.youtube.com/embed/uasxpR7s4zE" frameborder="0" allowfullscreen></iframe>
 
 
 # Time to Refactor

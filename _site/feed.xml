@@ -6,9 +6,65 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 29 Feb 2016 13:48:10 -0500</pubDate>
-    <lastBuildDate>Mon, 29 Feb 2016 13:48:10 -0500</lastBuildDate>
+    <pubDate>Fri, 18 Mar 2016 10:29:20 -0500</pubDate>
+    <lastBuildDate>Fri, 18 Mar 2016 10:29:20 -0500</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>How I&#39;ve Learned to Learn During my Coding Bootcamp</title>
+        <description>&lt;p&gt;There’s a &lt;a href=&quot;https://www.switchup.org/blog/how-flatiron-school-gets-99-of-grads-jobs&quot;&gt;lot of buzz around coding bootcamps&lt;/a&gt; these days. A crash course in a new set of programming languages can be a huge career boost for bootcamp graduates. I have learned a ton in my first month of Flatiron School’s Learn Verified program. But one of the most important things I’ve learned in how to most effectively learn.&lt;/p&gt;
+
+&lt;h1 id=&quot;if-youre-doing-a-bootcamp-some-of-these-tips-might-help-you-as-much-as-they-help-me&quot;&gt;If you’re doing a bootcamp, some of these tips might help you as much as they help me.&lt;/h1&gt;
+
+&lt;h2 id=&quot;creating-a-focused-environment&quot;&gt;Creating a Focused Environment&lt;/h2&gt;
+
+&lt;p&gt;There are plenty of distractions when working online. I try to always stay directly focused on the content I am learning. I use the &lt;a href=&quot;https://addons.mozilla.org/en-US/firefox/addon/leechblock/&quot;&gt;Firefox Add-On Leechblock&lt;/a&gt; to allow myself only 10 minutes a day on distracting websites like &lt;a href=&quot;https://www.reddit.com/r/digitalnomad&quot;&gt;Reddit&lt;/a&gt;, &lt;a href=&quot;https://www.producthunt.com/&quot;&gt;Product Hunt&lt;/a&gt; and &lt;a href=&quot;https://news.ycombinator.com/news&quot;&gt;Hacker News&lt;/a&gt;. I keep my phone facedown and away from my desk. I play instrumental music (more on that in a bit). I’ve also found how important it is to take notes on the content I am learning. It helps me internalize what I am learning as I learn it.&lt;/p&gt;
+
+&lt;h2 id=&quot;take-a-break&quot;&gt;Take A Break&lt;/h2&gt;
+
+&lt;p&gt;Every twenty or thirty minutes, I take a five minute break. I’ve found that a short break is a breath of fresh air that allows more focus in the long term. Unless I get into a good flow with a longer lab, in which case I keep working.&lt;/p&gt;
+
+&lt;p&gt;The key is to recognize unproductive brain space, like when I’m searching for distractions. Instead of fighting the mind, I take some space to clear it before returning back to learning. This allows me to work almost all day, most days. ;)&lt;/p&gt;
+
+&lt;h2 id=&quot;feel-out-your-brain-space&quot;&gt;Feel Out Your Brain Space&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/brain.jpg&quot; alt=&quot;Waves&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.mind-your-reality.com/brain_waves.html&quot;&gt;The Brain’s States&lt;/a&gt; are super interesting.&lt;/p&gt;
+
+&lt;p&gt;Modern neuroscience knows a lot about our brains. There a few distinct brain spaces that have patterns we can recognize, both through EEG readings and in self-examining meditation. All these process are happening at the same time, but we can move into one dominant thought pattern with some simple exercises.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-first-brain-space-is-beta&quot;&gt;The first brain space is Beta.&lt;/h1&gt;
+&lt;p&gt;This is every day consciousness. A mind on the run, perceiving and interpreting. Thinking busy thoughts. Beta level consciousness is the mind when it is wide awake.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-next-in-contrast-is-alpha&quot;&gt;The next, in contrast, is Alpha.&lt;/h1&gt;
+&lt;p&gt;This is when the mind is calm and receptive. It’s an open and meditative mind. This is the best way to learn more deeply, as we absorb information most effectively in alpha brain space. Learning while the brain is in an alpha state means that I am learning on two levels (alpha and beta).&lt;/p&gt;
+
+&lt;p&gt;You can easily transition between alpha and beta by relaxing! Take a few breaths, meditate for 20 minutes, or listen to  music. Research shows classical music induces an alpha wave pattern in the mind, but I’m partial to instrumental music like &lt;a href=&quot;https://www.youtube.com/watch?v=UBTUAHGpQqE&quot;&gt;El Ten Eleven&lt;/a&gt;, &lt;a href=&quot;https://www.youtube.com/watch?v=7VGNc5ZncNE&quot;&gt;Madlib&lt;/a&gt;, &lt;a href=&quot;https://www.youtube.com/watch?v=dhNfddJRulQ&quot;&gt;Vulfpeck&lt;/a&gt; &lt;a href=&quot;https://www.youtube.com/watch?v=50b5J_ulWhw&quot;&gt;Damu The Fudgemunk&lt;/a&gt; and &lt;a href=&quot;https://www.youtube.com/watch?v=81983x_wgyc&quot;&gt;Thievery Corporation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-sleepiest-is-theta-wave&quot;&gt;The sleepiest is Theta Wave.&lt;/h1&gt;
+&lt;p&gt;The dreamy space right before you fall asleep is called theta. It’s disorienting, with random dreamy thoughts intermingled with normal ones. The chemical melatonin is released and it lulls us to sleep. Recognizing the sleepy mind and stopping work is equally as important. I’m not learning as effectively as possible if I’m tired.&lt;/p&gt;
+
+&lt;h1 id=&quot;rem-sleep&quot;&gt;REM sleep.&lt;/h1&gt;
+
+&lt;p&gt;REM sleep, or dreaming, is equally important in the learning process. Dreams are the way we digest and store information. I’ve found that getting quality sleep is the best way to internalize lessons and content. Some mornings, I wake up dreaming in code, finding solutions to problems I am stuck on automatically. Let your dreams do the heavy lifting. It’s an evolutionary process to digest information and store it in long term memory.&lt;/p&gt;
+
+&lt;h2 id=&quot;short-term-and-long-term-memory&quot;&gt;Short Term and Long Term Memory&lt;/h2&gt;
+&lt;p&gt;Understanding the way memory works can be empowering. Ideas are stored in either our short term or long term memory, based on time and frequency of exposure. Anything can stick in our short term memory after one exposure, sure. But it is only transferred to long term memory if it’s rehearsed immediately. So what’s the most efficient way to store things in our long term memory?&lt;/p&gt;
+
+&lt;p&gt;Research shows short, repeated exposure is actually the best way to memorize something. Rereading my notes on a daily and weekly basis helps me to internalize points and move them into long term memory. It’s the philosophy behind &lt;a href=&quot;http://www.memrise.com/science/&quot;&gt;Memrise&lt;/a&gt;, which is how I’m learning Portuguese.&lt;/p&gt;
+
+&lt;p&gt;This week, I’m returning to old projects and fiddling with them, adding in what I’ve learned from later points. This is a good review and a creative way to solidify new things like database management.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-do-you-do&quot;&gt;What do you do?&lt;/h2&gt;
+&lt;p&gt;Anything I’m missing here? What tips do you have for working effectively in a coding bootcamp? Reach out to me on &lt;a href=&quot;https://twitter.com/thelucasmoore&quot;&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 17 Mar 2016 00:00:00 -0500</pubDate>
+        <link>http://thelucasmoore.github.io/2016/03/17/How-I-Have-Learned-To-Learn.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/03/17/How-I-Have-Learned-To-Learn.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Scraping Websites for Data with Nokogiri</title>
@@ -42,16 +98,16 @@
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;scraper&lt;/span&gt;
 	&lt;span class=&quot;n&quot;&gt;decades&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Nokogiri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.goodreads.com/list/show/7&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#The page of each decade&lt;/span&gt;
 	&lt;span class=&quot;n&quot;&gt;decades&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;div.mediumText a&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#Each link is iterated over&lt;/span&gt;
-				&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Century&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#if that link includes the text &quot;centuries&quot;, continue&lt;/span&gt;
-					&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#make a new decade object&lt;/span&gt;
-					&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;gsub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Best Books of the &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
-									&lt;span class=&quot;c1&quot;&gt;#sets the name equal to the link text, but changes it with gsub&lt;/span&gt;
-					&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-									&lt;span class=&quot;c1&quot;&gt;#saves the link to that decade, which we&#39;ll need in a moment.&lt;/span&gt;
-					&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;
-					&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#saves this decade object into the @@all global variable. &lt;/span&gt;
-				&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Century&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#if that link includes the text &quot;centuries&quot;, continue&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#make a new decade object&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;gsub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Best Books of the &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+				&lt;span class=&quot;c1&quot;&gt;#sets the name equal to the link text, but changes it with gsub&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+				&lt;span class=&quot;c1&quot;&gt;#saves the link to that decade, which we&#39;ll need in a moment.&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;
+		&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#saves this decade object into the @@all global variable. &lt;/span&gt;
 			&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
@@ -75,48 +131,48 @@ Basically, the information for each book is stored in a table row, so for each t
 &lt;span class=&quot;kp&quot;&gt;attr_accessor&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:ranking&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:rating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:decade&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#the link argument is where I can pass the URL of each decade&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;books&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Nokogiri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#Nokogiri will open up that URL here&lt;/span&gt;
-		&lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#This is where we&#39;ll store the data on the books&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;books&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Nokogiri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#Nokogiri will open up that URL here&lt;/span&gt;
+&lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#This is where we&#39;ll store the data on the books&lt;/span&gt;
 
-		&lt;span class=&quot;n&quot;&gt;books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#iterate through each table row&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;td.number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; 
-					&lt;span class=&quot;c1&quot;&gt;#this pulls only the first 10. Some decades have 100 books, which we don&#39;t want&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BestBooks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
-					&lt;span class=&quot;c1&quot;&gt;#a new instance of the Book class, set to the variable libro&lt;/span&gt;
-					&lt;span class=&quot;c1&quot;&gt;#setting all the information by scanning the CSS&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ranking&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;td.number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a.bookTitle span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a.bookTitle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;value&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.authorName span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.minirating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;strip&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#iterate through each table row&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;td.number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; 
+			&lt;span class=&quot;c1&quot;&gt;#this pulls only the first 10. Some decades have 100 books, which we don&#39;t want&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BestBooks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
+			&lt;span class=&quot;c1&quot;&gt;#a new instance of the Book class, set to the variable libro&lt;/span&gt;
+			&lt;span class=&quot;c1&quot;&gt;#setting all the information by scanning the CSS&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ranking&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;td.number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a.bookTitle span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a.bookTitle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;value&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.authorName span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.minirating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;strip&lt;/span&gt;
 
-				&lt;span class=&quot;c1&quot;&gt;#I&#39;m proud of figuring this one out. Finder here is equal to a second Nokogiri link&lt;/span&gt;
-				&lt;span class=&quot;c1&quot;&gt;#which opens the link of the book itself to scrape the text of the description,&lt;/span&gt;
-				&lt;span class=&quot;c1&quot;&gt;#which is then set as the description attribute.&lt;/span&gt;
+		&lt;span class=&quot;c1&quot;&gt;#I&#39;m proud of figuring this one out. Finder here is equal to a second Nokogiri link&lt;/span&gt;
+		&lt;span class=&quot;c1&quot;&gt;#which opens the link of the book itself to scrape the text of the description,&lt;/span&gt;
+		&lt;span class=&quot;c1&quot;&gt;#which is then set as the description attribute.&lt;/span&gt;
 
-				&lt;span class=&quot;n&quot;&gt;finder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Nokogiri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.goodreads.com&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#description span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;
-			&lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#pushes all the book information into an array.&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#after iterating through the top10 books, returns the completed array.&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;finder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Nokogiri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.goodreads.com&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#description span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;
+	&lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#pushes all the book information into an array.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#after iterating through the top10 books, returns the completed array.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Now, to integrate this data with my Decade objects, I created the Decade.books class method.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;	&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;books&lt;/span&gt;
-		&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;bookscraper&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BestBooks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#passing the URL to the Book.scrape method mentioned above&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bookscraper&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-		&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;books&lt;/span&gt;
+	&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;bookscraper&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BestBooks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#passing the URL to the Book.scrape method mentioned above&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bookscraper&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+	&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;This method iterates through @@all the decades, grabs the URL of that decade and passes it to the Book.scrape method.
 When the book scraper returns the array of the top ten books, it sets that array equal to the @Top10 attribute of the Decade object.&lt;/p&gt;
@@ -144,7 +200,7 @@ When the book scraper returns the array of the top ten books, it sets that array
 
 &lt;p&gt;To be able to interact with this information, I’ve built a command line interface. The code is available on &lt;a href=&quot;https://github.com/TheLucasMoore/best-books-of-the-century&quot;&gt;my github&lt;/a&gt; and this video below shows a walkthrough of the program.&lt;/p&gt;
 
-&lt;iframe width=&quot;620&quot; height=&quot;415&quot; src=&quot;https://www.youtube.com/embed/uasxpR7s4zE&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;iframe width=&quot;320&quot; height=&quot;215&quot; src=&quot;https://www.youtube.com/embed/uasxpR7s4zE&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 
 &lt;h1 id=&quot;time-to-refactor&quot;&gt;Time to Refactor&lt;/h1&gt;
 
@@ -157,7 +213,7 @@ When the book scraper returns the array of the top ten books, it sets that array
 
 &lt;p&gt;Stay tuned for the refactored update and the publication of the final gem.&lt;/p&gt;
 </description>
-        <pubDate>Tue, 23 Feb 2016 00:00:00 -0500</pubDate>
+        <pubDate>Tue, 23 Feb 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/02/23/Scraping-Websites-With-Nokogiri.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/02/23/Scraping-Websites-With-Nokogiri.html</guid>
         
@@ -237,7 +293,7 @@ Type “Push” to push those changes to Github’s remote servers.&lt;/p&gt;
 &lt;p&gt;The last things I’m doing before the bootcamp starts in polishing up my &lt;a href=&quot;https://www.codecademy.com/en/tracks/javascript&quot;&gt;Javascript skills on Codecademy&lt;/a&gt; and saving the most useful Web Development articles I find and tagging them carefully in &lt;a href=&quot;https://evernote.com&quot;&gt;Evernote&lt;/a&gt;, for later reference.&lt;/p&gt;
 
 </description>
-        <pubDate>Tue, 26 Jan 2016 00:00:00 -0500</pubDate>
+        <pubDate>Tue, 26 Jan 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/01/26/My-Current-Dev-Environment-And-Workflow-Tips.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/01/26/My-Current-Dev-Environment-And-Workflow-Tips.html</guid>
         
@@ -294,7 +350,7 @@ Type “Push” to push those changes to Github’s remote servers.&lt;/p&gt;
 &lt;p&gt;Finally, any time I update this site, I push the changes to Github. Jekyll does all the work of compiling the file structure and converting the Markdown to HTML. There is no server database, simply an agile static page.&lt;/p&gt;
 
 </description>
-        <pubDate>Sat, 16 Jan 2016 00:00:00 -0500</pubDate>
+        <pubDate>Sat, 16 Jan 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/01/16/How-and-Why-I-Created-This-Blog.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/01/16/How-and-Why-I-Created-This-Blog.html</guid>
         

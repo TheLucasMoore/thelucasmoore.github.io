@@ -76,7 +76,7 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Scraping Websites for Data with Nokogiri</h1>
-    <p class="post-meta"><time datetime="2016-02-23T00:00:00-05:00" itemprop="datePublished">Feb 23, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Lucas Moore</span></span></p>
+    <p class="post-meta"><time datetime="2016-02-23T00:00:00-06:00" itemprop="datePublished">Feb 23, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Lucas Moore</span></span></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
@@ -110,16 +110,16 @@
 <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">scraper</span>
 	<span class="n">decades</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">"https://www.goodreads.com/list/show/7"</span><span class="p">))</span> <span class="c1">#The page of each decade</span>
 	<span class="n">decades</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"div.mediumText a"</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">scrape</span><span class="o">|</span> <span class="c1">#Each link is iterated over</span>
-				<span class="k">if</span> <span class="n">scrape</span><span class="p">.</span><span class="nf">text</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"Century"</span><span class="p">)</span> <span class="c1">#if that link includes the text "centuries", continue</span>
-					<span class="n">decade</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="nf">new</span> <span class="c1">#make a new decade object</span>
-					<span class="n">decade</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="n">scrape</span><span class="p">.</span><span class="nf">text</span><span class="p">.</span><span class="nf">strip</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="s2">"Best Books of the "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> 
-									<span class="c1">#sets the name equal to the link text, but changes it with gsub</span>
-					<span class="n">decade</span><span class="p">.</span><span class="nf">url</span> <span class="o">=</span> <span class="n">scrape</span><span class="p">.</span><span class="nf">attr</span><span class="p">(</span><span class="s2">"href"</span><span class="p">)</span>
-									<span class="c1">#saves the link to that decade, which we'll need in a moment.</span>
-					<span class="n">decade</span>
-					<span class="vc">@@all</span> <span class="o">&lt;&lt;</span> <span class="n">decade</span> <span class="c1">#saves this decade object into the @@all global variable. </span>
-				<span class="k">end</span>
+		<span class="k">if</span> <span class="n">scrape</span><span class="p">.</span><span class="nf">text</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="s2">"Century"</span><span class="p">)</span> <span class="c1">#if that link includes the text "centuries", continue</span>
+		<span class="n">decade</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="nf">new</span> <span class="c1">#make a new decade object</span>
+		<span class="n">decade</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="n">scrape</span><span class="p">.</span><span class="nf">text</span><span class="p">.</span><span class="nf">strip</span><span class="p">.</span><span class="nf">gsub</span><span class="p">(</span><span class="s2">"Best Books of the "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> 
+				<span class="c1">#sets the name equal to the link text, but changes it with gsub</span>
+		<span class="n">decade</span><span class="p">.</span><span class="nf">url</span> <span class="o">=</span> <span class="n">scrape</span><span class="p">.</span><span class="nf">attr</span><span class="p">(</span><span class="s2">"href"</span><span class="p">)</span>
+				<span class="c1">#saves the link to that decade, which we'll need in a moment.</span>
+		<span class="n">decade</span>
+		<span class="vc">@@all</span> <span class="o">&lt;&lt;</span> <span class="n">decade</span> <span class="c1">#saves this decade object into the @@all global variable. </span>
 			<span class="k">end</span>
+		<span class="k">end</span>
 	<span class="k">end</span>
 <span class="k">end</span></code></pre></figure>
 
@@ -143,48 +143,48 @@ Basically, the information for each book is stored in a table row, so for each t
 <span class="kp">attr_accessor</span> <span class="ss">:ranking</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:link</span><span class="p">,</span> <span class="ss">:author</span><span class="p">,</span> <span class="ss">:rating</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:decade</span>
 
 <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">scrape</span><span class="p">(</span><span class="n">link</span><span class="p">)</span> <span class="c1">#the link argument is where I can pass the URL of each decade</span>
-		<span class="n">books</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">link</span><span class="p">))</span> <span class="c1">#Nokogiri will open up that URL here</span>
-		<span class="vi">@top10books</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#This is where we'll store the data on the books</span>
+<span class="n">books</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">link</span><span class="p">))</span> <span class="c1">#Nokogiri will open up that URL here</span>
+<span class="vi">@top10books</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#This is where we'll store the data on the books</span>
 
-		<span class="n">books</span><span class="p">.</span><span class="nf">search</span><span class="p">(</span><span class="s2">"tr"</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">this</span><span class="o">|</span> <span class="c1">#iterate through each table row</span>
-		<span class="k">if</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"td.number"</span><span class="p">).</span><span class="nf">text</span><span class="p">.</span><span class="nf">to_i</span> <span class="o">&lt;=</span> <span class="mi">10</span> 
-					<span class="c1">#this pulls only the first 10. Some decades have 100 books, which we don't want</span>
-			<span class="n">libro</span> <span class="o">=</span> <span class="no">BestBooks</span><span class="o">::</span><span class="no">Book</span><span class="p">.</span><span class="nf">new</span>
-					<span class="c1">#a new instance of the Book class, set to the variable libro</span>
-					<span class="c1">#setting all the information by scanning the CSS</span>
-			<span class="n">libro</span><span class="p">.</span><span class="nf">ranking</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"td.number"</span><span class="p">).</span><span class="nf">text</span>
-			<span class="n">libro</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"a.bookTitle span"</span><span class="p">).</span><span class="nf">text</span>
-			<span class="n">libro</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"a.bookTitle"</span><span class="p">).</span><span class="nf">attr</span><span class="p">(</span><span class="s2">"href"</span><span class="p">).</span><span class="nf">value</span>
-			<span class="n">libro</span><span class="p">.</span><span class="nf">author</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">".authorName span"</span><span class="p">).</span><span class="nf">text</span>
-			<span class="n">libro</span><span class="p">.</span><span class="nf">rating</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">".minirating"</span><span class="p">).</span><span class="nf">text</span><span class="p">.</span><span class="nf">strip</span>
+<span class="n">books</span><span class="p">.</span><span class="nf">search</span><span class="p">(</span><span class="s2">"tr"</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">this</span><span class="o">|</span> <span class="c1">#iterate through each table row</span>
+<span class="k">if</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"td.number"</span><span class="p">).</span><span class="nf">text</span><span class="p">.</span><span class="nf">to_i</span> <span class="o">&lt;=</span> <span class="mi">10</span> 
+			<span class="c1">#this pulls only the first 10. Some decades have 100 books, which we don't want</span>
+	<span class="n">libro</span> <span class="o">=</span> <span class="no">BestBooks</span><span class="o">::</span><span class="no">Book</span><span class="p">.</span><span class="nf">new</span>
+			<span class="c1">#a new instance of the Book class, set to the variable libro</span>
+			<span class="c1">#setting all the information by scanning the CSS</span>
+	<span class="n">libro</span><span class="p">.</span><span class="nf">ranking</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"td.number"</span><span class="p">).</span><span class="nf">text</span>
+	<span class="n">libro</span><span class="p">.</span><span class="nf">title</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"a.bookTitle span"</span><span class="p">).</span><span class="nf">text</span>
+	<span class="n">libro</span><span class="p">.</span><span class="nf">link</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"a.bookTitle"</span><span class="p">).</span><span class="nf">attr</span><span class="p">(</span><span class="s2">"href"</span><span class="p">).</span><span class="nf">value</span>
+	<span class="n">libro</span><span class="p">.</span><span class="nf">author</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">".authorName span"</span><span class="p">).</span><span class="nf">text</span>
+	<span class="n">libro</span><span class="p">.</span><span class="nf">rating</span> <span class="o">=</span> <span class="n">this</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">".minirating"</span><span class="p">).</span><span class="nf">text</span><span class="p">.</span><span class="nf">strip</span>
 
-				<span class="c1">#I'm proud of figuring this one out. Finder here is equal to a second Nokogiri link</span>
-				<span class="c1">#which opens the link of the book itself to scrape the text of the description,</span>
-				<span class="c1">#which is then set as the description attribute.</span>
+		<span class="c1">#I'm proud of figuring this one out. Finder here is equal to a second Nokogiri link</span>
+		<span class="c1">#which opens the link of the book itself to scrape the text of the description,</span>
+		<span class="c1">#which is then set as the description attribute.</span>
 
-				<span class="n">finder</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">"https://www.goodreads.com"</span> <span class="o">+</span> <span class="n">libro</span><span class="p">.</span><span class="nf">link</span><span class="p">))</span>
-			<span class="n">libro</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="n">finder</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"#description span"</span><span class="p">).</span><span class="nf">text</span>
-			<span class="n">libro</span>
-			<span class="vi">@top10books</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">libro</span><span class="p">)</span> <span class="c1">#pushes all the book information into an array.</span>
-		<span class="k">else</span>
-			<span class="n">this</span>
-		<span class="k">end</span>
-		<span class="k">end</span>
-		<span class="k">return</span> <span class="vi">@top10books</span> <span class="c1">#after iterating through the top10 books, returns the completed array.</span>
-	<span class="k">end</span>
+		<span class="n">finder</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">"https://www.goodreads.com"</span> <span class="o">+</span> <span class="n">libro</span><span class="p">.</span><span class="nf">link</span><span class="p">))</span>
+	<span class="n">libro</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="n">finder</span><span class="p">.</span><span class="nf">css</span><span class="p">(</span><span class="s2">"#description span"</span><span class="p">).</span><span class="nf">text</span>
+	<span class="n">libro</span>
+	<span class="vi">@top10books</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">libro</span><span class="p">)</span> <span class="c1">#pushes all the book information into an array.</span>
+<span class="k">else</span>
+	<span class="n">this</span>
+<span class="k">end</span>
+<span class="k">end</span>
+<span class="k">return</span> <span class="vi">@top10books</span> <span class="c1">#after iterating through the top10 books, returns the completed array.</span>
+<span class="k">end</span>
 <span class="k">end</span></code></pre></figure>
 
 <p>Now, to integrate this data with my Decade objects, I created the Decade.books class method.</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">	<span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">books</span>
-		<span class="vc">@@all</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">geturl</span><span class="o">|</span>
-			<span class="n">bookscraper</span> <span class="o">=</span> <span class="no">BestBooks</span><span class="o">::</span><span class="no">Book</span><span class="p">.</span><span class="nf">scrape</span><span class="p">(</span><span class="n">geturl</span><span class="p">.</span><span class="nf">url</span><span class="p">)</span> <span class="c1">#passing the URL to the Book.scrape method mentioned above</span>
-			<span class="n">top10</span> <span class="o">=</span> <span class="p">[]</span>
-			<span class="n">top10</span> <span class="o">=</span> <span class="n">bookscraper</span>
-			<span class="n">geturl</span><span class="p">.</span><span class="nf">top10</span> <span class="o">=</span> <span class="n">top10</span>
-		<span class="k">end</span>
-		<span class="vc">@@all</span>
-	<span class="k">end</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">books</span>
+	<span class="vc">@@all</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">geturl</span><span class="o">|</span>
+		<span class="n">bookscraper</span> <span class="o">=</span> <span class="no">BestBooks</span><span class="o">::</span><span class="no">Book</span><span class="p">.</span><span class="nf">scrape</span><span class="p">(</span><span class="n">geturl</span><span class="p">.</span><span class="nf">url</span><span class="p">)</span> <span class="c1">#passing the URL to the Book.scrape method mentioned above</span>
+		<span class="n">top10</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">top10</span> <span class="o">=</span> <span class="n">bookscraper</span>
+		<span class="n">geturl</span><span class="p">.</span><span class="nf">top10</span> <span class="o">=</span> <span class="n">top10</span>
+	<span class="k">end</span>
+	<span class="vc">@@all</span>
+<span class="k">end</span></code></pre></figure>
 
 <p>This method iterates through @@all the decades, grabs the URL of that decade and passes it to the Book.scrape method.
 When the book scraper returns the array of the top ten books, it sets that array equal to the @Top10 attribute of the Decade object.</p>
@@ -212,7 +212,7 @@ When the book scraper returns the array of the top ten books, it sets that array
 
 <p>To be able to interact with this information, I’ve built a command line interface. The code is available on <a href="https://github.com/TheLucasMoore/best-books-of-the-century">my github</a> and this video below shows a walkthrough of the program.</p>
 
-<iframe width="620" height="415" src="https://www.youtube.com/embed/uasxpR7s4zE" frameborder="0" allowfullscreen=""></iframe>
+<iframe width="320" height="215" src="https://www.youtube.com/embed/uasxpR7s4zE" frameborder="0" allowfullscreen=""></iframe>
 
 <h1 id="time-to-refactor">Time to Refactor</h1>
 

@@ -33,16 +33,16 @@ Class Decade
 def self.scraper
 	decades = Nokogiri::HTML(open("https://www.goodreads.com/list/show/7")) #The page of each decade
 	decades.css("div.mediumText a").each do |scrape| #Each link is iterated over
-				if scrape.text.include?("Century") #if that link includes the text "centuries", continue
-					decade = self.new #make a new decade object
-					decade.name = scrape.text.strip.gsub("Best Books of the ", "") 
-									#sets the name equal to the link text, but changes it with gsub
-					decade.url = scrape.attr("href")
-									#saves the link to that decade, which we'll need in a moment.
-					decade
-					@@all << decade #saves this decade object into the @@all global variable. 
-				end
+		if scrape.text.include?("Century") #if that link includes the text "centuries", continue
+		decade = self.new #make a new decade object
+		decade.name = scrape.text.strip.gsub("Best Books of the ", "") 
+				#sets the name equal to the link text, but changes it with gsub
+		decade.url = scrape.attr("href")
+				#saves the link to that decade, which we'll need in a moment.
+		decade
+		@@all << decade #saves this decade object into the @@all global variable. 
 			end
+		end
 	end
 end
 {% endhighlight %}
@@ -71,50 +71,50 @@ Class Book
 attr_accessor :ranking, :title, :link, :author, :rating, :description, :decade
 
 def self.scrape(link) #the link argument is where I can pass the URL of each decade
-		books = Nokogiri::HTML(open(link)) #Nokogiri will open up that URL here
-		@top10books = [] #This is where we'll store the data on the books
+books = Nokogiri::HTML(open(link)) #Nokogiri will open up that URL here
+@top10books = [] #This is where we'll store the data on the books
 
-		books.search("tr").each do |this| #iterate through each table row
-		if this.css("td.number").text.to_i <= 10 
-					#this pulls only the first 10. Some decades have 100 books, which we don't want
-			libro = BestBooks::Book.new
-					#a new instance of the Book class, set to the variable libro
-					#setting all the information by scanning the CSS
-			libro.ranking = this.css("td.number").text
-			libro.title = this.css("a.bookTitle span").text
-			libro.link = this.css("a.bookTitle").attr("href").value
-			libro.author = this.css(".authorName span").text
-			libro.rating = this.css(".minirating").text.strip
+books.search("tr").each do |this| #iterate through each table row
+if this.css("td.number").text.to_i <= 10 
+			#this pulls only the first 10. Some decades have 100 books, which we don't want
+	libro = BestBooks::Book.new
+			#a new instance of the Book class, set to the variable libro
+			#setting all the information by scanning the CSS
+	libro.ranking = this.css("td.number").text
+	libro.title = this.css("a.bookTitle span").text
+	libro.link = this.css("a.bookTitle").attr("href").value
+	libro.author = this.css(".authorName span").text
+	libro.rating = this.css(".minirating").text.strip
 
-				#I'm proud of figuring this one out. Finder here is equal to a second Nokogiri link
-				#which opens the link of the book itself to scrape the text of the description,
-				#which is then set as the description attribute.
+		#I'm proud of figuring this one out. Finder here is equal to a second Nokogiri link
+		#which opens the link of the book itself to scrape the text of the description,
+		#which is then set as the description attribute.
 
-				finder = Nokogiri::HTML(open("https://www.goodreads.com" + libro.link))
-			libro.description = finder.css("#description span").text
-			libro
-			@top10books.push(libro) #pushes all the book information into an array.
-		else
-			this
-		end
-		end
-		return @top10books #after iterating through the top10 books, returns the completed array.
-	end
+		finder = Nokogiri::HTML(open("https://www.goodreads.com" + libro.link))
+	libro.description = finder.css("#description span").text
+	libro
+	@top10books.push(libro) #pushes all the book information into an array.
+else
+	this
+end
+end
+return @top10books #after iterating through the top10 books, returns the completed array.
+end
 end
 {% endhighlight %}
 
 Now, to integrate this data with my Decade objects, I created the Decade.books class method. 
 
 {%highlight ruby %}
-	def self.books
-		@@all.each do |geturl|
-			bookscraper = BestBooks::Book.scrape(geturl.url) #passing the URL to the Book.scrape method mentioned above
-			top10 = []
-			top10 = bookscraper
-			geturl.top10 = top10
-		end
-		@@all
+def self.books
+	@@all.each do |geturl|
+		bookscraper = BestBooks::Book.scrape(geturl.url) #passing the URL to the Book.scrape method mentioned above
+		top10 = []
+		top10 = bookscraper
+		geturl.top10 = top10
 	end
+	@@all
+end
 {% endhighlight %}
 
 This method iterates through @@all the decades, grabs the URL of that decade and passes it to the Book.scrape method.

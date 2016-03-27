@@ -6,9 +6,119 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 18 Mar 2016 10:29:20 -0500</pubDate>
-    <lastBuildDate>Fri, 18 Mar 2016 10:29:20 -0500</lastBuildDate>
+    <pubDate>Sun, 27 Mar 2016 10:59:56 -0500</pubDate>
+    <lastBuildDate>Sun, 27 Mar 2016 10:59:56 -0500</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Building a To Do List Web App with Sinatra</title>
+        <description>&lt;p&gt;I am at an exciting point in the boot camp process. The building blocks of the concepts I’ve learned so far are starting to finally come together!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/todoo.png&quot; alt=&quot;todoo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Learning feels genuinely &lt;em&gt;FUN&lt;/em&gt;. I had a blast building this latest project, which is the final assessment for the section on Sinatra.&lt;/p&gt;
+
+&lt;p&gt;I have three more (albeit hefty) sections left in the program to finish all 801 lessons.&lt;/p&gt;
+
+&lt;h2 id=&quot;mvc-structure&quot;&gt;MVC Structure&lt;/h2&gt;
+
+&lt;p&gt;To build the most usable and readable code, it’s common practice to divide a project into models, views and controllers.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://45.media.tumblr.com/tumblr_luxoeyQiQw1qf7to0o1_500.gif&quot; alt=&quot;good burger&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So you can understand what I’m talking about, think of a restaurant. You, the user, will walk in, order food and get a plate of food.
+This is like when you go to your favorite Facebased website - you log in, click some stuff and see information.&lt;/p&gt;
+
+&lt;p&gt;But the magic of food and websites suddenly appearing before you has a secret process - a Model, a View and a Controller.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The Model&lt;/em&gt; is the chefs in the back room, chopping up the food, cooking it and flavoring everything. 
+This is the bulk of the code that does the work of sorting classes, methods and data structures.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The Controller&lt;/em&gt; is the waiter who asks what you’d like to eat, listens and then connects your request to the chefs. Then they deliver the food you ordered.
+This is where &lt;a href=&quot;http://www.sinatrarb.com/&quot;&gt;Sinatra&lt;/a&gt; comes in to handle the HTTP requests of URL paths, as well as patching and deleting data from the server.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The View&lt;/em&gt; is the pretty plate of food before you- exactly what you asked for. 
+This is the final HTML pages that a user interacts with. In this project, that means the ToDoo web interface.&lt;/p&gt;
+
+&lt;p&gt;Here’s each element of the MVC architecture that I built for this application, with a description and video explaination below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/files.png&quot; alt=&quot;file structure&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;views&quot;&gt;Views&lt;/h2&gt;
+
+&lt;p&gt;A user needs to either sign up or log in.&lt;/p&gt;
+
+&lt;p&gt;A task needs to be created, edited, viewed and deleted.&lt;/p&gt;
+
+&lt;p&gt;A list also needs to be created, edited, viewed and deleted.&lt;/p&gt;
+
+&lt;p&gt;As you can see above, each of these functions has its own page with a form that posts data to the database, or a neat little ruby snippet that interjects data from the database into the page.&lt;/p&gt;
+
+&lt;p&gt;Here’s an example from the view at &lt;code&gt;/lists/new&lt;/code&gt; which makes a new list and an associated task.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;New&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/h1&amp;gt;
+&amp;lt;form method=&quot;post&quot; action=&quot;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt; # form code for the controller to handle
+  &amp;lt;input type=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; name=&quot;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; placeholder=&quot;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
+  &amp;lt;input type=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; name=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; placeholder=&quot;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Add&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Your&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;First&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
+  &amp;lt;input class=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;btn&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;btn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;primary&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; type=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; name=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; value=&quot;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Create&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;
+&amp;lt;/form&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;These &lt;code&gt;.erb&lt;/code&gt; pages also inheret their styling from a &lt;code&gt;layout.erb&lt;/code&gt; document that pulls stylesheets for &lt;a href=&quot;http://getbootstrap.com/getting-started/&quot;&gt;Bootstrap&lt;/a&gt; and &lt;a href=&quot;https://fortawesome.github.io/Font-Awesome/&quot;&gt;FontAwesome&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;models&quot;&gt;Models&lt;/h2&gt;
+
+&lt;p&gt;I envisioned a simple To Do list application, which means it should have a &lt;em&gt;user&lt;/em&gt;, that can make a &lt;em&gt;list&lt;/em&gt; and add &lt;em&gt;tasks&lt;/em&gt; to each list.&lt;/p&gt;
+
+&lt;p&gt;There is a model for User, for List and for Task. Each inherits from &lt;a href=&quot;https://github.com/rails/rails/tree/master/activerecord&quot;&gt;ActiveRecord&lt;/a&gt;, which handles the persistence of data to the database. I was building each of the handy methods that come baked in with ActiveRecord from scratch before this, so I also understand the magic behind what ActiveRecord accomplishes. But gosh, it feels good to see the magic just work.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://cdn2.crushable.com/wp-content/uploads/2014/08/Arrested-Development-Gob-Buster-dance.gif&quot; alt=&quot;MAGIC&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;associations&quot;&gt;Associations&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;A List has many tasks and belongs to a specific user.&lt;/li&gt;
+  &lt;li&gt;A Task also belongs to a specific user.&lt;/li&gt;
+  &lt;li&gt;A User has many lists and many tasks through lists.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Finally, a user has a secure password, which is built with &lt;a href=&quot;https://github.com/codahale/bcrypt-ruby&quot;&gt;bcrypt&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Check &lt;a href=&quot;https://github.com/TheLucasMoore/todoo&quot;&gt;this project out on Github&lt;/a&gt; to see the database migrations and the structure of the tables that hold these data.&lt;/p&gt;
+
+&lt;h2 id=&quot;controllers&quot;&gt;Controllers&lt;/h2&gt;
+
+&lt;p&gt;The controllers are divided up into a users controller, a task controller and a list controller.&lt;/p&gt;
+
+&lt;p&gt;Take a look at this piece of ListsController.rb&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/lists/new&#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;redirect_if_not_logged_in&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;erb&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:&#39;/lists/new&#39;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/lists/new&#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:user_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:user_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tasks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/tasks&#39;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;When I navigate to Foo.com/lists/new, this checks if a user is logged in, then loads the view lists/new.erb. That page has the form to make a new list and new task, as mentioned above.&lt;/p&gt;
+
+&lt;p&gt;That form posts the information the user enters at &lt;code&gt;POST &#39;/lists/new&#39;&lt;/code&gt; and creates list and task objects. It then pushes the task into the associated list.tasks.
+Finally, the user is redirected to the /tasks page, which shows their lists of tasks just created.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-walk-through&quot;&gt;A Walk Through&lt;/h2&gt;
+
+&lt;p&gt;In this video, I’ll walk you through all the features of this web app and explain the inner workings.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 27 Mar 2016 00:00:00 -0500</pubDate>
+        <link>http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>How I&#39;ve Learned to Learn During my Coding Bootcamp</title>

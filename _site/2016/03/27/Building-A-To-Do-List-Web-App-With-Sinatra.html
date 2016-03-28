@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Lucas Moore: Building a To Do List Web App with Sinatra</title>
-  <meta name="description" content="I am at an exciting point in the boot camp process. The building blocks of the concepts I’ve learned so far are starting to finally come together!">
+  <title>Lucas Moore: Building a To Do List Web App in Ruby with Sinatra</title>
+  <meta name="description" content="I am at an exciting point in the boot camp process. The building blocks of the concepts I’ve learned so far are starting to finally come together! I built a ...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html">
@@ -75,42 +75,46 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Building a To Do List Web App with Sinatra</h1>
-    <p class="post-meta"><time datetime="2016-03-27T00:00:00-05:00" itemprop="datePublished">Mar 27, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Lucas Moore</span></span></p>
+    <h1 class="post-title" itemprop="name headline">Building a To Do List Web App in Ruby with Sinatra</h1>
+    <p class="post-meta"><time datetime="2016-03-27T00:00:00-04:00" itemprop="datePublished">Mar 27, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Lucas Moore</span></span></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>I am at an exciting point in the boot camp process. The building blocks of the concepts I’ve learned so far are starting to finally come together!</p>
+    <p>I am at an exciting point in the boot camp process. The building blocks of the concepts I’ve learned so far are starting to finally come together! I built a web app that actually functions as a to do list. Watch the video walk through at the end of this post to see it in action.</p>
 
-<p><img src="/assets/todoo.png" alt="todoo" /></p>
+<p><img src="/assets/todoo.png" alt="todoo screenshot" /></p>
 
-<p>Learning feels genuinely <em>FUN</em>. I had a blast building this latest project, which is the final assessment for the section on Sinatra.</p>
-
-<p>I have three more (albeit hefty) sections left in the program to finish all 801 lessons.</p>
+<p>Learning like this feels genuinely <em>FUN</em>. I had a blast building this latest project.</p>
 
 <h2 id="mvc-structure">MVC Structure</h2>
 
 <p>To build the most usable and readable code, it’s common practice to divide a project into models, views and controllers.</p>
 
-<p><img src="https://45.media.tumblr.com/tumblr_luxoeyQiQw1qf7to0o1_500.gif" alt="good burger" /></p>
+<p><img src="https://45.media.tumblr.com/tumblr_luxoeyQiQw1qf7to0o1_500.gif" alt="gif of good burger" /></p>
 
-<p>So you can understand what I’m talking about, think of a restaurant. You, the user, will walk in, order food and get a plate of food.
-This is like when you go to your favorite Facebased website - you log in, click some stuff and see information.</p>
+<p>So you can understand what I’m talking about, think of a restaurant. You, the user, will walk in, put in an order and get a plate of food.
+This is just like when you go a website - you log in, click some stuff and see information.</p>
 
-<p>But the magic of food and websites suddenly appearing before you has a secret process - a Model, a View and a Controller.</p>
+<p>But the magic of food and websites suddenly appearing before you has a secret three part process - a Model, a View and a Controller.</p>
 
-<p><em>The Model</em> is the chefs in the back room, chopping up the food, cooking it and flavoring everything. 
+<ol>
+  <li>
+    <p>The Model is the chefs in the back room, chopping up the food, cooking it and flavoring everything. 
 This is the bulk of the code that does the work of sorting classes, methods and data structures.</p>
-
-<p><em>The Controller</em> is the waiter who asks what you’d like to eat, listens and then connects your request to the chefs. Then they deliver the food you ordered.
+  </li>
+  <li>
+    <p>The Controller is the waiter who asks what you’d like to eat, listens and then connects your request to the chefs. Then they deliver the food you ordered.
 This is where <a href="http://www.sinatrarb.com/">Sinatra</a> comes in to handle the HTTP requests of URL paths, as well as patching and deleting data from the server.</p>
-
-<p><em>The View</em> is the pretty plate of food before you- exactly what you asked for. 
+  </li>
+  <li>
+    <p>The View is the pretty plate of food before you. 
 This is the final HTML pages that a user interacts with. In this project, that means the ToDoo web interface.</p>
+  </li>
+</ol>
 
-<p>Here’s each element of the MVC architecture that I built for this application, with a description and video explaination below.</p>
+<p>Here’s each element of the MVC architecture that I built for this application, with a description and video explanation below.</p>
 
-<p><img src="/assets/files.png" alt="file structure" /></p>
+<p><img src="/assets/files.png" alt="screenshot of file structure" /></p>
 
 <h2 id="views">Views</h2>
 
@@ -131,17 +135,17 @@ This is the final HTML pages that a user interacts with. In this project, that m
   &lt;input class="</span><span class="n">btn</span> <span class="n">btn</span><span class="o">-</span><span class="n">primary</span><span class="s2">" type="</span><span class="n">submit</span><span class="s2">" name="</span><span class="n">create</span><span class="s2">" value="</span><span class="no">Create</span><span class="s2">"&gt;
 &lt;/form&gt;</span></code></pre></figure>
 
-<p>These <code>.erb</code> pages also inheret their styling from a <code>layout.erb</code> document that pulls stylesheets for <a href="http://getbootstrap.com/getting-started/">Bootstrap</a> and <a href="https://fortawesome.github.io/Font-Awesome/">FontAwesome</a>.</p>
+<p>These <code>.erb</code> pages also inherit their styling from a <code>layout.erb</code> document that pulls stylesheets for <a href="http://getbootstrap.com/getting-started/">Bootstrap</a> and <a href="https://fortawesome.github.io/Font-Awesome/">FontAwesome</a>.</p>
 
 <h2 id="models">Models</h2>
 
-<p>I envisioned a simple To Do list application, which means it should have a <em>user</em>, that can make a <em>list</em> and add <em>tasks</em> to each list.</p>
+<p>I envisioned a simple to do list application, which means it should have a <em>user</em>, that can make a <em>list</em> and add <em>tasks</em> to each list.</p>
 
 <p>There is a model for User, for List and for Task. Each inherits from <a href="https://github.com/rails/rails/tree/master/activerecord">ActiveRecord</a>, which handles the persistence of data to the database. I was building each of the handy methods that come baked in with ActiveRecord from scratch before this, so I also understand the magic behind what ActiveRecord accomplishes. But gosh, it feels good to see the magic just work.</p>
 
-<p><img src="http://cdn2.crushable.com/wp-content/uploads/2014/08/Arrested-Development-Gob-Buster-dance.gif" alt="MAGIC" /></p>
+<p><img src="http://cdn2.crushable.com/wp-content/uploads/2014/08/Arrested-Development-Gob-Buster-dance.gif" alt="GIF OF MAGIC" /></p>
 
-<h1 id="associations">Associations</h1>
+<h1 id="associations-in-the-model">Associations in the Model</h1>
 
 <ol>
   <li>A List has many tasks and belongs to a specific user.</li>
@@ -173,12 +177,14 @@ This is the final HTML pages that a user interacts with. In this project, that m
 
 <p>When I navigate to Foo.com/lists/new, this checks if a user is logged in, then loads the view lists/new.erb. That page has the form to make a new list and new task, as mentioned above.</p>
 
-<p>That form posts the information the user enters at <code>POST '/lists/new'</code> and creates list and task objects. It then pushes the task into the associated list.tasks.
+<p>That form posts the information the user enters as <code>POST '/lists/new'</code> and creates list and task objects. It then pushes the task into the associated <code>list.tasks</code>.
 Finally, the user is redirected to the /tasks page, which shows their lists of tasks just created.</p>
 
-<h2 id="a-walk-through">A Walk Through</h2>
+<h2 id="video-walk-through">Video Walk Through</h2>
 
-<p>In this video, I’ll walk you through all the features of this web app and explain the inner workings.</p>
+<p>If that doesn’t make sense to you, in this video I’ll walk you through all the features of this web app and explain the inner workings.</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/C8myFXhbwCw" frameborder="0" allowfullscreen=""></iframe>
 
 
   </div>

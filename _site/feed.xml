@@ -6,9 +6,46 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 01 May 2016 14:51:20 -0500</pubDate>
-    <lastBuildDate>Sun, 01 May 2016 14:51:20 -0500</lastBuildDate>
+    <pubDate>Sun, 15 May 2016 12:17:46 -0500</pubDate>
+    <lastBuildDate>Sun, 15 May 2016 12:17:46 -0500</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>Why I&#39;m Learning to Develop Software</title>
+        <description>&lt;p&gt;As I’m in the home stretch of coding school, I’ve started to reflect on what motivates me to learn this stuff.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-power-of-being-highly-skilled-at-something&quot;&gt;The power of being highly skilled at something&lt;/h2&gt;
+
+&lt;p&gt;I’ve always been a tinkerer. I taught myself HTML and CSS in high school. I was that kid that installed games on my TI-83 calculator. I used to make custom themes for iPods by modifying the firmware with software called &lt;em&gt;iPodWizard&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Tinkering with things provides an immense intellectual satisfaction for me. Take it apart. See how it works. Piece it back together.&lt;/p&gt;
+
+&lt;p&gt;Building projects that pull from public APIs, or allow a user to sign in with Facebook feels that much more satisfying to me. Programming is like a superpower, closer to the cusp of the radically innovative movements of the internet.&lt;/p&gt;
+
+&lt;h2 id=&quot;program-or-be-programmed&quot;&gt;Program or Be Programmed&lt;/h2&gt;
+
+&lt;p&gt;I recently read a great book by Douglas Rushkoff called &lt;a href=&quot;http://www.rushkoff.com/books/program-or-be-programmed/&quot;&gt;Program or Be Programmed&lt;/a&gt;. In it, he talks of how technology is so swiftly modifying the world we live in. Our manner of interacting with people, with information and with each other is shaped by programs that someone wrote, whether on our phone or computer. He says:&lt;/p&gt;
+
+&lt;h1 id=&quot;technology-is-fast-becoming-the-boundries-of-our-perceptual-and-conceptual-apparatus-the-edge-between-our-nervous-systems-and-everyone-elses-our-understanding-of-the-world-and-the-world-itself&quot;&gt;“Technology is fast becoming the boundries of our perceptual and conceptual apparatus; the edge between our nervous systems and everyone else’s, our understanding of the world and the world itself.”&lt;/h1&gt;
+
+&lt;p&gt;So by learning to program, I have more understanding of the ways software is shaping our perception. When I see a gap, I now know how to build something to fill it. He goes on to explain:&lt;/p&gt;
+
+&lt;h1 id=&quot;programming-is-the-sweet-spot-the-high-leverage-point-in-a-digital-society-if-we-dont-learn-to-program-we-risk-being-programmed-ourselves&quot;&gt;“Programming is the sweet spot, the high leverage point in a digital society. If we don’t learn to program, we risk being programmed ourselves.”&lt;/h1&gt;
+
+&lt;h2 id=&quot;the-open-source-web&quot;&gt;The Open Source Web&lt;/h2&gt;
+
+&lt;p&gt;My ultimate goal for learning how to program is to participate in the beautiful community of &lt;a href=&quot;https://opensource.org/faq&quot;&gt;Open Source Projects&lt;/a&gt;. Philisophically, I love that so many projects are decidely open source. The code is out in the open, for anyone to read, tinker with and submit modifications to. This community is moving both the internet and humanity forward. Open Source projects are building things that work well and putting it out there to share, instead of keeping everything locked up and private.&lt;/p&gt;
+
+&lt;p&gt;Rushkoff sums this movement up quite well:&lt;/p&gt;
+
+&lt;h1 id=&quot;in-the-long-term-if-we-take-up-this-challenge-we-are-looking-at-nothing-less-than-the-conscious-collective-intervention-of-human-beings-in-their-own-evolution&quot;&gt;“In the long term, if we take up this challenge, we are looking at nothing less than the conscious, collective intervention of human beings in their own evolution.”&lt;/h1&gt;
+</description>
+        <pubDate>Sun, 15 May 2016 00:00:00 -0500</pubDate>
+        <link>http://thelucasmoore.github.io/2016/05/15/Why-Im-Learning-To-Develop-Software.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/15/Why-Im-Learning-To-Develop-Software.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Rails Project Time, Seeds and Testing</title>
@@ -16,7 +53,7 @@
 
 &lt;iframe width=&quot;420&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/705Bob7Z2-E&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 
-&lt;h2 id=&quot;devise-and-omniauth&quot;&gt;Devise and Omniauth&lt;/h2&gt;
+&lt;h2 id=&quot;authentication-with-devise-and-omniauth&quot;&gt;Authentication with Devise and Omniauth&lt;/h2&gt;
 
 &lt;p&gt;The user sign up process is built with Devise, which by default only asks for a user’s email and password. I added a name and a user’s role (like an administrator, moderator or user) to the User table in the database. I also used enum to create user roles in the User model, setting the default to ‘user’ after initializing a new User. This also gives me methods like &lt;code&gt;User.role&lt;/code&gt; and &lt;code&gt;User.admin?&lt;/code&gt;, which returns true if the user is an admin.&lt;/p&gt;
 
@@ -55,7 +92,7 @@
 &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sx&quot;&gt;% end &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;h2 id=&quot;pundit&quot;&gt;Pundit&lt;/h2&gt;
+&lt;h2 id=&quot;authorization-with-pundit&quot;&gt;Authorization with Pundit&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/elabs/pundit&quot;&gt;The Pundit gem&lt;/a&gt; sets up simple policies that verify whether a user has a particular role before authorizing them to do that action. So if only administrators and moderators can edit comments the &lt;code&gt;CommentPolicy.rb&lt;/code&gt; looks like:&lt;/p&gt;
 
@@ -67,7 +104,7 @@
 
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;It is called by simply adding &lt;code&gt;authorize @comment&lt;/code&gt; into the comments_controller.rb. I also added a custom rescue for Pundit errors in the ApplicationController.&lt;/p&gt;
+&lt;p&gt;It is called by simply adding &lt;code&gt;authorize @comment&lt;/code&gt; into &lt;em&gt;comments_controller.rb&lt;/em&gt;. I also added a custom rescue for Pundit errors in the ApplicationController.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ApplicationController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActionController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
 
@@ -81,13 +118,13 @@
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;So if a user tries to do something they shouldn’t be able to do, through some internet wizardry, a notification pops up and says&lt;/p&gt;
+&lt;p&gt;So if a user tries to do something they shouldn’t be able to do, through some internet wizardry, a notification pops up and says:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://media.giphy.com/media/l3V0JykFG4Jqtg7vi/giphy.gif&quot; alt=&quot;nope&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;building-seed-data&quot;&gt;Building Seed Data&lt;/h2&gt;
 
-&lt;p&gt;To work with the web application in development, I built my own seed data using &lt;a href=&quot;https://github.com/stympy/faker&quot;&gt;the faker gem&lt;/a&gt;. So to create 10 fake users:&lt;/p&gt;
+&lt;p&gt;To work with the web application in my development environment, I built my own seed data using &lt;a href=&quot;https://github.com/stympy/faker&quot;&gt;the faker gem&lt;/a&gt;. So to create 10 fake users:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;#db/seeds.rb&lt;/span&gt;
 &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; 
@@ -98,13 +135,16 @@
       &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
+&lt;p&gt;Then when I run &lt;code&gt;rake db:seed&lt;/code&gt; I have some users set up to test out permissions with. They’ve got great names too, like &lt;em&gt;Constantin Rath V&lt;/em&gt;. I also made seed data for recipes, ingredients and comments.&lt;/p&gt;
+
 &lt;h2 id=&quot;writing-tests&quot;&gt;Writing Tests&lt;/h2&gt;
 
 &lt;p&gt;My favorite part of this project was learning the importance of testing organically. I was trying to build the various user roles and found myself manually signing up users over and over, trying to test the role function. In a &lt;a href=&quot;http://railscasts.com/episodes/275-how-i-test?view=comments&quot;&gt;railscast&lt;/a&gt; I watched, Ryan Bates mentioned that if you’re testing things in the browser, you should probably write a test for that.&lt;/p&gt;
 
 &lt;p&gt;So I used Capybara and Rspec to write a test that signs up a user for each role and then checks if they are signed up in that role. Here’s the test for an admin:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;signs up an Admin&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# spec/features&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;signs up an Admin&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;visit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;/users/sign_up&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;fill_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Name&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:with&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;John Admin&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;fill_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Email&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:with&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;John@inter.net&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -119,13 +159,13 @@
     &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;have_content&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;admin&#39;&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;That allowed me to just run the test while I was figuring out the sign up process. When the test passed, I knew it worked without having to manually sign up a new user.&lt;/p&gt;
+&lt;p&gt;That allowed me to just run the test while I was figuring out the sign up process. When the test passed, I knew it worked without having to manually sign up a new user in all three roles. This is a simple test and I admire the more complex tests used in Test Drive Development. I’ve learned the importance of writing and having quality tests.&lt;/p&gt;
 
 &lt;h2 id=&quot;in-summation&quot;&gt;In Summation&lt;/h2&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://media.giphy.com/media/tyxovVLbfZdok/giphy.gif&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;I learned a lot during this process and did many a first-pump when things started to function as I invisioned them. The biggest lesson is about the importance and practicality of Test Driven Development (TDD). That’s how Learn is built and how I most enjoy writing programs.&lt;/p&gt;
+&lt;p&gt;I learned a lot during this process and did many a first-pump when things started to function as I invisioned them. The biggest lesson I’ve learned from this project is about the importance and practicality of Test Driven Development (TDD). That’s how Learn is built and how I most enjoy writing programs.&lt;/p&gt;
 
 &lt;p&gt;Please check out the code on &lt;a href=&quot;https://github.com/TheLucasMoore/rails_final_project&quot;&gt;github&lt;/a&gt; and comment where you see something you like, or that could be improved.&lt;/p&gt;
 </description>

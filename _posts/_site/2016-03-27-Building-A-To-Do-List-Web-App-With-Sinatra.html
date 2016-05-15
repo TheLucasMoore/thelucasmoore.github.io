@@ -1,0 +1,106 @@
+<p>I am at an exciting point in the boot camp process. The building blocks of the concepts I’ve learned so far are starting to finally come together! I built a web app that actually functions as a to do list. Watch the video walk through at the end of this post to see it in action.</p>
+
+<p><img src="/assets/todoo.png" alt="todoo screenshot" /></p>
+
+<p>Learning like this feels genuinely <em>FUN</em>. I had a blast building this latest project.</p>
+
+<h2 id="mvc-structure">MVC Structure</h2>
+
+<p>To build the most usable and readable code, it’s common practice to divide a project into models, views and controllers.</p>
+
+<p><img src="https://45.media.tumblr.com/tumblr_luxoeyQiQw1qf7to0o1_500.gif" alt="gif of good burger" /></p>
+
+<p>So you can understand what I’m talking about, think of a restaurant. You, the user, will walk in, put in an order and get a plate of food.
+This is just like when you go a website - you log in, click some stuff and see information.</p>
+
+<p>But the magic of food and websites suddenly appearing before you has a secret three part process - a Model, a View and a Controller.</p>
+
+<ol>
+  <li>
+    <p>The Model is the chefs in the back room, chopping up the food, cooking it and flavoring everything. 
+This is the bulk of the code that does the work of sorting classes, methods and data structures.</p>
+  </li>
+  <li>
+    <p>The Controller is the waiter who asks what you’d like to eat, listens and then connects your request to the chefs. Then they deliver the food you ordered.
+This is where <a href="http://www.sinatrarb.com/">Sinatra</a> comes in to handle the HTTP requests of URL paths, as well as patching and deleting data from the server.</p>
+  </li>
+  <li>
+    <p>The View is the pretty plate of food before you. 
+This is the final HTML pages that a user interacts with. In this project, that means the ToDoo web interface.</p>
+  </li>
+</ol>
+
+<p>Here’s each element of the MVC architecture that I built for this application, with a description and video explanation below.</p>
+
+<p><img src="/assets/files.png" alt="screenshot of file structure" /></p>
+
+<h2 id="views">Views</h2>
+
+<p>A user needs to either sign up or log in.</p>
+
+<p>A task needs to be created, edited, viewed and deleted.</p>
+
+<p>A list also needs to be created, edited, viewed and deleted.</p>
+
+<p>As you can see above, each of these functions has its own page with a form that posts data to the database, or a neat little ruby snippet that interjects data from the database into the page.</p>
+
+<p>Here’s an example from the view at <code>/lists/new</code> which makes a new list and an associated task.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">New</span> <span class="no">List</span><span class="o">&lt;</span><span class="sr">/h1&gt;
+&lt;form method="post" action="/</span><span class="n">lists</span><span class="o">/</span><span class="kp">new</span><span class="s2">"&gt; # form code for the controller to handle
+  &lt;input type="</span><span class="n">text</span><span class="s2">" name="</span><span class="nb">name</span><span class="s2">" placeholder="</span><span class="no">List</span> <span class="no">Name</span><span class="s2">"&gt;&lt;br&gt;&lt;br&gt;
+  &lt;input type="</span><span class="n">text</span><span class="s2">" name="</span><span class="n">tasks</span><span class="p">[</span><span class="nb">name</span><span class="p">]</span><span class="s2">" placeholder="</span><span class="no">Add</span> <span class="no">Your</span> <span class="no">First</span> <span class="no">Task</span><span class="s2">"&gt;&lt;br&gt;&lt;br&gt;
+  &lt;input class="</span><span class="n">btn</span> <span class="n">btn</span><span class="o">-</span><span class="n">primary</span><span class="s2">" type="</span><span class="n">submit</span><span class="s2">" name="</span><span class="n">create</span><span class="s2">" value="</span><span class="no">Create</span><span class="s2">"&gt;
+&lt;/form&gt;</span></code></pre></figure>
+
+<p>These <code>.erb</code> pages also inherit their styling from a <code>layout.erb</code> document that pulls stylesheets for <a href="http://getbootstrap.com/getting-started/">Bootstrap</a> and <a href="https://fortawesome.github.io/Font-Awesome/">FontAwesome</a>.</p>
+
+<h2 id="models">Models</h2>
+
+<p>I envisioned a simple to do list application, which means it should have a <em>user</em>, that can make a <em>list</em> and add <em>tasks</em> to each list.</p>
+
+<p>There is a model for User, for List and for Task. Each inherits from <a href="https://github.com/rails/rails/tree/master/activerecord">ActiveRecord</a>, which handles the persistence of data to the database. I was building each of the handy methods that come baked in with ActiveRecord from scratch before this, so I also understand the magic behind what ActiveRecord accomplishes. But gosh, it feels good to see the magic just work.</p>
+
+<p><img src="http://cdn2.crushable.com/wp-content/uploads/2014/08/Arrested-Development-Gob-Buster-dance.gif" alt="GIF OF MAGIC" /></p>
+
+<h1 id="associations-in-the-model">Associations in the Model</h1>
+
+<ol>
+  <li>A List has many tasks and belongs to a specific user.</li>
+  <li>A Task also belongs to a specific user.</li>
+  <li>A User has many lists and many tasks through lists.</li>
+</ol>
+
+<p>Finally, a user has a secure password, which is built with <a href="https://github.com/codahale/bcrypt-ruby">bcrypt</a>.</p>
+
+<p>Check <a href="https://github.com/TheLucasMoore/todoo">this project out on Github</a> to see the database migrations and the structure of the tables that hold these data.</p>
+
+<h2 id="controllers">Controllers</h2>
+
+<p>The controllers are divided up into a users controller, a task controller and a list controller.</p>
+
+<p>Take a look at this piece of ListsController.rb</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">get</span> <span class="s1">'/lists/new'</span> <span class="k">do</span>
+  <span class="n">redirect_if_not_logged_in</span>
+  <span class="n">erb</span> <span class="ss">:'/lists/new'</span>
+<span class="k">end</span>
+
+<span class="n">post</span> <span class="s1">'/lists/new'</span> <span class="k">do</span>
+  <span class="n">list</span> <span class="o">=</span> <span class="no">List</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="p">[</span><span class="ss">:name</span><span class="p">],</span> <span class="ss">:user_id</span> <span class="o">=&gt;</span> <span class="n">session</span><span class="p">[</span><span class="ss">:user_id</span><span class="p">])</span>
+  <span class="n">task</span> <span class="o">=</span> <span class="no">Task</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="p">[</span><span class="ss">:tasks</span><span class="p">][</span><span class="ss">:name</span><span class="p">])</span>
+  <span class="n">list</span><span class="p">.</span><span class="nf">tasks</span> <span class="o">&lt;&lt;</span> <span class="n">task</span> <span class="k">unless</span> <span class="n">list</span><span class="p">.</span><span class="nf">tasks</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+  <span class="n">redirect</span> <span class="s1">'/tasks'</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>When I navigate to Foo.com/lists/new, this checks if a user is logged in, then loads the view lists/new.erb. That page has the form to make a new list and new task, as mentioned above.</p>
+
+<p>That form posts the information the user enters as <code>POST '/lists/new'</code> and creates list and task objects. It then pushes the task into the associated <code>list.tasks</code>.
+Finally, the user is redirected to the /tasks page, which shows their lists of tasks just created.</p>
+
+<h2 id="video-walk-through">Video Walk Through</h2>
+
+<p>If that doesn’t make sense to you, in this video I’ll walk you through all the features of this web app and explain the inner workings.</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/C8myFXhbwCw" frameborder="0" allowfullscreen=""></iframe>
+

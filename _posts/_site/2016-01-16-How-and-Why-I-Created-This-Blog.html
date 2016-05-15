@@ -1,0 +1,47 @@
+<p>This website is all about what I learn as a Web Developer as I complete the <a href="http://learn.co">Learn.co Coding Bootcamp</a>. Here live my lessons, notes &amp; reflections as I move towards a career as a Full-Stack Developer. 
+<!--excerpt--></p>
+
+<p>I believe in learning by doing, so my first lesson is building this very blog, venturing away from the complicated simplicity of Wordpress. I still have my <a href="http://thelucasmoore.com">personal blog</a> for all things personal, but am writing about Ruby on Rails development here.</p>
+
+<h3 id="how-i-made-this-blog">How I Made this Blog</h3>
+
+<p><img src="/assets/jekyll.png" alt="Jekyll Documentation" /></p>
+
+<p>This blog is built with Jekyll and hosted on Github Pages. After reading through the documentation for <a href="http://jekyllrb.com/docs/home/">Jekyll</a>, <a href="https://pages.github.com/">Github Pages</a> and <a href="http://daringfireball.net/projects/markdown/basics">Markdown</a>, I built this site in about five minutes and then started writing this post. Here’s how:</p>
+
+<h1 id="command-line-web-design">1. Command Line Web Design</h1>
+
+<p>Modern web design uses the command line to move swiftly. One can construct complete sites, like this one, in a few lines of code. That’s assuming your development environment is set up, which you can learn in <a href="http://webdesign.tutsplus.com/articles/the-command-line-for-web-design-introduction--cms-23493">this great tutorial series</a> on Terminal for Web Design.</p>
+
+<h1 id="make-a-new-jekyll-blog-in-terminal">2. Make a New Jekyll Blog in Terminal</h1>
+
+<p>With the Jekyll gem installed, I typed the following into my terminal:</p>
+
+<p><code>$ jekyll new my_blog_name</code></p>
+
+<p>This makes a new Jekyll blog, all tidy and ready to go.</p>
+
+<p><code>$ cd my_blog_name</code></p>
+
+<p>This brings me into that newly created folder containing the Jekyll site. I also opened up this folder in <a href="http://www.sublimetext.com/2">Sublime Text</a> to edit it.</p>
+
+<p><code>$ jekyll serve</code></p>
+
+<p>This runs the site on localhost, so I can see changes I make at localhost:4000 in my browser.</p>
+
+<p>Lastly, I edited the <code>_config.yml</code> to my own information in Sublime.</p>
+
+<h1 id="host-it-on-github">3. Host it on Github</h1>
+
+<p>I also have this folder set up as a repository on <a href="https://github.com/TheLucasMoore/thelucasmoore.github.io">my Github</a>. Any repository that is set as <em>your-username</em>.github.io is automatically structured to work on Github Pages. When I update the blog from my computer and push the updates to Github, this website updates. Effortless.</p>
+
+<h1 id="write-in-markdownmk">4. Write in <a href="http://daringfireball.net/projects/markdown/basics">Markdown</a></h1>
+
+<p><img src="/assets/posts.png" alt="New Blog Post" /></p>
+
+<p>Markdown is a beautifully simple way to write for the web. The syntax took me about 15 minutes to learn, since it’s so intuitive. To make a new blog post, I just create a new file in the <code>_posts</code> folder that follows the <code>YEAR-MONTH-DAY-title.markdown</code> naming convention.</p>
+
+<h1 id="push-to-a-static-web-page">5. Push to a Static Web Page</h1>
+
+<p>Finally, any time I update this site, I push the changes to Github. Jekyll does all the work of compiling the file structure and converting the Markdown to HTML. There is no server database, simply an agile static page.</p>
+

@@ -112,16 +112,16 @@ pre {
  * Wrapper
  */
 .wrapper {
-  max-width: -webkit-calc(800px - (40px * 2));
-  max-width: calc(800px - (40px * 2));
+  max-width: -webkit-calc(940px - (40px * 2));
+  max-width: calc(940px - (40px * 2));
   margin-right: auto;
   margin-left: auto;
   padding-right: 40px;
   padding-left: 40px; }
   @media screen and (max-width: 800px) {
     .wrapper {
-      max-width: -webkit-calc(800px - (40px));
-      max-width: calc(800px - (40px));
+      max-width: -webkit-calc(940px - (40px));
+      max-width: calc(940px - (40px));
       padding-right: 20px;
       padding-left: 20px; } }
 
@@ -161,8 +161,6 @@ pre {
   letter-spacing: -1px;
   margin-bottom: 0;
   float: left; }
-  .site-title, .site-title:visited {
-    color: #09090a; }
 
 .site-nav {
   float: right;
@@ -460,3 +458,14 @@ pre {
     color: #008080; }
   .highlight .il {
     color: #099; }
+
+.site-header {
+  top: 0px;
+  position: fixed;
+  width: 100%; }
+
+.page-content {
+  margin-top: 37px; }
+
+a.page-link {
+  margin-right: 120px; }

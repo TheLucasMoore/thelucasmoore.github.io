@@ -81,7 +81,7 @@ angular
 
 ## Calling to APIs
 
-I made use of the Spotify API to pull data for artists and user's top tracks. I supplemented that data with calls to the Last.fm API because Spotify doesn't release the number of steams an artist has on their API, which is [something to consider when building an API](http://thelucasmoore.com/2016/06/01/What-to-consider-when-building-an-api.html). This website isn't a perfect estimate of artist's earnings. It's simply a proof of concept.
+I made use of the Spotify API to pull data for artists and user's top tracks. I supplemented that data with calls to the Last.fm API because Spotify doesn't release the number of steams an artist has on their API, which is [something to consider when building an API](http://dev.thelucasmoore.com/2016/06/01/What-to-consider-when-building-an-api.html). This website isn't a perfect estimate of artist's earnings. It's simply a proof of concept.
 
 So when a user searches for an artist on the front page, two services make calls to Last.fm and Spotify. First, I used the query feature of both APIs to return an array of possible matches from their databases. Then I selected the first response from the array, making an assumption that the closest match is first. It's been right 99% of the time, so far. Please let me know if you find an artist that doesn't render correctly. 
 
@@ -109,4 +109,4 @@ This returns an artist's information in JSON format, which is super tidy and fun
 
 ## Wrapping Up
 
-My favorite part of this project was connecting everything I learned in my four months of this coding bootcamp. The backend and the front end finally came together into a full stack app. I understand all the moving parts! I wrote a separate post about connecting the front end and the back end, [which you can read here](http://dev.theluacsmoore.com/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html) if you want some dense code snippets. 
+My favorite part of this project was connecting everything I learned in my four months of this coding bootcamp. The backend and the front end finally came together into a full stack app. I understand all the moving parts! I wrote a separate post about connecting the front end and the back end, [which you can read here](http://dev.thelucasmoore.com/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html) if you want some dense code snippets. 

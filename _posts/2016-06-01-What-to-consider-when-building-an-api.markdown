@@ -4,7 +4,7 @@ title: What to consider when building an API
 author: Lucas Moore
 ---
 
-Digging into APIs is one of the reasons I'm [learning to code](http://thelucasmoore.com/2016/05/15/Why-Im-Learning-To-Develop-Software.html). Application Programming Interfaces (APIs) and a crucial part of the deep structure of the web. There's so much data accessible for developers to play with. It's a ton of fun. After building a few projects that incorporate APIs, I've got some ideas about how to best build them.
+Digging into APIs is one of the reasons I'm [learning to code](http://dev.thelucasmoore.com/2016/05/15/Why-Im-Learning-To-Develop-Software.html). Application Programming Interfaces (APIs) and a crucial part of the deep structure of the web. There's so much data accessible for developers to play with. It's a ton of fun. After building a few projects that incorporate APIs, I've got some ideas about how to best build them.
 
 ## What to Consider
 

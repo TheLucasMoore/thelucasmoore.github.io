@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Lucas Moore: Coding Notes</title>
-  <meta name="description" content="Hey. I'm a student at Learn.co Full-Stack Web Development Bootcamp. I write about Ruby on Rails, meditation and accelerated learning.
-">
+  <title>Lucas Moore: What to consider when building an API</title>
+  <meta name="description" content="Digging into APIs is one of the reasons I’m learning to code. Application Programming Interfaces (APIs) and a crucial part of the deep structure of the web. ...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://thelucasmoore.github.io/">
+  <link rel="canonical" href="http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html">
   <link rel="alternate" type="application/rss+xml" title="Coding Notes" href="http://thelucasmoore.github.io/feed.xml">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   
@@ -73,106 +72,44 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <h1 class="page-heading">A Web Development Blog <i class="fa fa-pencil"></i></h1>
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">What to consider when building an API</h1>
+    <p class="post-meta"><time datetime="2016-06-01T00:00:00-05:00" itemprop="datePublished">Jun 1, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Lucas Moore</span></span></p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Jun 6, 2016</span>
+  <div class="post-content" itemprop="articleBody">
+    <p>Digging into APIs is one of the reasons I’m <a href="http://thelucasmoore.com/2016/05/15/Why-Im-Learning-To-Develop-Software.html">learning to code</a>. Application Programming Interfaces (APIs) and a crucial part of the deep structure of the web. There’s so much data accessible for developers to play with. It’s a ton of fun. After building a few projects that incorporate APIs, I’ve got some ideas about how to best build them.</p>
 
-        <h2>
-          <a class="post-link" href="/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html">Connecting Rails to Angular - Making a Full Stack Web Application</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 5, 2016</span>
+<h2 id="what-to-consider">What to Consider</h2>
 
-        <h2>
-          <a class="post-link" href="/2016/06/05/The-Spotify-API-and-Angular.html">The Spotify API and Angular</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jun 1, 2016</span>
+<p>When building an API for my latest project, I kept three main factors in mind. Simplicity, comprehensiveness and security.</p>
 
-        <h2>
-          <a class="post-link" href="/2016/06/01/What-to-consider-when-building-an-api.html">What to consider when building an API</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 26, 2016</span>
+<h1 id="simplicity">Simplicity</h1>
 
-        <h2>
-          <a class="post-link" href="/2016/05/26/Updating-A-Rails-Project-With-Javascript.html">Updating My Rails Project with Javascipt</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 15, 2016</span>
+<p>A simple API is beautiful thing. When building my latest application’s API, I shared only the data I wanted to be rendered on my front end. This was an application that tracked both artists and genres, so I considered whether to always render the full nested data structure. In the end, I decided to keep it the most simple. This is to help developers easily sort through the data, even as the scale grows larger. Simple is always best.</p>
 
-        <h2>
-          <a class="post-link" href="/2016/05/15/Why-Im-Learning-To-Develop-Software.html">Why I'm Learning to Develop Software</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">May 1, 2016</span>
+<p>Keep the level of nested attributes below three levels. If you need to go deeper than that, reconsider the structure and split the data up into separate endpoints.</p>
 
-        <h2>
-          <a class="post-link" href="/2016/05/01/Rails-Project-Time.html">Rails Project Time, Seeds and Testing</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Mar 27, 2016</span>
+<h1 id="comprehensiveness">Comprehensiveness</h1>
 
-        <h2>
-          <a class="post-link" href="/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html">Building a To Do List Web App in Ruby with Sinatra</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Mar 17, 2016</span>
+<p>It’s also crucial to balance simplicity with comprehensiveness. Thinking of what data developers might play with is a large part of why APIs even exist. I was disappointed to dig into the Spotify API recently and realize that the total number of streams, artist biographies and amount of plays users have of each track are unavailable. I had to work around this for my <a href="http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html">final project</a>, but I could have just made it work more easily if the API was more comprehensive in its dataset.</p>
 
-        <h2>
-          <a class="post-link" href="/2016/03/17/How-I-Have-Learned-To-Learn.html">How I've Learned to Learn During my Coding Bootcamp</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Feb 23, 2016</span>
+<h1 id="security">Security</h1>
 
-        <h2>
-          <a class="post-link" href="/2016/02/23/Scraping-Websites-With-Nokogiri.html">Scraping Websites for Data with Nokogiri</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 26, 2016</span>
+<p>The last major consideration for building an API is security. Does the API expose any user data like emails, passwords (gosh I hope not), any <a href="https://labs.detectify.com/2016/04/28/slack-bot-token-leakage-exposing-business-critical-information/">API tokens</a> or Oauth refresh tokens? That’s obviously a big no-no, but it does happen, as you can read in the link above.</p>
 
-        <h2>
-          <a class="post-link" href="/2016/01/26/My-Current-Dev-Environment-And-Workflow-Tips.html">My Current Dev Environment and Workflow</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 16, 2016</span>
+<h2 id="what-not-to-do">What not to do</h2>
 
-        <h2>
-          <a class="post-link" href="/2016/01/16/How-and-Why-I-Created-This-Blog.html">How and Why I Made this Blog</a>
-        </h2>
-      </li>
-    
-  </ul>
+<p>When playing around with the Last.fm API in a recent project, I encountered one of the JSON data keys that began with a hashtag. This was frustrating. The character interferes with normal javascript syntax and I couldn’t access the data without some complicated work arounds. This could be avoided if they’d stuck to formal object naming conventions of using strings and integers.</p>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-  <p class="rss-subscribe">subscribe <a href="http://eepurl.com/bi7pQj">via email</a></p>
+  </div>
 
-</div>
+  <h2 class="rss-subscribe">You can subscribe to updates <a href="http://eepurl.com/bi7pQj">via email</a></h2>
+
+</article>
+
       </div>
     </div>
 

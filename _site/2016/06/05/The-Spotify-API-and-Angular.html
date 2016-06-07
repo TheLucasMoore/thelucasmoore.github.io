@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lucas Moore: The Spotify API and Angular</title>
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html">
+  <link rel="alternate" type="application/rss+xml" title="Coding Notes" href="http://thelucasmoore.github.io/feed.xml">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  
+  <!-- 
+  Using FlexboxGrid 
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/flexboxgrid/6.3.0/flexboxgrid.min.css" type="text/css" >
+  -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-72747356-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Coding Notes</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About Me</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">The Spotify API and Angular</h1>
+    <p class="post-meta"><time datetime="2016-06-05T00:00:00-05:00" itemprop="datePublished">Jun 5, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Lucas Moore</span></span></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><img src="/assets/logo.png" alt="spotify logo" /></p>
+
+<h2 id="potify-a-full-stack-web-application">$$$potify: A Full Stack Web Application</h2>
+
+<p>For my final project, I built a web application that allows users to estimate how much money an artist has earned on Spotify. I built this because I love music and, honestly, this is a website I would use. I’m proud to know how to make this!</p>
+
+<p>I am so excited about this project. While building it I stopped suddenly and thought, “Wow, I know what I am doing!” The interconnected puzzle of the backend and the front end finally fit together in my mind. I learn best by doing and hacking away at this project was a joy. There were many-a-fist-pumps to be had. I know this is the first of many great web apps I’ll build with these new skills.</p>
+
+<p>Check out my walk through video of this application below and read on to see how it’s constructed. Check it out on <a href="https://github.com/TheLucasMoore/rails-angular-final-project">Github</a> too.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Hh2tm5K1kvc" frameborder="0" allowfullscreen=""></iframe>
+
+<h2 id="the-rails-back-end">The Rails Back End</h2>
+
+<p>The backend is built with Rails and uses Devise, <a href="https://github.com/icoretech/omniauth-spotify">Omniauth-Spotify</a> and Active Model Serializers.</p>
+
+<p>A user has many artists, an artist has many users and many genres, and genres have many artists. This many-to-many relationship is stored in two join tables: user_artists and artist_genres.</p>
+
+<p>When a user logs into their Spotify account, they automatically create an account on the website and their top artists are saved to the database. The data for a user’s top five artists and their genres are all persisted to the database by methods on their respective models. Here’s an example of the <code>Artist.parse_from_user</code> method, which saves artist data from the Spotify API to the database.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Artist</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+
+<span class="c1"># This is called from the OmniAuth Callbacks Controller with the array of top artists</span>
+<span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">parse_from_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">array</span><span class="p">)</span>
+  <span class="n">array</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">artist</span><span class="o">|</span>
+    <span class="n">newbie</span> <span class="o">=</span> <span class="no">Artist</span><span class="p">.</span><span class="nf">find_or_create_by</span><span class="p">(</span><span class="ss">name: </span><span class="n">artist</span><span class="p">.</span><span class="nf">name</span><span class="p">)</span>
+    <span class="n">newbie</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="n">artist</span><span class="p">.</span><span class="nf">name</span>
+    <span class="c1"># ... etc</span>
+    <span class="n">user</span><span class="p">.</span><span class="nf">artists</span> <span class="o">&lt;&lt;</span> <span class="n">newbie</span> <span class="k">unless</span> <span class="n">user</span><span class="p">.</span><span class="nf">artists</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">newbie</span><span class="p">)</span>
+    <span class="n">newbie</span><span class="p">.</span><span class="nf">save</span>
+    <span class="n">user</span><span class="p">.</span><span class="nf">save</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+<p>I strategically chose this structure because I wanted a user to be able to share their charts on social media. This requires the data to be saved to the database, so there is a permalink of the user’s chart. Handling Spotify authentication on the backend makes the website more secure as well, as API tokens don’t need to be exposed in the front-end code.</p>
+
+<p>My love for rails deepened while building this full stack app. Ruby is such a graceful language and the rails framework has so many magical little touches. It’s a pleasure to build projects with rails and to structure them to fit a front-end framework like Angular JS.</p>
+
+<h2 id="the-angular-front-end">The Angular Front End</h2>
+
+<p>The front end is built with Angular. The bower-rails gem is the package manager for the front end, which blew my mind with its simplicity.</p>
+
+<p><a href="http://start.jcolemorrison.com/angularjs-rails-4-1-and-ui-router-tutorial/">I used ui-router (great tutorial here)</a> to manage the page states. Each page has it’s own controller which holds the page-specific javascript. These controllers call on specific services to make API requests for each specific API I used. More on APIs below.</p>
+
+<p>This is a single page application, meaning all the page loads are done instantly through Angular. They don’t make requests to the server, causing a page refresh. This gives the app a flawless feel and speedy UI.</p>
+
+<h1 id="dependency-injection">Dependency Injection</h1>
+
+<p>In this project, I learned the importance of dependency injection for angular controllers. An error I frequently encountered when calling to a service was something like:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Spotify</span><span class="p">.</span><span class="nx">getArtists</span><span class="p">(</span><span class="nx">artist</span><span class="p">)</span> <span class="nx">is</span> <span class="kc">undefined</span>
+</code></pre>
+</div>
+
+<p>After seeing this error a few times I started to get the hang of things. The controller for the home page, which uses the Spotify service, needs to take SpotifyService as an argument. Without it, Angular doesn’t know to connect the two, so the method I called returned as undefined.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">HomeController</span><span class="p">(</span><span class="nx">SpotifyService</span><span class="p">)</span> <span class="p">{</span>
+                      <span class="c1">// ^^^^ This fixes that error!</span>
+  <span class="p">...</span>
+  <span class="nx">SpotifyService</span>
+    <span class="p">.</span><span class="nx">getArtist</span><span class="p">(</span><span class="nx">artist</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// ...etc</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="nx">angular</span>
+  <span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'app'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'HomeController'</span><span class="p">,</span> <span class="nx">HomeController</span><span class="p">)</span>
+</code></pre>
+</div>
+<p><a href="https://github.com/TheLucasMoore/rails-angular-final-project/tree/master/app/assets/javascripts/ng-app/controllers">The full code is on Github.</a></p>
+
+<h2 id="calling-to-apis">Calling to APIs</h2>
+
+<p>I made use of the Spotify API to pull data for artists and user’s top tracks. I supplemented that data with calls to the Last.fm API because Spotify doesn’t release the number of steams an artist has on their API, which is <a href="http://thelucasmoore.com/2016/06/01/What-to-consider-when-building-an-api.html">something to consider when building an API</a>. This website isn’t a perfect estimate of artist’s earnings. It’s simply a proof of concept.</p>
+
+<p>So when a user searches for an artist on the front page, two services make calls to Last.fm and Spotify. First, I used the query feature of both APIs to return an array of possible matches from their databases. Then I selected the first response from the array, making an assumption that the closest match is first. It’s been right 99% of the time, so far. Please let me know if you find an artist that doesn’t render correctly.</p>
+
+<p>I grab the artist-specific id from the first API get request and then make a second request. That returns the full information for that artist from both APIs. The structure is similar for both, so here’s what the Last.fm service looks like:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">LastfmService</span><span class="p">(</span><span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'http://ws.audioscrobbler.com/2.0/'</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">API_KEY</span> <span class="o">=</span> <span class="s1">'################'</span><span class="p">;</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">searchFor</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">query</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span> <span class="o">+</span> <span class="s2">"?method=artist.search&amp;artist="</span> <span class="o">+</span> <span class="nx">query</span> <span class="o">+</span> <span class="s2">"&amp;api_key="</span> <span class="o">+</span> <span class="nx">API_KEY</span> <span class="o">+</span> <span class="s2">"&amp;format=json"</span><span class="p">)</span>
+  <span class="p">};</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">getArtist</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">artist</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span> <span class="o">+</span> <span class="s2">"?method=artist.getinfo&amp;artist="</span> <span class="o">+</span> <span class="nx">artist</span> <span class="o">+</span> <span class="s2">"&amp;api_key="</span> <span class="o">+</span> <span class="nx">API_KEY</span> <span class="o">+</span> <span class="s2">"&amp;format=json"</span><span class="p">)</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="nx">angular</span>
+  <span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'app'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">'LastfmService'</span><span class="p">,</span> <span class="nx">LastfmService</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>This returns an artist’s information in JSON format, which is super tidy and fun. I then extract that information and pass it to the view.</p>
+
+<h2 id="wrapping-up">Wrapping Up</h2>
+
+<p>My favorite part of this project was connecting everything I learned in my four months of this coding bootcamp. The backend and the front end finally came together into a full stack app. I understand all the moving parts! I wrote a separate post about connecting the front end and the back end, <a href="http://dev.theluacsmoore.com/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html">which you can read here</a> if you want some dense code snippets.</p>
+
+  </div>
+
+  <h2 class="rss-subscribe">You can subscribe to updates <a href="http://eepurl.com/bi7pQj">via email</a></h2>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Coding Notes</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Lucas Moore</li>
+          <li><a href="mailto:hey@thelucasmoore.com">hey@thelucasmoore.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/thelucasmoore"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">thelucasmoore</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/thelucasmoore"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">thelucasmoore</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Hey. I'm a student at Learn.co Full-Stack Web Development Bootcamp. I write about Ruby on Rails, meditation and accelerated learning.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About Me
-permalink: /about/
+permalink: /about
 ---
 
 ![Lucas Moore](/assets/lucas.jpg "Lucas Moore")

@@ -16,6 +16,10 @@ Heroku doesn't play well with SQLite, so when I first tried to deploy my applica
 
 A simple syntax error broke my entire build! I forgot a colon in one of my SASS files. As the SCSS was compiled into CSS, that error caused issues. Luckily, the log showed me the exact file and line number, so I went back and revised it. Oops. Shipping code into production is a serious endeavour.
 
+## From HTTP to HTTPS
+
+Heroku has SSL certificates by default, which means the URLs are all <code>https://</code> instead of unencrypted <code>http://</code>. As I was making my API requests to Last.fm, the endpoint URL used HTTP, which mixed encrypted and unencryped content rendered on the page. This is unsecure and the content coming through was blocked by Firefox and Chrome. By switching the request URL to HTTPS, I was able to fix things up and it works!
+
 ## Application Build Failure
 
 Ahh! One on deploy, I got this error. 
@@ -24,9 +28,11 @@ Ahh! One on deploy, I got this error.
 
 I [found a solution](http://stackoverflow.com/questions/13496827/heroku-deployment-error-h10-app-crashed), which was to run <code>$ heroku run rails console</code>. This spit out a more verbose error message than what I saw in the Heroku log. It revealed some code I had uncommented in an attempt to create a user session earlier. It wasn't actually needed, so commenting it out again fixed the problem.
 
+On that note, it's also necessary to migrate the database on the remote Heroku connection by running <code>$ heroku run rake db:migrate</code>.
+
 ## Undefined Method from Minification of Javascript
 
-The biggest struggle was adapting Angular to work after going through minification. In my project, one of the controllers looks like this:
+The biggest struggle was adapting Angular to work after going through minification. In my project, one of the Angular controllers looks like this:
 
 ```javascript
 function GenreController($stateParams, BackEndService) {
@@ -53,11 +59,11 @@ Now when compiling the javascript for deployment, it becomes minified, meaning t
 
 ![minified code](/assets/minified.png)
 
-I mentioned [dependency injection](http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html) in my writeup of my final project. I learned lots about the quirks of Angular in that process. The issue here is when the code becomes minified, it replaces the names of the dependecies with letters. This makes the code smaller and therefore quicker. But Angular doesn't know which dependencies are which. Hence, more errors.
+I mentioned [dependency injection](http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html) in the writeup of my final project. I learned lots about the quirks of Angular in that process. The issue here is when the code becomes minified, it replaces the names of the dependecies with letters. This makes the code smaller and therefore quicker. But Angular doesn't know which dependencies are which. Hence, the errors.
 
 To override this, I explicitly wrote out the injections for each controller like this: 
 
 ```javascript
 GenreController.$inject = ['$stateParams', 'BackEndService'];
 ```
-That did the trick! Check out my final project right here. 
+That did the trick! [Check out my final project right here](https://afternoon-island-86761.herokuapp.com/#/)

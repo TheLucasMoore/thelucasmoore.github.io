@@ -6,9 +6,76 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 12 Jun 2016 17:47:46 -0500</pubDate>
-    <lastBuildDate>Sun, 12 Jun 2016 17:47:46 -0500</lastBuildDate>
+    <pubDate>Tue, 21 Jun 2016 12:14:01 -0600</pubDate>
+    <lastBuildDate>Tue, 21 Jun 2016 12:14:01 -0600</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>Deploying Angular Apps to Heroku, Lessons Learned</title>
+        <description>&lt;p&gt;As I have been putting the finishing touches on my final project, I’m preparing to deploy it on &lt;a href=&quot;https://devcenter.heroku.com/start&quot;&gt;Heroku&lt;/a&gt; to share with the world! To accomplish this, there are some changes I’ve had to make in my code.&lt;/p&gt;
+
+&lt;p&gt;Errors are my favorite. Debugging a program requires part intuition and part creativity. So when I first attempted to deploy my &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;final project&lt;/a&gt; to Heroku I was met with a few errors, which I learned how to fix.&lt;/p&gt;
+
+&lt;h2 id=&quot;moving-from-sqlite3-to-a-postgres-database&quot;&gt;Moving from SQLite3 to a Postgres Database&lt;/h2&gt;
+
+&lt;p&gt;Heroku doesn’t play well with SQLite, so when I first tried to deploy my application, the build failed. The messages informed me that I needed to switch my database from &lt;a href=&quot;http://railscasts.com/episodes/342-migrating-to-postgresql&quot;&gt;SQLite3 to Postgres&lt;/a&gt;. That process was simple. I updated my gemfile, ran &lt;code&gt;bundle update&lt;/code&gt; and then ran a &lt;a href=&quot;http://postgresapp.com/&quot;&gt;postgres server&lt;/a&gt; on my local machine. Rake allows me to drop and migrate the database quite simply, so this wasn’t a huge issue. My migrations all kept the database structure intact on the new server.&lt;/p&gt;
+
+&lt;h2 id=&quot;sass-compiling-error&quot;&gt;SASS Compiling Error&lt;/h2&gt;
+
+&lt;p&gt;A simple syntax error broke my entire build! I forgot a colon in one of my SASS files. As the SCSS was compiled into CSS, that error caused issues. Luckily, the log showed me the exact file and line number, so I went back and revised it. Oops. Shipping code into production is a serious endeavour.&lt;/p&gt;
+
+&lt;h2 id=&quot;application-build-failure&quot;&gt;Application Build Failure&lt;/h2&gt;
+
+&lt;p&gt;Ahh! One on deploy, I got this error.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/app-error.png&quot; alt=&quot;heroku error&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I &lt;a href=&quot;http://stackoverflow.com/questions/13496827/heroku-deployment-error-h10-app-crashed&quot;&gt;found a solution&lt;/a&gt;, which was to run &lt;code&gt;$ heroku run rails console&lt;/code&gt;. This spit out a more verbose error message than what I saw in the Heroku log. It revealed some code I had uncommented in an attempt to create a user session earlier. It wasn’t actually needed, so commenting it out again fixed the problem.&lt;/p&gt;
+
+&lt;h2 id=&quot;undefined-method-from-minification-of-javascript&quot;&gt;Undefined Method from Minification of Javascript&lt;/h2&gt;
+
+&lt;p&gt;The biggest struggle was adapting Angular to work after going through minification. In my project, one of the controllers looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenreController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$stateParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;BackEndService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                      &lt;span class=&quot;c1&quot;&gt;// ^^^ Dependency Injection!&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ctrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$stateParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;init&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;BackEndService&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getGenre&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;artists&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;artists&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;angular&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;app&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;GenreController&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenreController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now when compiling the javascript for deployment, it becomes minified, meaning the code now looks something like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/minified.png&quot; alt=&quot;minified code&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I mentioned &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;dependency injection&lt;/a&gt; in my writeup of my final project. I learned lots about the quirks of Angular in that process. The issue here is when the code becomes minified, it replaces the names of the dependecies with letters. This makes the code smaller and therefore quicker. But Angular doesn’t know which dependencies are which. Hence, more errors.&lt;/p&gt;
+
+&lt;p&gt;To override this, I explicitly wrote out the injections for each controller like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;GenreController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$inject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;$stateParams&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;BackEndService&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;That did the trick! Check out my final project right here.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 21 Jun 2016 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Objects in Javascript and Ruby</title>
@@ -97,7 +164,7 @@
 &lt;/div&gt;
 
 </description>
-        <pubDate>Sun, 12 Jun 2016 00:00:00 -0500</pubDate>
+        <pubDate>Sun, 12 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/12/Objects-in-Javascript-and-Ruby.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/12/Objects-in-Javascript-and-Ruby.html</guid>
         
@@ -303,7 +370,7 @@ Which is as easy as:&lt;/p&gt;
 Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;entire final project here.&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 06 Jun 2016 00:00:00 -0500</pubDate>
+        <pubDate>Mon, 06 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html</guid>
         
@@ -419,7 +486,7 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
 
 &lt;p&gt;My favorite part of this project was connecting everything I learned in my four months of this coding bootcamp. The backend and the front end finally came together into a full stack app. I understand all the moving parts! I wrote a separate post about connecting the front end and the back end, &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html&quot;&gt;which you can read here&lt;/a&gt; if you want some dense code snippets.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 05 Jun 2016 00:00:00 -0500</pubDate>
+        <pubDate>Sun, 05 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</guid>
         
@@ -452,7 +519,7 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
 
 &lt;p&gt;When playing around with the Last.fm API in a recent project, I encountered one of the JSON data keys that began with a hashtag. This was frustrating. The character interferes with normal javascript syntax and I couldn’t access the data without some complicated work arounds. This could be avoided if they’d stuck to formal object naming conventions of using strings and integers.&lt;/p&gt;
 </description>
-        <pubDate>Wed, 01 Jun 2016 00:00:00 -0500</pubDate>
+        <pubDate>Wed, 01 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</guid>
         
@@ -619,7 +686,7 @@ The most difficult part about editing comments in this way was selecting the exa
 &lt;p&gt;By the way, I made these rad gifs with &lt;a href=&quot;http://giphy.com/posts/giphy-launches-giphy-capture-for-mac&quot;&gt;the giphy capture tool&lt;/a&gt;.&lt;/p&gt;
 
 </description>
-        <pubDate>Thu, 26 May 2016 00:00:00 -0500</pubDate>
+        <pubDate>Thu, 26 May 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/26/Updating-A-Rails-Project-With-Javascript.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/26/Updating-A-Rails-Project-With-Javascript.html</guid>
         
@@ -666,7 +733,7 @@ The most difficult part about editing comments in this way was selecting the exa
 
 &lt;p&gt;&lt;img src=&quot;https://media.giphy.com/media/9d1Fo0XyIYXzW/giphy.gif&quot; alt=&quot;spongebob-dances&quot; /&gt;&lt;/p&gt;
 </description>
-        <pubDate>Sun, 15 May 2016 00:00:00 -0500</pubDate>
+        <pubDate>Sun, 15 May 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/15/Why-Im-Learning-To-Develop-Software.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/15/Why-Im-Learning-To-Develop-Software.html</guid>
         
@@ -795,7 +862,7 @@ The most difficult part about editing comments in this way was selecting the exa
 
 &lt;p&gt;Please check out the code on &lt;a href=&quot;https://github.com/TheLucasMoore/rails_final_project&quot;&gt;github&lt;/a&gt; and comment where you see something you like, or that could be improved.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 01 May 2016 00:00:00 -0500</pubDate>
+        <pubDate>Sun, 01 May 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/01/Rails-Project-Time.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/01/Rails-Project-Time.html</guid>
         
@@ -911,7 +978,7 @@ Finally, the user is redirected to the /tasks page, which shows their lists of t
 &lt;iframe width=&quot;420&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/C8myFXhbwCw&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 
 </description>
-        <pubDate>Sun, 27 Mar 2016 00:00:00 -0500</pubDate>
+        <pubDate>Sun, 27 Mar 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html</guid>
         
@@ -967,163 +1034,9 @@ Finally, the user is redirected to the /tasks page, which shows their lists of t
 &lt;h2 id=&quot;what-do-you-do&quot;&gt;What do you do?&lt;/h2&gt;
 &lt;p&gt;Anything I’m missing here? What tips do you have for working effectively in a coding bootcamp? Reach out to me on &lt;a href=&quot;https://twitter.com/thelucasmoore&quot;&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
 </description>
-        <pubDate>Thu, 17 Mar 2016 00:00:00 -0500</pubDate>
+        <pubDate>Thu, 17 Mar 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/03/17/How-I-Have-Learned-To-Learn.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/03/17/How-I-Have-Learned-To-Learn.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Scraping Websites for Data with Nokogiri</title>
-        <description>&lt;p&gt;This is one of the first tools that I’ve learned to use and instantly felt how powerful it is. Nokogiri is a web scraping tool used to parse and search HTML, XML and other documents. It’s simple to use and actually kinda fun. For my first project with it, I built a web scraper that grabs the information for the top books of every century from &lt;a href=&quot;https://www.goodreads.com/list/show/7&quot;&gt;Goodreads&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/goodreads.png&quot; alt=&quot;The links for each decade. A great starting point.&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;an-outline-of-this-project&quot;&gt;An Outline of this Project&lt;/h1&gt;
-
-&lt;p&gt;In planning out this project, I envisioned three stages of interaction.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The user chooses the decade for which they want to see the top books.&lt;/li&gt;
-  &lt;li&gt;The program returns a list of the top books for that specific decade.&lt;/li&gt;
-  &lt;li&gt;The user then can get more information about a specific book, like descriptions and ratings.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;This means building a few methods, one that scrapes information on the decades, one that gathers information on each book and a CLI (Command Line Interface) to interact with these data. (Yes, the word &lt;em&gt;data&lt;/em&gt; is plural).&lt;/p&gt;
-
-&lt;h1 id=&quot;scraping-the-decade-information-from-goodreads&quot;&gt;Scraping the Decade Information from Goodreads&lt;/h1&gt;
-
-&lt;p&gt;We can open, read and parse HTML Pages by requiring both Nokogiri and Open-URI at the top of our document. Then I set the opened Nokogiri document equal to a variable called decades. All of this is contained within the Decade class and a class method called scraper. So &lt;em&gt;Decade.scraper&lt;/em&gt; does exactly what it sounds: scrapes information on the decades.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;nokogiri&#39;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;open-uri&#39;&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;Class&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Decade&lt;/span&gt;
-
-&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;scraper&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;decades&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Nokogiri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.goodreads.com/list/show/7&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#The page of each decade&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;decades&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;div.mediumText a&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#Each link is iterated over&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Century&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#if that link includes the text &quot;centuries&quot;, continue&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#make a new decade object&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;gsub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Best Books of the &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
-				&lt;span class=&quot;c1&quot;&gt;#sets the name equal to the link text, but changes it with gsub&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-				&lt;span class=&quot;c1&quot;&gt;#saves the link to that decade, which we&#39;ll need in a moment.&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt;
-		&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decade&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#saves this decade object into the @@all global variable. &lt;/span&gt;
-			&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;You’ll notice the decades.css line above. &lt;code&gt;.CSS&lt;/code&gt; is a nokogiri method that allows us to narrow in on any part of the HTML document based on CSS classes and IDs. Here, the links for each decade are listed, so I iterate through each one.&lt;/p&gt;
-
-&lt;p&gt;This gives us some nice and tidy data:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;#&amp;lt;BestBooks::Decade:0x007fb2d521f978 @name=&quot;21st Century&quot;, @url=&quot;https://www.goodreads.com/list/show/7&quot;, @top10=nil&amp;gt;,&lt;/span&gt;
- &lt;span class=&quot;c1&quot;&gt;#&amp;lt;BestBooks::Decade:0x007fb2d521f3b0 @name=&quot;20th Century&quot;, @url=&quot;https://www.goodreads.com/list/show/6&quot;, @top10=nil&amp;gt; &lt;/span&gt;
- &lt;span class=&quot;c1&quot;&gt;#etc&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h1 id=&quot;gathering-book-information-for-each-decade&quot;&gt;Gathering Book Information for each Decade&lt;/h1&gt;
-
-&lt;p&gt;So each decade has a top ten books. As the data get scraped above, it doesn’t include the information on the top ten books of that decade: &lt;code&gt;@Top10 = nil&lt;/code&gt;. I need to write code that opens each URL for the decade, pulls the data for each book and returns an array of those books, stored in the @Top10 attribute of the decade.&lt;/p&gt;
-
-&lt;p&gt;To do this, I built a Book class which has a scrape class method. The code below is commented to explain it’s purpose.
-Basically, the information for each book is stored in a table row, so for each table row, I grab the needed information.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;no&quot;&gt;Class&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Book&lt;/span&gt;
-
-&lt;span class=&quot;kp&quot;&gt;attr_accessor&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:ranking&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:rating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:decade&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#the link argument is where I can pass the URL of each decade&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;books&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Nokogiri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#Nokogiri will open up that URL here&lt;/span&gt;
-&lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#This is where we&#39;ll store the data on the books&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#iterate through each table row&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;td.number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; 
-			&lt;span class=&quot;c1&quot;&gt;#this pulls only the first 10. Some decades have 100 books, which we don&#39;t want&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BestBooks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
-			&lt;span class=&quot;c1&quot;&gt;#a new instance of the Book class, set to the variable libro&lt;/span&gt;
-			&lt;span class=&quot;c1&quot;&gt;#setting all the information by scanning the CSS&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ranking&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;td.number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a.bookTitle span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a.bookTitle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;value&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.authorName span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.minirating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;strip&lt;/span&gt;
-
-		&lt;span class=&quot;c1&quot;&gt;#I&#39;m proud of figuring this one out. Finder here is equal to a second Nokogiri link&lt;/span&gt;
-		&lt;span class=&quot;c1&quot;&gt;#which opens the link of the book itself to scrape the text of the description,&lt;/span&gt;
-		&lt;span class=&quot;c1&quot;&gt;#which is then set as the description attribute.&lt;/span&gt;
-
-		&lt;span class=&quot;n&quot;&gt;finder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Nokogiri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;HTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.goodreads.com&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;css&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#description span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;
-	&lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;libro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#pushes all the book information into an array.&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@top10books&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#after iterating through the top10 books, returns the completed array.&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Now, to integrate this data with my Decade objects, I created the Decade.books class method.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;books&lt;/span&gt;
-	&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;bookscraper&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BestBooks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;scrape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#passing the URL to the Book.scrape method mentioned above&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bookscraper&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;geturl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;top10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top10&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-	&lt;span class=&quot;vc&quot;&gt;@@all&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This method iterates through @@all the decades, grabs the URL of that decade and passes it to the Book.scrape method.
-When the book scraper returns the array of the top ten books, it sets that array equal to the @Top10 attribute of the Decade object.&lt;/p&gt;
-
-&lt;p&gt;So the data for each decade now look like this:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;#&amp;lt;BestBooks::Decade:0x007fdba3335d20 @name=&quot;21st Century&quot;, @url=&quot;https://www.goodreads.com/list/show/7&quot;, &lt;/span&gt;
-&lt;span class=&quot;vi&quot;&gt;@top10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;#&amp;lt;BestBooks::Book:0x007fdba424b850 &lt;/span&gt;
-&lt;span class=&quot;vi&quot;&gt;@ranking&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Harry Potter and the Deathly Hallows (Harry Potter, #7)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@link&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/book/show/136251.Harry_Potter_and_the_Deathly_Hallows&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;J.K. Rowling&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@rating&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;4.59 avg rating — 1,542,081 ratings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Harry is waiting in Privet Drive... etc&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;c1&quot;&gt;#&amp;lt;BestBooks::Book:0x007fdba33e70c0 &lt;/span&gt;
-&lt;span class=&quot;vi&quot;&gt;@ranking&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;The Hunger Games (The Hunger Games, #1)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@link&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/book/show/2767052-the-hunger-games&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Suzanne Collins&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@rating&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;4.37 avg rating — 4,050,120 ratings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;span class=&quot;vi&quot;&gt;@description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Winning will make you famous. Losing means certain death... etc&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
- &lt;span class=&quot;c1&quot;&gt;#etc, for all 10 books, for each decade. It&#39;s a lot of data. &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h1 id=&quot;building-a-command-line-interface&quot;&gt;Building a Command Line Interface&lt;/h1&gt;
-
-&lt;p&gt;To be able to interact with this information, I’ve built a command line interface. The code is available on &lt;a href=&quot;https://github.com/TheLucasMoore/best-books-of-the-century&quot;&gt;my github&lt;/a&gt; and this video below shows a walkthrough of the program.&lt;/p&gt;
-
-&lt;iframe width=&quot;320&quot; height=&quot;215&quot; src=&quot;https://www.youtube.com/embed/uasxpR7s4zE&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-
-&lt;h1 id=&quot;time-to-refactor&quot;&gt;Time to Refactor&lt;/h1&gt;
-
-&lt;p&gt;So this works to achieve a function, but can do so much more elegantly. I plan on refactoring to:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Work more quickly by storing the information instead of scraping it each time.&lt;/li&gt;
-  &lt;li&gt;To be more graceful in it’s construction.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Stay tuned for the refactored update and the publication of the final gem.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 23 Feb 2016 00:00:00 -0600</pubDate>
-        <link>http://thelucasmoore.github.io/2016/02/23/Scraping-Websites-With-Nokogiri.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/02/23/Scraping-Websites-With-Nokogiri.html</guid>
         
         
       </item>

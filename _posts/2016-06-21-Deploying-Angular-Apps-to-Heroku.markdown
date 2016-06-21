@@ -4,6 +4,8 @@ title: Deploying Angular Apps to Heroku, Lessons Learned
 author: Lucas Moore
 ---
 
+This article is about my final project, [$$$potify.com](http://www.ssspotify.com).
+
 As I have been putting the finishing touches on my final project, I'm preparing to deploy it on [Heroku](https://devcenter.heroku.com/start) to share with the world! To accomplish this, there are some changes I've had to make in my code. 
 
 Errors are my favorite. Debugging a program requires part intuition and part creativity. So when I first attempted to deploy my [final project](http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html) to Heroku I was met with a few errors, which I learned how to fix.
@@ -66,4 +68,10 @@ To override this, I explicitly wrote out the injections for each controller like
 ```javascript
 GenreController.$inject = ['$stateParams', 'BackEndService'];
 ```
-That did the trick! [Check out my final project right here](https://afternoon-island-86761.herokuapp.com/#/)
+
+## Adding a Domain Name
+
+After buying and connecting my project to [$$$potify.com](http://www.ssspotify.com), I had to be sure to go back into the 'My Applications' tab of the Spotify Developers panel. There, I added both <code>https://www.ssspotify.com/users/auth/spotify/callback</code> and <code>https://ssspotify.com/users/auth/spotify/callback</code> to the redirect URIs. This way, Spotify knows about the new address too!
+
+
+That did the trick! [Check out my final project right here](http://www.ssspotify.com)

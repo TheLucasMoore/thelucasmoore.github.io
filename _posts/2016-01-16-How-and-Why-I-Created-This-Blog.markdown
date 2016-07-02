@@ -58,8 +58,3 @@ Markdown is a beautifully simple way to write for the web. The syntax took me ab
 # 5. Push to a Static Web Page
 
 Finally, any time I update this site, I push the changes to Github. Jekyll does all the work of compiling the file structure and converting the Markdown to HTML. There is no server database, simply an agile static page.
-
-{% if post.comments %}
-{% include comments.html %}
-{% endif %}
-

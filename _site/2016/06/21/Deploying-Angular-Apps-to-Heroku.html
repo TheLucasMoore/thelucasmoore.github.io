@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Lucas Moore: Deploying Angular Apps to Heroku, Lessons Learned</title>
-  <meta name="description" content="As I have been putting the finishing touches on my final project, I’m preparing to deploy it on Heroku to share with the world! To accomplish this, there are...">
+  <meta name="description" content="This article is about my final project, $$$potify.com.">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html">
@@ -76,11 +76,13 @@
 
   <header class="post-header">
     <h1 class="post-title" itemprop="name headline">Deploying Angular Apps to Heroku, Lessons Learned</h1>
-    <p class="post-meta"><time datetime="2016-06-21T00:00:00-06:00" itemprop="datePublished">Jun 21, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Lucas Moore</span></span></p>
+    <p class="post-meta"><time datetime="2016-06-21T00:00:00-04:00" itemprop="datePublished">Jun 21, 2016</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Lucas Moore</span></span></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>As I have been putting the finishing touches on my final project, I’m preparing to deploy it on <a href="https://devcenter.heroku.com/start">Heroku</a> to share with the world! To accomplish this, there are some changes I’ve had to make in my code.</p>
+    <p>This article is about my final project, <a href="http://www.ssspotify.com">$$$potify.com</a>.</p>
+
+<p>As I have been putting the finishing touches on my final project, I’m preparing to deploy it on <a href="https://devcenter.heroku.com/start">Heroku</a> to share with the world! To accomplish this, there are some changes I’ve had to make in my code.</p>
 
 <p>Errors are my favorite. Debugging a program requires part intuition and part creativity. So when I first attempted to deploy my <a href="http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html">final project</a> to Heroku I was met with a few errors, which I learned how to fix.</p>
 
@@ -92,6 +94,10 @@
 
 <p>A simple syntax error broke my entire build! I forgot a colon in one of my SASS files. As the SCSS was compiled into CSS, that error caused issues. Luckily, the log showed me the exact file and line number, so I went back and revised it. Oops. Shipping code into production is a serious endeavour.</p>
 
+<h2 id="from-http-to-https">From HTTP to HTTPS</h2>
+
+<p>Heroku has SSL certificates by default, which means the URLs are all <code>https://</code> instead of unencrypted <code>http://</code>. As I was making my API requests to Last.fm, the endpoint URL used HTTP, which mixed encrypted and unencryped content rendered on the page. This is unsecure and the content coming through was blocked by Firefox and Chrome. By switching the request URL to HTTPS, I was able to fix things up and it works!</p>
+
 <h2 id="application-build-failure">Application Build Failure</h2>
 
 <p>Ahh! One on deploy, I got this error.</p>
@@ -100,9 +106,11 @@
 
 <p>I <a href="http://stackoverflow.com/questions/13496827/heroku-deployment-error-h10-app-crashed">found a solution</a>, which was to run <code>$ heroku run rails console</code>. This spit out a more verbose error message than what I saw in the Heroku log. It revealed some code I had uncommented in an attempt to create a user session earlier. It wasn’t actually needed, so commenting it out again fixed the problem.</p>
 
+<p>On that note, it’s also necessary to migrate the database on the remote Heroku connection by running <code>$ heroku run rake db:migrate</code>.</p>
+
 <h2 id="undefined-method-from-minification-of-javascript">Undefined Method from Minification of Javascript</h2>
 
-<p>The biggest struggle was adapting Angular to work after going through minification. In my project, one of the controllers looks like this:</p>
+<p>The biggest struggle was adapting Angular to work after going through minification. In my project, one of the Angular controllers looks like this:</p>
 
 <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">GenreController</span><span class="p">(</span><span class="nx">$stateParams</span><span class="p">,</span> <span class="nx">BackEndService</span><span class="p">)</span> <span class="p">{</span>
                       <span class="c1">// ^^^ Dependency Injection!</span>
@@ -129,14 +137,19 @@
 
 <p><img src="/assets/minified.png" alt="minified code" /></p>
 
-<p>I mentioned <a href="http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html">dependency injection</a> in my writeup of my final project. I learned lots about the quirks of Angular in that process. The issue here is when the code becomes minified, it replaces the names of the dependecies with letters. This makes the code smaller and therefore quicker. But Angular doesn’t know which dependencies are which. Hence, more errors.</p>
+<p>I mentioned <a href="http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html">dependency injection</a> in the writeup of my final project. I learned lots about the quirks of Angular in that process. The issue here is when the code becomes minified, it replaces the names of the dependecies with letters. This makes the code smaller and therefore quicker. But Angular doesn’t know which dependencies are which. Hence, the errors.</p>
 
 <p>To override this, I explicitly wrote out the injections for each controller like this:</p>
 
 <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">GenreController</span><span class="p">.</span><span class="nx">$inject</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'$stateParams'</span><span class="p">,</span> <span class="s1">'BackEndService'</span><span class="p">];</span>
 </code></pre>
 </div>
-<p>That did the trick! Check out my final project right here.</p>
+
+<h2 id="adding-a-domain-name">Adding a Domain Name</h2>
+
+<p>After buying and connecting my project to <a href="http://www.ssspotify.com">$$$potify.com</a>, I had to be sure to go back into the ‘My Applications’ tab of the Spotify Developers panel. There, I added both <code>https://www.ssspotify.com/users/auth/spotify/callback</code> and <code>https://ssspotify.com/users/auth/spotify/callback</code> to the redirect URIs. This way, Spotify knows about the new address too!</p>
+
+<p>That did the trick! <a href="http://www.ssspotify.com">Check out my final project right here</a></p>
 
   </div>
 

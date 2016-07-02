@@ -6,13 +6,240 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 21 Jun 2016 12:14:01 -0600</pubDate>
-    <lastBuildDate>Tue, 21 Jun 2016 12:14:01 -0600</lastBuildDate>
+    <pubDate>Sat, 02 Jul 2016 13:04:23 -0400</pubDate>
+    <lastBuildDate>Sat, 02 Jul 2016 13:04:23 -0400</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
     
       <item>
+        <title>Using CLI Generators in Rails and Angular 2</title>
+        <description>&lt;p&gt;This week I went to an &lt;a href=&quot;http://www.meetup.com/RockyMountainAngularJS/&quot;&gt;Angular meetup&lt;/a&gt; in Denver, where we learned about the Angular CLI. There are some interesting parallels between the CLI generators for Rails, so I’ll review the Rails generators and explain what the Angular CLI generators do too.&lt;/p&gt;
+
+&lt;h2 id=&quot;generators-in-rails&quot;&gt;Generators in Rails&lt;/h2&gt;
+
+&lt;p&gt;I wrote about the &lt;a href=&quot;http://dev.thelucasmoore.com/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html&quot;&gt;MVC&lt;/a&gt; structure when I built a To Do List with Sinatra. The command line is a powerful place to automate the building of models, views or controllers. You can read the full &lt;a href=&quot;http://guides.rubyonrails.org/command_line.html&quot;&gt;rails command line documentation here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In order of most powerful to most nuaned, here’s the rails generators I’ve used.&lt;/p&gt;
+
+&lt;h1 id=&quot;rails-generate-scaffold&quot;&gt;1. Rails Generate Scaffold&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;makes database migrations&lt;/li&gt;
+  &lt;li&gt;makes models&lt;/li&gt;
+  &lt;li&gt;makes views (with CRUD functionality)&lt;/li&gt;
+  &lt;li&gt;makes routes&lt;/li&gt;
+  &lt;li&gt;makes test suite&lt;/li&gt;
+  &lt;li&gt;makes assets like javascript and CSS files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is going to make everything you need, but it’s not a good idea to use in production. You’ll spend too much time cleaning up all the code this makes for you. Below I’ve pulled out the parts of the code that are interesting, ignoring the additional javascript, CSS assets and testing suites. But there you go. One line of code and you have almost a full CRUD application.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ rails g scaffold task title:string content:string
+
+Running via Spring preloader &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;process 17379
+  invoke  active_record
+  create    db/migrate/20160702153159_create_tasks.rb
+  create    app/models/task.rb
+  route    resources :tasks
+  create    app/controllers/tasks_controller.rb
+  create      app/views/tasks
+  create      app/views/tasks/index.html.erb
+  create      app/views/tasks/edit.html.erb
+  create      app/views/tasks/show.html.erb
+  create      app/views/tasks/new.html.erb
+  create      app/views/tasks/_form.html.erb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;rails-generate-model&quot;&gt;2. Rails Generate Model&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;makes a model&lt;/li&gt;
+  &lt;li&gt;makes a migration&lt;/li&gt;
+  &lt;li&gt;makes the test suite&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Moving into more useful and exacting generators, the model generator will make a model and the associated database migration.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ rails g model user name:string
+Running via Spring preloader &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;process 17525
+  invoke  active_record
+  create    db/migrate/20160702154345_create_users.rb
+  create    app/models/user.rb
+  invoke    test_unit
+  create      &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;/models/user_test.rb
+  create      &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;/fixtures/users.yml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;An awesome, almost &lt;em&gt;magical&lt;/em&gt; feature here is that the migration file is written for us:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CreateUsers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;create_table&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:users&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;timestamps&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;null: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;rails-generate-controller&quot;&gt;3. Rails Generate Controller&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;makes a controller&lt;/li&gt;
+  &lt;li&gt;makes an empty view folder&lt;/li&gt;
+  &lt;li&gt;makes helpers&lt;/li&gt;
+  &lt;li&gt;makes assets like javascript and CSS files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Generating a controller will just make the controller and the views folder if it doesn’t exist yet.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ rails g controller user
+Running via Spring preloader &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;process 17579
+  create  app/controllers/user_controller.rb
+  invoke  erb
+  create    app/views/user
+  invoke  test_unit
+  create    &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;/controllers/user_controller_test.rb
+  invoke  helper
+  create    app/helpers/user_helper.rb
+  invoke    test_unit
+  invoke  assets
+  invoke    coffee
+  create      app/assets/javascripts/user.coffee
+  invoke    scss
+  create      app/assets/stylesheets/user.scss
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;rails-generate-migration&quot;&gt;4. Rails Generate Migration&lt;/h1&gt;
+
+&lt;p&gt;When needing to change the structure of our database, generating a migration is our best bet. You can follow the naming convention, which will recognize the table you want to change and insert your structure into a new migration. This structure of &lt;code&gt;AddSomethingToTablename&lt;/code&gt; is powerful stuff. Also, in &lt;a href=&quot;http://weblog.rubyonrails.org/2016/6/30/Rails-5-0-final/&quot;&gt;Rails 5&lt;/a&gt;, you’ll run the migrations with &lt;code&gt;rails db:migrate&lt;/code&gt; insteaad of &lt;code&gt;rake db:migrate&lt;/code&gt;, which cuts out the binary seperation between rails and rake tasks. Very cool, eh?&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ rails g migration AddNicknameToUsers nickname:string
+Running via Spring preloader &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;process 17630
+      invoke  active_record
+      create    db/migrate/20160702160315_add_nickname_to_users.rb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Our database migration looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddNicknameToUsers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;add_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:nickname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:string&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;the-angular-cli-generators&quot;&gt;The Angular CLI Generators&lt;/h2&gt;
+
+&lt;p&gt;Using Angular 2 and the associated generators is an equally powerful tool to create most of the code you’ll need for an Angular project.&lt;/p&gt;
+
+&lt;h1 id=&quot;getting-set-up&quot;&gt;Getting Set Up&lt;/h1&gt;
+
+&lt;p&gt;To get started with the Angular CLI, let’s install it, then use it to generate a new project. Then you’ll have to CD into it.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ npm install -g angular-cli@latest
+// ♥ ng new PROJECT_NAME
+// ♥ &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;PROJECT_NAME
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Some of the handy-dandy features of the Angular CLI are almost identical to Rails CLI tools. They include:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;ng serve&lt;/code&gt; - this runs an angular aware server on the local machine so you can see your project in development.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;ng test&lt;/code&gt; - runs your jasmine tests.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;ng e2e&lt;/code&gt; - runs end to end tests with protractor.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;ng lint&lt;/code&gt; - this lints your project, based on &lt;a href=&quot;https://github.com/johnpapa/angular-styleguide&quot;&gt;John Papa’s style guide&lt;/a&gt;. It passes or it doesn’t!&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;ng build&lt;/code&gt; - this will build your project, compile your SCSS and minify your javacript into the output path (distribution folder by default).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;ng help&lt;/code&gt; - need some help? the help menu will explain all this stuff for you again.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The generator features of Angular are pretty straight-forward.&lt;/p&gt;
+
+&lt;h1 id=&quot;angular-generate-components&quot;&gt;1. Angular Generate Components&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;makes a component&lt;/li&gt;
+  &lt;li&gt;makes a template for the component&lt;/li&gt;
+  &lt;li&gt;wires up the tests&lt;/li&gt;
+  &lt;li&gt;makes the routes needed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can make a new component, but it won’t be entirely wired up yet. To finish this up, you’ll have to manually import this new component into your root component. The Componenet generator does also generate the needed routes, so there’s no need to generate a route after this.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ ng generate component a-new-comp
+installing component
+  create src/app/a-new-comp/a-new-comp.component.css
+  create src/app/a-new-comp/a-new-comp.component.html
+  create src/app/a-new-comp/a-new-comp.component.spec.ts
+  create src/app/a-new-comp/a-new-comp.component.ts
+  create src/app/a-new-comp/index.ts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;angular-generate-services&quot;&gt;2. Angular Generate Services&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;makes a new service&lt;/li&gt;
+  &lt;li&gt;wires up the tests for this service&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This one is simple. Make a service, then you can wire it up with $http and do all your requests and posts through the snazzy service. I used servives in my &lt;a href=&quot;www.ssspotify.com&quot;&gt;$$$potify&lt;/a&gt; project to handle all the API requests to the rails backend, as well as to the Spotify and Last.fm APIs.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ ng generate service a-fresh-service
+installing service
+  create src/app/a-fresh-service.service.spec.ts
+  create src/app/a-fresh-service.service.ts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;angular-generate-routes&quot;&gt;3. Angular Generate Routes&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;makes a new route&lt;/li&gt;
+  &lt;li&gt;makes a new component if one doesn’t exist&lt;/li&gt;
+  &lt;li&gt;wires up the testing framework&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This one also is not entirely wired into your project, but the files needed are created. Note that a + denotes a lazy-loading route, which can greatly speed up your project.&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ ng generate route foo-route
+installing route
+installing component
+  create src/app/+foo-route/foo-route.component.css
+  create src/app/+foo-route/foo-route.component.html
+  create src/app/+foo-route/foo-route.component.spec.ts
+  create src/app/+foo-route/foo-route.component.ts
+  create src/app/+foo-route/index.ts
+  create src/app/+foo-route/shared/index.ts
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;So these two frameworks have some powerful genrators. We can produce the frameworks of all the parts needed to make a backend in rails and a single-page application in Angular on the front end. There’s a bit of wiring up and connecting still needed, but these generators can greatly increase the speed of your workflow.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 01 Jul 2016 00:00:00 -0400</pubDate>
+        <link>http://thelucasmoore.github.io/2016/07/01/Using-CLI-Generators-in-Rails-and-Angular-2.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/07/01/Using-CLI-Generators-in-Rails-and-Angular-2.html</guid>
+        
+        
+      </item>
+    
+      <item>
         <title>Deploying Angular Apps to Heroku, Lessons Learned</title>
-        <description>&lt;p&gt;As I have been putting the finishing touches on my final project, I’m preparing to deploy it on &lt;a href=&quot;https://devcenter.heroku.com/start&quot;&gt;Heroku&lt;/a&gt; to share with the world! To accomplish this, there are some changes I’ve had to make in my code.&lt;/p&gt;
+        <description>&lt;p&gt;This article is about my final project, &lt;a href=&quot;http://www.ssspotify.com&quot;&gt;$$$potify.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;As I have been putting the finishing touches on my final project, I’m preparing to deploy it on &lt;a href=&quot;https://devcenter.heroku.com/start&quot;&gt;Heroku&lt;/a&gt; to share with the world! To accomplish this, there are some changes I’ve had to make in my code.&lt;/p&gt;
 
 &lt;p&gt;Errors are my favorite. Debugging a program requires part intuition and part creativity. So when I first attempted to deploy my &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;final project&lt;/a&gt; to Heroku I was met with a few errors, which I learned how to fix.&lt;/p&gt;
 
@@ -24,6 +251,10 @@
 
 &lt;p&gt;A simple syntax error broke my entire build! I forgot a colon in one of my SASS files. As the SCSS was compiled into CSS, that error caused issues. Luckily, the log showed me the exact file and line number, so I went back and revised it. Oops. Shipping code into production is a serious endeavour.&lt;/p&gt;
 
+&lt;h2 id=&quot;from-http-to-https&quot;&gt;From HTTP to HTTPS&lt;/h2&gt;
+
+&lt;p&gt;Heroku has SSL certificates by default, which means the URLs are all &lt;code&gt;https://&lt;/code&gt; instead of unencrypted &lt;code&gt;http://&lt;/code&gt;. As I was making my API requests to Last.fm, the endpoint URL used HTTP, which mixed encrypted and unencryped content rendered on the page. This is unsecure and the content coming through was blocked by Firefox and Chrome. By switching the request URL to HTTPS, I was able to fix things up and it works!&lt;/p&gt;
+
 &lt;h2 id=&quot;application-build-failure&quot;&gt;Application Build Failure&lt;/h2&gt;
 
 &lt;p&gt;Ahh! One on deploy, I got this error.&lt;/p&gt;
@@ -32,9 +263,11 @@
 
 &lt;p&gt;I &lt;a href=&quot;http://stackoverflow.com/questions/13496827/heroku-deployment-error-h10-app-crashed&quot;&gt;found a solution&lt;/a&gt;, which was to run &lt;code&gt;$ heroku run rails console&lt;/code&gt;. This spit out a more verbose error message than what I saw in the Heroku log. It revealed some code I had uncommented in an attempt to create a user session earlier. It wasn’t actually needed, so commenting it out again fixed the problem.&lt;/p&gt;
 
+&lt;p&gt;On that note, it’s also necessary to migrate the database on the remote Heroku connection by running &lt;code&gt;$ heroku run rake db:migrate&lt;/code&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;undefined-method-from-minification-of-javascript&quot;&gt;Undefined Method from Minification of Javascript&lt;/h2&gt;
 
-&lt;p&gt;The biggest struggle was adapting Angular to work after going through minification. In my project, one of the controllers looks like this:&lt;/p&gt;
+&lt;p&gt;The biggest struggle was adapting Angular to work after going through minification. In my project, one of the Angular controllers looks like this:&lt;/p&gt;
 
 &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenreController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$stateParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;BackEndService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
                       &lt;span class=&quot;c1&quot;&gt;// ^^^ Dependency Injection!&lt;/span&gt;
@@ -61,16 +294,21 @@
 
 &lt;p&gt;&lt;img src=&quot;/assets/minified.png&quot; alt=&quot;minified code&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;I mentioned &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;dependency injection&lt;/a&gt; in my writeup of my final project. I learned lots about the quirks of Angular in that process. The issue here is when the code becomes minified, it replaces the names of the dependecies with letters. This makes the code smaller and therefore quicker. But Angular doesn’t know which dependencies are which. Hence, more errors.&lt;/p&gt;
+&lt;p&gt;I mentioned &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;dependency injection&lt;/a&gt; in the writeup of my final project. I learned lots about the quirks of Angular in that process. The issue here is when the code becomes minified, it replaces the names of the dependecies with letters. This makes the code smaller and therefore quicker. But Angular doesn’t know which dependencies are which. Hence, the errors.&lt;/p&gt;
 
 &lt;p&gt;To override this, I explicitly wrote out the injections for each controller like this:&lt;/p&gt;
 
 &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;GenreController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$inject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;$stateParams&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;BackEndService&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;That did the trick! Check out my final project right here.&lt;/p&gt;
+
+&lt;h2 id=&quot;adding-a-domain-name&quot;&gt;Adding a Domain Name&lt;/h2&gt;
+
+&lt;p&gt;After buying and connecting my project to &lt;a href=&quot;http://www.ssspotify.com&quot;&gt;$$$potify.com&lt;/a&gt;, I had to be sure to go back into the ‘My Applications’ tab of the Spotify Developers panel. There, I added both &lt;code&gt;https://www.ssspotify.com/users/auth/spotify/callback&lt;/code&gt; and &lt;code&gt;https://ssspotify.com/users/auth/spotify/callback&lt;/code&gt; to the redirect URIs. This way, Spotify knows about the new address too!&lt;/p&gt;
+
+&lt;p&gt;That did the trick! &lt;a href=&quot;http://www.ssspotify.com&quot;&gt;Check out my final project right here&lt;/a&gt;&lt;/p&gt;
 </description>
-        <pubDate>Tue, 21 Jun 2016 00:00:00 -0600</pubDate>
+        <pubDate>Tue, 21 Jun 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html</guid>
         
@@ -164,7 +402,7 @@
 &lt;/div&gt;
 
 </description>
-        <pubDate>Sun, 12 Jun 2016 00:00:00 -0600</pubDate>
+        <pubDate>Sun, 12 Jun 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/12/Objects-in-Javascript-and-Ruby.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/12/Objects-in-Javascript-and-Ruby.html</guid>
         
@@ -370,7 +608,7 @@ Which is as easy as:&lt;/p&gt;
 Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;entire final project here.&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 06 Jun 2016 00:00:00 -0600</pubDate>
+        <pubDate>Mon, 06 Jun 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html</guid>
         
@@ -486,7 +724,7 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
 
 &lt;p&gt;My favorite part of this project was connecting everything I learned in my four months of this coding bootcamp. The backend and the front end finally came together into a full stack app. I understand all the moving parts! I wrote a separate post about connecting the front end and the back end, &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html&quot;&gt;which you can read here&lt;/a&gt; if you want some dense code snippets.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 05 Jun 2016 00:00:00 -0600</pubDate>
+        <pubDate>Sun, 05 Jun 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</guid>
         
@@ -519,7 +757,7 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
 
 &lt;p&gt;When playing around with the Last.fm API in a recent project, I encountered one of the JSON data keys that began with a hashtag. This was frustrating. The character interferes with normal javascript syntax and I couldn’t access the data without some complicated work arounds. This could be avoided if they’d stuck to formal object naming conventions of using strings and integers.&lt;/p&gt;
 </description>
-        <pubDate>Wed, 01 Jun 2016 00:00:00 -0600</pubDate>
+        <pubDate>Wed, 01 Jun 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</guid>
         
@@ -686,7 +924,7 @@ The most difficult part about editing comments in this way was selecting the exa
 &lt;p&gt;By the way, I made these rad gifs with &lt;a href=&quot;http://giphy.com/posts/giphy-launches-giphy-capture-for-mac&quot;&gt;the giphy capture tool&lt;/a&gt;.&lt;/p&gt;
 
 </description>
-        <pubDate>Thu, 26 May 2016 00:00:00 -0600</pubDate>
+        <pubDate>Thu, 26 May 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/26/Updating-A-Rails-Project-With-Javascript.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/26/Updating-A-Rails-Project-With-Javascript.html</guid>
         
@@ -733,7 +971,7 @@ The most difficult part about editing comments in this way was selecting the exa
 
 &lt;p&gt;&lt;img src=&quot;https://media.giphy.com/media/9d1Fo0XyIYXzW/giphy.gif&quot; alt=&quot;spongebob-dances&quot; /&gt;&lt;/p&gt;
 </description>
-        <pubDate>Sun, 15 May 2016 00:00:00 -0600</pubDate>
+        <pubDate>Sun, 15 May 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/15/Why-Im-Learning-To-Develop-Software.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/15/Why-Im-Learning-To-Develop-Software.html</guid>
         
@@ -862,7 +1100,7 @@ The most difficult part about editing comments in this way was selecting the exa
 
 &lt;p&gt;Please check out the code on &lt;a href=&quot;https://github.com/TheLucasMoore/rails_final_project&quot;&gt;github&lt;/a&gt; and comment where you see something you like, or that could be improved.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 01 May 2016 00:00:00 -0600</pubDate>
+        <pubDate>Sun, 01 May 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/01/Rails-Project-Time.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/01/Rails-Project-Time.html</guid>
         
@@ -978,65 +1216,9 @@ Finally, the user is redirected to the /tasks page, which shows their lists of t
 &lt;iframe width=&quot;420&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/C8myFXhbwCw&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 
 </description>
-        <pubDate>Sun, 27 Mar 2016 00:00:00 -0600</pubDate>
+        <pubDate>Sun, 27 Mar 2016 00:00:00 -0400</pubDate>
         <link>http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>How I&#39;ve Learned to Learn During my Coding Bootcamp</title>
-        <description>&lt;p&gt;There’s a &lt;a href=&quot;https://www.switchup.org/blog/how-flatiron-school-gets-99-of-grads-jobs&quot;&gt;lot of buzz around coding bootcamps&lt;/a&gt; these days. A crash course in a new set of programming languages can be a huge career boost for bootcamp graduates. I have learned a ton in my first month of Flatiron School’s Learn Verified program. But one of the most important things I’ve learned in how to most effectively learn.&lt;/p&gt;
-
-&lt;h1 id=&quot;if-youre-doing-a-bootcamp-some-of-these-tips-might-help-you-as-much-as-they-help-me&quot;&gt;If you’re doing a bootcamp, some of these tips might help you as much as they help me.&lt;/h1&gt;
-
-&lt;h2 id=&quot;creating-a-focused-environment&quot;&gt;Creating a Focused Environment&lt;/h2&gt;
-
-&lt;p&gt;There are plenty of distractions when working online. I try to always stay directly focused on the content I am learning. I use the &lt;a href=&quot;https://addons.mozilla.org/en-US/firefox/addon/leechblock/&quot;&gt;Firefox Add-On Leechblock&lt;/a&gt; to allow myself only 10 minutes a day on distracting websites like &lt;a href=&quot;https://www.reddit.com/r/digitalnomad&quot;&gt;Reddit&lt;/a&gt;, &lt;a href=&quot;https://www.producthunt.com/&quot;&gt;Product Hunt&lt;/a&gt; and &lt;a href=&quot;https://news.ycombinator.com/news&quot;&gt;Hacker News&lt;/a&gt;. I keep my phone facedown and away from my desk. I play instrumental music (more on that in a bit). I’ve also found how important it is to take notes on the content I am learning. It helps me internalize what I am learning as I learn it.&lt;/p&gt;
-
-&lt;h2 id=&quot;take-a-break&quot;&gt;Take A Break&lt;/h2&gt;
-
-&lt;p&gt;Every twenty or thirty minutes, I take a five minute break. I’ve found that a short break is a breath of fresh air that allows more focus in the long term. Unless I get into a good flow with a longer lab, in which case I keep working.&lt;/p&gt;
-
-&lt;p&gt;The key is to recognize unproductive brain space, like when I’m searching for distractions. Instead of fighting the mind, I take some space to clear it before returning back to learning. This allows me to work almost all day, most days. ;)&lt;/p&gt;
-
-&lt;h2 id=&quot;feel-out-your-brain-space&quot;&gt;Feel Out Your Brain Space&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/brain.jpg&quot; alt=&quot;Waves&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.mind-your-reality.com/brain_waves.html&quot;&gt;The Brain’s States&lt;/a&gt; are super interesting.&lt;/p&gt;
-
-&lt;p&gt;Modern neuroscience knows a lot about our brains. There a few distinct brain spaces that have patterns we can recognize, both through EEG readings and in self-examining meditation. All these process are happening at the same time, but we can move into one dominant thought pattern with some simple exercises.&lt;/p&gt;
-
-&lt;h1 id=&quot;the-first-brain-space-is-beta&quot;&gt;The first brain space is Beta.&lt;/h1&gt;
-&lt;p&gt;This is every day consciousness. A mind on the run, perceiving and interpreting. Thinking busy thoughts. Beta level consciousness is the mind when it is wide awake.&lt;/p&gt;
-
-&lt;h1 id=&quot;the-next-in-contrast-is-alpha&quot;&gt;The next, in contrast, is Alpha.&lt;/h1&gt;
-&lt;p&gt;This is when the mind is calm and receptive. It’s an open and meditative mind. This is the best way to learn more deeply, as we absorb information most effectively in alpha brain space. Learning while the brain is in an alpha state means that I am learning on two levels (alpha and beta).&lt;/p&gt;
-
-&lt;p&gt;You can easily transition between alpha and beta by relaxing! Take a few breaths, meditate for 20 minutes, or listen to  music. Research shows classical music induces an alpha wave pattern in the mind, but I’m partial to instrumental music like &lt;a href=&quot;https://www.youtube.com/watch?v=UBTUAHGpQqE&quot;&gt;El Ten Eleven&lt;/a&gt;, &lt;a href=&quot;https://www.youtube.com/watch?v=7VGNc5ZncNE&quot;&gt;Madlib&lt;/a&gt;, &lt;a href=&quot;https://www.youtube.com/watch?v=dhNfddJRulQ&quot;&gt;Vulfpeck&lt;/a&gt; &lt;a href=&quot;https://www.youtube.com/watch?v=50b5J_ulWhw&quot;&gt;Damu The Fudgemunk&lt;/a&gt; and &lt;a href=&quot;https://www.youtube.com/watch?v=81983x_wgyc&quot;&gt;Thievery Corporation&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h1 id=&quot;the-sleepiest-is-theta-wave&quot;&gt;The sleepiest is Theta Wave.&lt;/h1&gt;
-&lt;p&gt;The dreamy space right before you fall asleep is called theta. It’s disorienting, with random dreamy thoughts intermingled with normal ones. The chemical melatonin is released and it lulls us to sleep. Recognizing the sleepy mind and stopping work is equally as important. I’m not learning as effectively as possible if I’m tired.&lt;/p&gt;
-
-&lt;h1 id=&quot;rem-sleep&quot;&gt;REM sleep.&lt;/h1&gt;
-
-&lt;p&gt;REM sleep, or dreaming, is equally important in the learning process. Dreams are the way we digest and store information. I’ve found that getting quality sleep is the best way to internalize lessons and content. Some mornings, I wake up dreaming in code, finding solutions to problems I am stuck on automatically. Let your dreams do the heavy lifting. It’s an evolutionary process to digest information and store it in long term memory.&lt;/p&gt;
-
-&lt;h2 id=&quot;short-term-and-long-term-memory&quot;&gt;Short Term and Long Term Memory&lt;/h2&gt;
-&lt;p&gt;Understanding the way memory works can be empowering. Ideas are stored in either our short term or long term memory, based on time and frequency of exposure. Anything can stick in our short term memory after one exposure, sure. But it is only transferred to long term memory if it’s rehearsed immediately. So what’s the most efficient way to store things in our long term memory?&lt;/p&gt;
-
-&lt;p&gt;Research shows short, repeated exposure is actually the best way to memorize something. Rereading my notes on a daily and weekly basis helps me to internalize points and move them into long term memory. It’s the philosophy behind &lt;a href=&quot;http://www.memrise.com/science/&quot;&gt;Memrise&lt;/a&gt;, which is how I’m learning Portuguese.&lt;/p&gt;
-
-&lt;p&gt;This week, I’m returning to old projects and fiddling with them, adding in what I’ve learned from later points. This is a good review and a creative way to solidify new things like database management.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-do-you-do&quot;&gt;What do you do?&lt;/h2&gt;
-&lt;p&gt;Anything I’m missing here? What tips do you have for working effectively in a coding bootcamp? Reach out to me on &lt;a href=&quot;https://twitter.com/thelucasmoore&quot;&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 17 Mar 2016 00:00:00 -0600</pubDate>
-        <link>http://thelucasmoore.github.io/2016/03/17/How-I-Have-Learned-To-Learn.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/03/17/How-I-Have-Learned-To-Learn.html</guid>
         
         
       </item>

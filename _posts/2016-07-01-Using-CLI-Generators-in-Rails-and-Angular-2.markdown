@@ -197,4 +197,4 @@ installing component
 
 # Conclusion
 
-So these two frameworks have some powerful generators. We can produce the frameworks of all the parts needed to make a backend in rails and a single-page application in Angular on the front end. There's a bit of wiring up and connecting still needed, but these generators can greatly increase the speed of your workflow. 
+So these two frameworks have some powerful generators. With the command line, we can generate the parts needed to make a backend in rails and a single-page application in Angular. There's a bit of wiring up and connecting still needed, but these generators can greatly increase the speed of your workflow. 

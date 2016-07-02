@@ -10,7 +10,7 @@ This week I went to an [Angular meetup](http://www.meetup.com/RockyMountainAngul
 
 I wrote about the [MVC](http://dev.thelucasmoore.com/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html) structure when I built a To Do List with Sinatra. The command line is a powerful place to automate the building of models, views or controllers. You can read the full [rails command line documentation here](http://guides.rubyonrails.org/command_line.html).
 
-In order of most powerful to most nuaned, here's the rails generators I've used. 
+In order of most powerful to most nuanced, here's the rails generators I've used. 
 
 # 1. Rails Generate Scaffold
   - makes database migrations
@@ -97,7 +97,7 @@ Running via Spring preloader in process 17579
 
 # 4. Rails Generate Migration
 
-When needing to change the structure of our database, generating a migration is our best bet. You can follow the naming convention, which will recognize the table you want to change and insert your structure into a new migration. This structure of <code>AddSomethingToTablename</code> is powerful stuff. Also, in [Rails 5](http://weblog.rubyonrails.org/2016/6/30/Rails-5-0-final/), you'll run the migrations with <code>rails db:migrate</code> insteaad of <code>rake db:migrate</code>, which cuts out the binary seperation between rails and rake tasks. Very cool, eh?
+When needing to change the structure of our database, generating a migration is our best bet. You can follow the naming convention, which will recognize the table you want to change and insert your structure into a new migration. This structure of <code>AddSomethingToTablename</code> is powerful stuff. Also, in [Rails 5](http://weblog.rubyonrails.org/2016/6/30/Rails-5-0-final/), you'll run the migrations with <code>rails db:migrate</code> instead of <code>rake db:migrate</code>, which cuts out the binary seperation between rails and rake tasks. Very cool, eh?
 
 ``` shell
 // ♥ rails g migration AddNicknameToUsers nickname:string
@@ -151,7 +151,7 @@ The generator features of Angular are pretty straight-forward.
   - wires up the tests
   - makes the routes needed
 
-You can make a new component, but it won't be entirely wired up yet. To finish this up, you'll have to manually import this new component into your root component. The Componenet generator does also generate the needed routes, so there's no need to generate a route after this. 
+You can make a new component, but it won't be entirely wired up yet. To finish this up, you'll have to manually import this new component into your root component. The component generator does also generate the needed routes, so there's no need to generate a route after this. 
 
 ``` shell 
 // ♥ ng generate component a-new-comp
@@ -167,7 +167,7 @@ installing component
   - makes a new service
   - wires up the tests for this service
 
-This one is simple. Make a service, then you can wire it up with $http and do all your requests and posts through the snazzy service. I used servives in my [$$$potify](www.ssspotify.com) project to handle all the API requests to the rails backend, as well as to the Spotify and Last.fm APIs. 
+This one is simple. Make a service, then you can wire it up with $http and do all your requests and posts through the snazzy service. I used services in my [$$$potify](www.ssspotify.com) project to handle all the API requests to the rails backend, as well as to the Spotify and Last.fm APIs. 
 
 ``` shell
 // ♥ ng generate service a-fresh-service
@@ -197,4 +197,4 @@ installing component
 
 # Conclusion
 
-So these two frameworks have some powerful genrators. We can produce the frameworks of all the parts needed to make a backend in rails and a single-page application in Angular on the front end. There's a bit of wiring up and connecting still needed, but these generators can greatly increase the speed of your workflow. 
+So these two frameworks have some powerful generators. We can produce the frameworks of all the parts needed to make a backend in rails and a single-page application in Angular on the front end. There's a bit of wiring up and connecting still needed, but these generators can greatly increase the speed of your workflow. 

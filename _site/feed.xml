@@ -6,9 +6,116 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 02 Jul 2016 13:04:23 -0400</pubDate>
-    <lastBuildDate>Sat, 02 Jul 2016 13:04:23 -0400</lastBuildDate>
+    <pubDate>Mon, 11 Jul 2016 14:38:18 -0600</pubDate>
+    <lastBuildDate>Mon, 11 Jul 2016 14:38:18 -0600</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>Building Slack Bots with Node</title>
+        <description>&lt;p&gt;My project this past weekend was to create a SlackBot that my brother and I had dreamed up. We have a Slack group where we share music and ideas with each other. I thought it would be snazzy to create a SlackBot that allows us to instantly embed an artist’s top tracks into Slack. I’m also in the process of learning NodeJS, so &lt;a href=&quot;https://hubot.github.com/&quot;&gt;Hubot&lt;/a&gt; was the perfect place to get started.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/spotify-artist.gif&quot; alt=&quot;slack bot in action&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I built a bot called Buddha-Bot, who can essentially do anything I want. This Spotify thing is just one example of a task I wrote. 
+Check out my entire &lt;a href=&quot;https://github.com/TheLucasMoore/buddha-bot&quot;&gt;Buddha-Bot project on Github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;hubot&quot;&gt;Hubot&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://hubot.github.com/docs/&quot;&gt;documentation on Hubot&lt;/a&gt; is fantastic. The steps to get the bot up and running are quite clear and the ability to customize the scripts with NPM is delightful. I won’t rehash the docs here for you, but in summary, the bot is generated with &lt;a href=&quot;http://yeoman.io/&quot;&gt;Yeoman&lt;/a&gt;, which scaffolds out the file structure. The setup is simple, prompting you for the information relevant to your bot. Plus, there’s a sassy robot.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/yeoman.gif&quot; alt=&quot;yo hubot!&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Hubot supports &lt;a href=&quot;https://hubot.github.com/docs/adapters/&quot;&gt;so many different adapters&lt;/a&gt; like IRC, Twitter, Yammer and even AIM. It’s mind blowing. My adapter was Slack, so deploying and connecting the bot to our Slack channel was the most complicated part.&lt;/p&gt;
+
+&lt;h2 id=&quot;deploying-the-bot-to-slack&quot;&gt;Deploying The Bot to Slack&lt;/h2&gt;
+
+&lt;p&gt;Honestly, &lt;a href=&quot;https://github.com/slackhq/hubot-slack&quot;&gt;Slack’s Hubot documentation&lt;/a&gt; is pretty straightforward too. The app must be deployed to Heroku with Redis, then you have to activate the &lt;a href=&quot;http://my.slack.com/services/new/hubot&quot;&gt;Hubot in your Slack channel&lt;/a&gt;, set up some of the config environment variables and deploy it! Read the documentation, yo.&lt;/p&gt;
+
+&lt;p&gt;It’s important to note that &lt;a href=&quot;https://github.com/hubot-scripts/hubot-heroku-keepalive&quot;&gt;Hubot Heroku Keep Alive&lt;/a&gt; requires some set up to keep the bot awake from 6am to 10pm. Free Heroku apps sleep after 30 minutes of inactivity and what’s the point of a SlackBot if you need to boot it up to use it every 30 minutes? The Keep Alive script does exactly what it sounds like.&lt;/p&gt;
+
+&lt;h2 id=&quot;functionality&quot;&gt;Functionality&lt;/h2&gt;
+
+&lt;p&gt;So all that simply got us set up with a Node framework. It’s time to write some scripts that make this bot do what we want. Within the scripts folder, we can write JavaScript (or CoffeeScript, which complies to JavaScript) to accomplish these tasks. &lt;a href=&quot;https://hubot.github.com/docs/scripting/&quot;&gt;Read more about Hubot scripting here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The first requirement is &lt;code class=&quot;highlighter-rouge&quot;&gt;module.exports = (robot) -&amp;gt;&lt;/code&gt;, which accesses the robot object, so we can create actions for the bot to hear and respond to.&lt;/p&gt;
+
+&lt;p&gt;Our bot can hear, which means it always listens for keywords identified with a REGEX expression :&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;robot.hear /REGEX/, (response) -&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;It can also respond, which means it listens for it’s name first, then responds to your command. That uses:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;robot.respond /REGEX/, (response) -&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I chose to use the hear command, so any mention of Spotify with an artist’s name will warrant a response. The first command I built is &lt;code class=&quot;highlighter-rouge&quot;&gt;/spotify ARTIST&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;robot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hear&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;spotify&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;artistName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toLowerCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//take the text after Spotify and downcase it&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;artistName&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;creed&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// ensure musical tastes are up to snuff before taxing the API&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;send&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Sorry, I only search for music.&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;searchName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;artistName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;+&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// format query for API request&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;robot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://api.spotify.com/v1/search?q=#{searchName}&amp;amp;type=artist&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// check for errors&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;send&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Oh noes! #{err}&quot;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+          &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parse&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// parse the JSON response&lt;/span&gt;
+          &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;send&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;#{data.artists.items[0].external_urls.spotify}&quot;&lt;/span&gt; 
+          &lt;span class=&quot;c1&quot;&gt;// this grabs and sends the URL of their top tracks collection&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Note that Hubot has a &lt;a href=&quot;https://github.com/technoweenie/node-scoped-http-client&quot;&gt;Node Scoped HTTP client&lt;/a&gt; built right in, so making an API request is as easy as &lt;code class=&quot;highlighter-rouge&quot;&gt;robot.html(url)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The next command I made is &lt;code class=&quot;highlighter-rouge&quot;&gt;jam to ARTIST&lt;/code&gt;, which grabs that artist’s top track only. Here it is in action:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/beyonce.gif&quot; alt=&quot;top tracks for an artist&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This one is a bit more complicated, as it queries the Spotify API to grab an Artist ID, then pulls that artist’s top track in a second query.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;robot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hear&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;jam&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;artistName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;searchName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;artistName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;+&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;robot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://api.spotify.com/v1/search?q=#{searchName}&amp;amp;type=artist&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;
+          &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;send&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Oh noes! #{err}&quot;&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parse&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;artists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// grab Artist ID&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;robot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://api.spotify.com/v1/artists/#{id}/top-tracks?country=US&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// query Spotify API again with the Artist ID&lt;/span&gt;
+          &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parse&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tracks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;external_urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;spotify&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;artist_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;artistName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;charAt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toUpperCase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;artistName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;slice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;track_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tracks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;
+
+            &lt;span class=&quot;c1&quot;&gt;// the bot says the following, with the link to the top track&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;send&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;#{artist_name}&#39;s top hit is #{track_name}.\n#{url}&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;whats-next&quot;&gt;What’s Next&lt;/h2&gt;
+
+&lt;p&gt;This is just the start of some exciting JavaScript SlackBots. I can build almost anything with Hubot as a new tool in my tool belt. 
+Some ideas of what to do next:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Publish the bot to work with the &lt;a href=&quot;https://api.slack.com/docs/slack-button&quot;&gt;Slack Button&lt;/a&gt; for others to enjoy these creations in their channels.&lt;/li&gt;
+  &lt;li&gt;Since the bots can access &lt;a href=&quot;https://nodejs.org/api/process.html#process_process_env&quot;&gt;Process.env&lt;/a&gt; like all Node apps, I could start to do some authorized features with Spotify, like accessing a user’s playlists and top artists.&lt;/li&gt;
+  &lt;li&gt;Adding in more commands like song-specific search, playlists, moods and anything else you can think of.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Thanks for reading. Please let me know what you think of this project on &lt;a href=&quot;https://twitter.com/thelucasmoore&quot;&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 11 Jul 2016 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2016/07/11/Building-Slack-Bots-with-Node.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/07/11/Building-Slack-Bots-with-Node.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Using CLI Generators in Rails and Angular 2</title>
@@ -18,7 +125,7 @@
 
 &lt;p&gt;I wrote about the &lt;a href=&quot;http://dev.thelucasmoore.com/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html&quot;&gt;MVC&lt;/a&gt; structure when I built a To Do List with Sinatra. The command line is a powerful place to automate the building of models, views or controllers. You can read the full &lt;a href=&quot;http://guides.rubyonrails.org/command_line.html&quot;&gt;rails command line documentation here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;In order of most powerful to most nuaned, here’s the rails generators I’ve used.&lt;/p&gt;
+&lt;p&gt;In order of most powerful to most nuanced, here’s the rails generators I’ve used.&lt;/p&gt;
 
 &lt;h1 id=&quot;rails-generate-scaffold&quot;&gt;1. Rails Generate Scaffold&lt;/h1&gt;
 &lt;ul&gt;
@@ -111,7 +218,7 @@ Running via Spring preloader &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;pro
 
 &lt;h1 id=&quot;rails-generate-migration&quot;&gt;4. Rails Generate Migration&lt;/h1&gt;
 
-&lt;p&gt;When needing to change the structure of our database, generating a migration is our best bet. You can follow the naming convention, which will recognize the table you want to change and insert your structure into a new migration. This structure of &lt;code&gt;AddSomethingToTablename&lt;/code&gt; is powerful stuff. Also, in &lt;a href=&quot;http://weblog.rubyonrails.org/2016/6/30/Rails-5-0-final/&quot;&gt;Rails 5&lt;/a&gt;, you’ll run the migrations with &lt;code&gt;rails db:migrate&lt;/code&gt; insteaad of &lt;code&gt;rake db:migrate&lt;/code&gt;, which cuts out the binary seperation between rails and rake tasks. Very cool, eh?&lt;/p&gt;
+&lt;p&gt;When needing to change the structure of our database, generating a migration is our best bet. You can follow the naming convention, which will recognize the table you want to change and insert your structure into a new migration. This structure of &lt;code&gt;AddSomethingToTablename&lt;/code&gt; is powerful stuff. Also, in &lt;a href=&quot;http://weblog.rubyonrails.org/2016/6/30/Rails-5-0-final/&quot;&gt;Rails 5&lt;/a&gt;, you’ll run the migrations with &lt;code&gt;rails db:migrate&lt;/code&gt; instead of &lt;code&gt;rake db:migrate&lt;/code&gt;, which cuts out the binary seperation between rails and rake tasks. Very cool, eh?&lt;/p&gt;
 
 &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ rails g migration AddNicknameToUsers nickname:string
 Running via Spring preloader &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;process 17630
@@ -176,7 +283,7 @@ Running via Spring preloader &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;pro
   &lt;li&gt;makes the routes needed&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;You can make a new component, but it won’t be entirely wired up yet. To finish this up, you’ll have to manually import this new component into your root component. The Componenet generator does also generate the needed routes, so there’s no need to generate a route after this.&lt;/p&gt;
+&lt;p&gt;You can make a new component, but it won’t be entirely wired up yet. To finish this up, you’ll have to manually import this new component into your root component. The component generator does also generate the needed routes, so there’s no need to generate a route after this.&lt;/p&gt;
 
 &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ ng generate component a-new-comp
 installing component
@@ -194,7 +301,7 @@ installing component
   &lt;li&gt;wires up the tests for this service&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;This one is simple. Make a service, then you can wire it up with $http and do all your requests and posts through the snazzy service. I used servives in my &lt;a href=&quot;www.ssspotify.com&quot;&gt;$$$potify&lt;/a&gt; project to handle all the API requests to the rails backend, as well as to the Spotify and Last.fm APIs.&lt;/p&gt;
+&lt;p&gt;This one is simple. Make a service, then you can wire it up with $http and do all your requests and posts through the snazzy service. I used services in my &lt;a href=&quot;www.ssspotify.com&quot;&gt;$$$potify&lt;/a&gt; project to handle all the API requests to the rails backend, as well as to the Spotify and Last.fm APIs.&lt;/p&gt;
 
 &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ♥ ng generate service a-fresh-service
 installing service
@@ -226,9 +333,9 @@ installing component
 
 &lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
 
-&lt;p&gt;So these two frameworks have some powerful genrators. We can produce the frameworks of all the parts needed to make a backend in rails and a single-page application in Angular on the front end. There’s a bit of wiring up and connecting still needed, but these generators can greatly increase the speed of your workflow.&lt;/p&gt;
+&lt;p&gt;So these two frameworks have some powerful generators. With the command line, we can generate the parts needed to make a backend in rails and a single-page application in Angular. There’s a bit of wiring up and connecting still needed, but these generators can greatly increase the speed of your workflow.&lt;/p&gt;
 </description>
-        <pubDate>Fri, 01 Jul 2016 00:00:00 -0400</pubDate>
+        <pubDate>Fri, 01 Jul 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/07/01/Using-CLI-Generators-in-Rails-and-Angular-2.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/07/01/Using-CLI-Generators-in-Rails-and-Angular-2.html</guid>
         
@@ -308,7 +415,7 @@ installing component
 
 &lt;p&gt;That did the trick! &lt;a href=&quot;http://www.ssspotify.com&quot;&gt;Check out my final project right here&lt;/a&gt;&lt;/p&gt;
 </description>
-        <pubDate>Tue, 21 Jun 2016 00:00:00 -0400</pubDate>
+        <pubDate>Tue, 21 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html</guid>
         
@@ -402,7 +509,7 @@ installing component
 &lt;/div&gt;
 
 </description>
-        <pubDate>Sun, 12 Jun 2016 00:00:00 -0400</pubDate>
+        <pubDate>Sun, 12 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/12/Objects-in-Javascript-and-Ruby.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/12/Objects-in-Javascript-and-Ruby.html</guid>
         
@@ -608,7 +715,7 @@ Which is as easy as:&lt;/p&gt;
 Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;entire final project here.&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 06 Jun 2016 00:00:00 -0400</pubDate>
+        <pubDate>Mon, 06 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html</guid>
         
@@ -724,7 +831,7 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
 
 &lt;p&gt;My favorite part of this project was connecting everything I learned in my four months of this coding bootcamp. The backend and the front end finally came together into a full stack app. I understand all the moving parts! I wrote a separate post about connecting the front end and the back end, &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html&quot;&gt;which you can read here&lt;/a&gt; if you want some dense code snippets.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 05 Jun 2016 00:00:00 -0400</pubDate>
+        <pubDate>Sun, 05 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</guid>
         
@@ -757,7 +864,7 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
 
 &lt;p&gt;When playing around with the Last.fm API in a recent project, I encountered one of the JSON data keys that began with a hashtag. This was frustrating. The character interferes with normal javascript syntax and I couldn’t access the data without some complicated work arounds. This could be avoided if they’d stuck to formal object naming conventions of using strings and integers.&lt;/p&gt;
 </description>
-        <pubDate>Wed, 01 Jun 2016 00:00:00 -0400</pubDate>
+        <pubDate>Wed, 01 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</guid>
         
@@ -924,7 +1031,7 @@ The most difficult part about editing comments in this way was selecting the exa
 &lt;p&gt;By the way, I made these rad gifs with &lt;a href=&quot;http://giphy.com/posts/giphy-launches-giphy-capture-for-mac&quot;&gt;the giphy capture tool&lt;/a&gt;.&lt;/p&gt;
 
 </description>
-        <pubDate>Thu, 26 May 2016 00:00:00 -0400</pubDate>
+        <pubDate>Thu, 26 May 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/26/Updating-A-Rails-Project-With-Javascript.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/26/Updating-A-Rails-Project-With-Javascript.html</guid>
         
@@ -971,7 +1078,7 @@ The most difficult part about editing comments in this way was selecting the exa
 
 &lt;p&gt;&lt;img src=&quot;https://media.giphy.com/media/9d1Fo0XyIYXzW/giphy.gif&quot; alt=&quot;spongebob-dances&quot; /&gt;&lt;/p&gt;
 </description>
-        <pubDate>Sun, 15 May 2016 00:00:00 -0400</pubDate>
+        <pubDate>Sun, 15 May 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/15/Why-Im-Learning-To-Develop-Software.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/15/Why-Im-Learning-To-Develop-Software.html</guid>
         
@@ -1100,125 +1207,9 @@ The most difficult part about editing comments in this way was selecting the exa
 
 &lt;p&gt;Please check out the code on &lt;a href=&quot;https://github.com/TheLucasMoore/rails_final_project&quot;&gt;github&lt;/a&gt; and comment where you see something you like, or that could be improved.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 01 May 2016 00:00:00 -0400</pubDate>
+        <pubDate>Sun, 01 May 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/05/01/Rails-Project-Time.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/01/Rails-Project-Time.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Building a To Do List Web App in Ruby with Sinatra</title>
-        <description>&lt;p&gt;I am at an exciting point in the boot camp process. The building blocks of the concepts I’ve learned so far are starting to finally come together! I built a web app that actually functions as a to do list. Watch the video walk through at the end of this post to see it in action.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/todoo.png&quot; alt=&quot;todoo screenshot&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Learning like this feels genuinely &lt;em&gt;FUN&lt;/em&gt;. I had a blast building this latest project.&lt;/p&gt;
-
-&lt;h2 id=&quot;mvc-structure&quot;&gt;MVC Structure&lt;/h2&gt;
-
-&lt;p&gt;To build the most usable and readable code, it’s common practice to divide a project into models, views and controllers.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://45.media.tumblr.com/tumblr_luxoeyQiQw1qf7to0o1_500.gif&quot; alt=&quot;gif of good burger&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;So you can understand what I’m talking about, think of a restaurant. You, the user, will walk in, put in an order and get a plate of food.
-This is just like when you go a website - you log in, click some stuff and see information.&lt;/p&gt;
-
-&lt;p&gt;But the magic of food and websites suddenly appearing before you has a secret three part process - a Model, a View and a Controller.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;The Model is the chefs in the back room, chopping up the food, cooking it and flavoring everything. 
-This is the bulk of the code that does the work of sorting classes, methods and data structures.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The Controller is the waiter who asks what you’d like to eat, listens and then connects your request to the chefs. Then they deliver the food you ordered.
-This is where &lt;a href=&quot;http://www.sinatrarb.com/&quot;&gt;Sinatra&lt;/a&gt; comes in to handle the HTTP requests of URL paths, as well as patching and deleting data from the server.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The View is the pretty plate of food before you. 
-This is the final HTML pages that a user interacts with. In this project, that means the ToDoo web interface.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Here’s each element of the MVC architecture that I built for this application, with a description and video explanation below.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/files.png&quot; alt=&quot;screenshot of file structure&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;views&quot;&gt;Views&lt;/h2&gt;
-
-&lt;p&gt;A user needs to either sign up or log in.&lt;/p&gt;
-
-&lt;p&gt;A task needs to be created, edited, viewed and deleted.&lt;/p&gt;
-
-&lt;p&gt;A list also needs to be created, edited, viewed and deleted.&lt;/p&gt;
-
-&lt;p&gt;As you can see above, each of these functions has its own page with a form that posts data to the database, or a neat little ruby snippet that interjects data from the database into the page.&lt;/p&gt;
-
-&lt;p&gt;Here’s an example from the view at &lt;code&gt;/lists/new&lt;/code&gt; which makes a new list and an associated task.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;New&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/h1&amp;gt;
-&amp;lt;form method=&quot;post&quot; action=&quot;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt; # form code for the controller to handle
-  &amp;lt;input type=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; name=&quot;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; placeholder=&quot;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
-  &amp;lt;input type=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; name=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; placeholder=&quot;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Add&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Your&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;First&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;
-  &amp;lt;input class=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;btn&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;btn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;primary&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; type=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; name=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot; value=&quot;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Create&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;
-&amp;lt;/form&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;These &lt;code&gt;.erb&lt;/code&gt; pages also inherit their styling from a &lt;code&gt;layout.erb&lt;/code&gt; document that pulls stylesheets for &lt;a href=&quot;http://getbootstrap.com/getting-started/&quot;&gt;Bootstrap&lt;/a&gt; and &lt;a href=&quot;https://fortawesome.github.io/Font-Awesome/&quot;&gt;FontAwesome&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;models&quot;&gt;Models&lt;/h2&gt;
-
-&lt;p&gt;I envisioned a simple to do list application, which means it should have a &lt;em&gt;user&lt;/em&gt;, that can make a &lt;em&gt;list&lt;/em&gt; and add &lt;em&gt;tasks&lt;/em&gt; to each list.&lt;/p&gt;
-
-&lt;p&gt;There is a model for User, for List and for Task. Each inherits from &lt;a href=&quot;https://github.com/rails/rails/tree/master/activerecord&quot;&gt;ActiveRecord&lt;/a&gt;, which handles the persistence of data to the database. I was building each of the handy methods that come baked in with ActiveRecord from scratch before this, so I also understand the magic behind what ActiveRecord accomplishes. But gosh, it feels good to see the magic just work.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://cdn2.crushable.com/wp-content/uploads/2014/08/Arrested-Development-Gob-Buster-dance.gif&quot; alt=&quot;GIF OF MAGIC&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;associations-in-the-model&quot;&gt;Associations in the Model&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;A List has many tasks and belongs to a specific user.&lt;/li&gt;
-  &lt;li&gt;A Task also belongs to a specific user.&lt;/li&gt;
-  &lt;li&gt;A User has many lists and many tasks through lists.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Finally, a user has a secure password, which is built with &lt;a href=&quot;https://github.com/codahale/bcrypt-ruby&quot;&gt;bcrypt&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Check &lt;a href=&quot;https://github.com/TheLucasMoore/todoo&quot;&gt;this project out on Github&lt;/a&gt; to see the database migrations and the structure of the tables that hold these data.&lt;/p&gt;
-
-&lt;h2 id=&quot;controllers&quot;&gt;Controllers&lt;/h2&gt;
-
-&lt;p&gt;The controllers are divided up into a users controller, a task controller and a list controller.&lt;/p&gt;
-
-&lt;p&gt;Take a look at this piece of ListsController.rb&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/lists/new&#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;redirect_if_not_logged_in&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;erb&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:&#39;/lists/new&#39;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/lists/new&#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:user_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:user_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tasks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;/tasks&#39;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;When I navigate to Foo.com/lists/new, this checks if a user is logged in, then loads the view lists/new.erb. That page has the form to make a new list and new task, as mentioned above.&lt;/p&gt;
-
-&lt;p&gt;That form posts the information the user enters as &lt;code&gt;POST &#39;/lists/new&#39;&lt;/code&gt; and creates list and task objects. It then pushes the task into the associated &lt;code&gt;list.tasks&lt;/code&gt;.
-Finally, the user is redirected to the /tasks page, which shows their lists of tasks just created.&lt;/p&gt;
-
-&lt;h2 id=&quot;video-walk-through&quot;&gt;Video Walk Through&lt;/h2&gt;
-
-&lt;p&gt;If that doesn’t make sense to you, in this video I’ll walk you through all the features of this web app and explain the inner workings.&lt;/p&gt;
-
-&lt;iframe width=&quot;420&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/C8myFXhbwCw&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-
-</description>
-        <pubDate>Sun, 27 Mar 2016 00:00:00 -0400</pubDate>
-        <link>http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/03/27/Building-A-To-Do-List-Web-App-With-Sinatra.html</guid>
         
         
       </item>

@@ -3,18 +3,18 @@ layout: post
 title: How to Publish Slack App Integrations
 author: Lucas Moore
 ---
-I'm got interested in [building Slack Bots](http://dev.thelucasmoore.com/2016/07/11/Building-Slack-Bots-with-Node.html) after discovering the [Hubot](https://github.com/github/hubot) framework a few weeks ago. It was simple to start building an integration for my own Slack channel using a little CoffeeScript with Hubot.
+I got interested in [building Slack Bots](http://dev.thelucasmoore.com/2016/07/11/Building-Slack-Bots-with-Node.html) after discovering the [Hubot](https://github.com/github/hubot) framework a few weeks ago. It was simple to start building an integration for my own Slack channel using a little CoffeeScript with Hubot.
 
 I decided I wanted to build and publish a bot to integrate with other folk's channels, which started to get complex quite quickly. After a few days of learning Node and Express, as well as the ins and outs of a few APIs, Mewsic was finally born!
 
 ![mewsic](/assets/mewsic.gif)
 (it's a mew-based music bot... get it?)
 
-<a href="https://mewsic.herokuapp.com" target="_blank">Mewsic</a> is a bot that instantly pulls information from four different music APIs. You can read about all that on the <a href="https://mewsic.herokuapp.com" target="_blank">Mewsic Heroku Page</a>, so I won't repeat myself here. I ventured into undocumented territory that had no blog posts or API documentation to rely on. So, for your benefit, here's what I learned. There's a video at the bottom of the post showing installation and use of Mewsic, too.
+<a href="https://mewsic.herokuapp.com" target="_blank">Mewsic</a> is a bot that instantly pulls information from four different music APIs. You can read about all that on the <a href="https://mewsic.herokuapp.com" target="_blank">Mewsic Heroku Page</a>, so I won't repeat myself here. I ventured into undocumented territory that had no blog posts or API documentation to rely on. So, for your benefit, here's what I learned. There's a video at the bottom of the post showing the installation and use of Mewsic, too.
 
 ## Node + Express == Best Friends
 
-In school, I learned the Rails + JavaScript stack. I absolutely love JavaScript's power, so delving into an all-JavaScript stack was lots of fun. No CoffeeScript to rely on either, just pure ol' JS. Node has a lot of great features, like package management with NPM. Installing and using Express was a relatively simple learning curve.
+In school, I learned the Rails + JavaScript stack. I absolutely love JavaScript's power, so delving into an all-JavaScript stack was lots of fun. No CoffeeScript to rely on either, just pure ol' JS. Node has a lot of great features, like package management with NPM. Installing and using Express was a relatively easy learning curve.
 
 Express runs a minimal server and allows for GET and POST requests to handled right in the file. Por ejemplo:
 
@@ -58,7 +58,7 @@ res.send(body);
 
 ![heroku errors](/assets/app-error.png)
 
-Heroku apps can be fragile. If you hit an error because some variable is undefined, the whole app crashes. This can happen if a user doesn't spell an artist name correctly, meaning the JSON data that is returned is empty, leaving nothing for the rest of the script to parse. I handled this by checking the length of whichever dataset should contain the albums, artists, etc.
+Heroku apps can be fragile. If you hit an error because some variable is undefined, the whole app crashes. This can happen if a user doesn't spell an artist's name correctly, meaning the JSON data that is returned is empty, leaving nothing for the rest of the script to parse. I handled these errors by checking the length of whichever dataset should contain the albums, artists, etc.
 
 ```javascript
 request(url, function (error, response, body) {
@@ -88,13 +88,15 @@ var data = {
   }
 }
 ```
-And magically, you've now installed my app in your slack channel!
+And magically, you've now have installed my app in your Slack channel!
 
 ## Most importantly: HAVE FUN
 
 ![pokemon](/assets/pokemon.png)
 
-Building things should be downright fun. Broken apps can feel frustrating, but I find the satisfaction of building a working app worth a week of struggle. Writing the HTML and CSS for this project was a blast from the past. I designed the background myself in Photoshop and used an 8-bit Google Font called [VT323](https://www.google.com/fonts/specimen/VT323). The images are pulled from Pokemon Red screenshots, like the one above. I'm most proud of the borders around each section, which is some CSS magic with border-radius, background-clip and border-image.
+Building things should be downright fun. Broken apps can feel frustrating, but I find the satisfaction of building a working app worth a week of struggle. Writing the HTML and CSS for this project was a blast from the past. I designed the background myself in Photoshop and used an 8-bit Google Font called [VT323](https://www.google.com/fonts/specimen/VT323). The images are pulled from Pokemon Red screenshots, like the one above, which I grew up playing.
+
+I'm most proud of the borders around each section, which is some CSS magic with border-radius, background-clip and border-image.
 
 ```css
 section {

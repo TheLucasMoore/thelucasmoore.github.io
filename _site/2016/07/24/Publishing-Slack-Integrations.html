@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Lucas Moore: How to Publish Slack App Integrations</title>
-  <meta name="description" content="I’m got interested in building Slack Bots after discovering the Hubot framework a few weeks ago. It was simple to start building an integration for my own Sl...">
+  <meta name="description" content="I got interested in building Slack Bots after discovering the Hubot framework a few weeks ago. It was simple to start building an integration for my own Slac...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://thelucasmoore.github.io/2016/07/24/Publishing-Slack-Integrations.html">
@@ -80,18 +80,18 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>I’m got interested in <a href="http://dev.thelucasmoore.com/2016/07/11/Building-Slack-Bots-with-Node.html">building Slack Bots</a> after discovering the <a href="https://github.com/github/hubot">Hubot</a> framework a few weeks ago. It was simple to start building an integration for my own Slack channel using a little CoffeeScript with Hubot.</p>
+    <p>I got interested in <a href="http://dev.thelucasmoore.com/2016/07/11/Building-Slack-Bots-with-Node.html">building Slack Bots</a> after discovering the <a href="https://github.com/github/hubot">Hubot</a> framework a few weeks ago. It was simple to start building an integration for my own Slack channel using a little CoffeeScript with Hubot.</p>
 
 <p>I decided I wanted to build and publish a bot to integrate with other folk’s channels, which started to get complex quite quickly. After a few days of learning Node and Express, as well as the ins and outs of a few APIs, Mewsic was finally born!</p>
 
 <p><img src="/assets/mewsic.gif" alt="mewsic" />
 (it’s a mew-based music bot… get it?)</p>
 
-<p><a href="https://mewsic.herokuapp.com" target="_blank">Mewsic</a> is a bot that instantly pulls information from four different music APIs. You can read about all that on the <a href="https://mewsic.herokuapp.com" target="_blank">Mewsic Heroku Page</a>, so I won’t repeat myself here. I ventured into undocumented territory that had no blog posts or API documentation to rely on. So, for your benefit, here’s what I learned. There’s a video at the bottom of the post showing installation and use of Mewsic, too.</p>
+<p><a href="https://mewsic.herokuapp.com" target="_blank">Mewsic</a> is a bot that instantly pulls information from four different music APIs. You can read about all that on the <a href="https://mewsic.herokuapp.com" target="_blank">Mewsic Heroku Page</a>, so I won’t repeat myself here. I ventured into undocumented territory that had no blog posts or API documentation to rely on. So, for your benefit, here’s what I learned. There’s a video at the bottom of the post showing the installation and use of Mewsic, too.</p>
 
 <h2 id="node--express--best-friends">Node + Express == Best Friends</h2>
 
-<p>In school, I learned the Rails + JavaScript stack. I absolutely love JavaScript’s power, so delving into an all-JavaScript stack was lots of fun. No CoffeeScript to rely on either, just pure ol’ JS. Node has a lot of great features, like package management with NPM. Installing and using Express was a relatively simple learning curve.</p>
+<p>In school, I learned the Rails + JavaScript stack. I absolutely love JavaScript’s power, so delving into an all-JavaScript stack was lots of fun. No CoffeeScript to rely on either, just pure ol’ JS. Node has a lot of great features, like package management with NPM. Installing and using Express was a relatively easy learning curve.</p>
 
 <p>Express runs a minimal server and allows for GET and POST requests to handled right in the file. Por ejemplo:</p>
 
@@ -135,7 +135,7 @@
 
 <p><img src="/assets/app-error.png" alt="heroku errors" /></p>
 
-<p>Heroku apps can be fragile. If you hit an error because some variable is undefined, the whole app crashes. This can happen if a user doesn’t spell an artist name correctly, meaning the JSON data that is returned is empty, leaving nothing for the rest of the script to parse. I handled this by checking the length of whichever dataset should contain the albums, artists, etc.</p>
+<p>Heroku apps can be fragile. If you hit an error because some variable is undefined, the whole app crashes. This can happen if a user doesn’t spell an artist’s name correctly, meaning the JSON data that is returned is empty, leaving nothing for the rest of the script to parse. I handled these errors by checking the length of whichever dataset should contain the albums, artists, etc.</p>
 
 <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">request</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
@@ -165,13 +165,15 @@
 <span class="p">}</span>
 </code></pre>
 </div>
-<p>And magically, you’ve now installed my app in your slack channel!</p>
+<p>And magically, you’ve now have installed my app in your Slack channel!</p>
 
 <h2 id="most-importantly-have-fun">Most importantly: HAVE FUN</h2>
 
 <p><img src="/assets/pokemon.png" alt="pokemon" /></p>
 
-<p>Building things should be downright fun. Broken apps can feel frustrating, but I find the satisfaction of building a working app worth a week of struggle. Writing the HTML and CSS for this project was a blast from the past. I designed the background myself in Photoshop and used an 8-bit Google Font called <a href="https://www.google.com/fonts/specimen/VT323">VT323</a>. The images are pulled from Pokemon Red screenshots, like the one above. I’m most proud of the borders around each section, which is some CSS magic with border-radius, background-clip and border-image.</p>
+<p>Building things should be downright fun. Broken apps can feel frustrating, but I find the satisfaction of building a working app worth a week of struggle. Writing the HTML and CSS for this project was a blast from the past. I designed the background myself in Photoshop and used an 8-bit Google Font called <a href="https://www.google.com/fonts/specimen/VT323">VT323</a>. The images are pulled from Pokemon Red screenshots, like the one above, which I grew up playing.</p>
+
+<p>I’m most proud of the borders around each section, which is some CSS magic with border-radius, background-clip and border-image.</p>
 
 <div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">section</span> <span class="p">{</span>
   <span class="nl">background-color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>

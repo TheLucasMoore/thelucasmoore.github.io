@@ -27,7 +27,7 @@ One example of such a challenge came with an app crash at deployment. I learned 
 
 # ActiveRecord vs. Redis
 
-My first instinct with the need for a fast API was to create a datastore in Redis. While this would be fast, having 200,000+ words loaded into memory had a bit of a funky code smell to it. I tried it and did not like it.
+My first instinct with the need for a fast API was to create a datastore in Redis. While this would be fast, having 200,000+ words loaded into memory and not persisted to a database had a bit of a funky code smell to it. I tried it and did not like it.
 
 The one advantage of this decision remained however. The delete end point would simply be clearing the cache from memory (`redis.flushall`) instead of destroying the contents of the database. In production, with so many words in the database, re-seeding it will take quite a while.
 
@@ -42,10 +42,10 @@ def find_key(word)
   word.split('').sort.join
 end
 
-find_key("read")
+key = find_key("read")
 #=> "ader"
 
-anagram = Anagram.find_by(key: "ader")
+anagram = Anagram.find_by(key: key)
 anagram.key = "ader"
 anagram.words = ["ared","read","dare","dear"]
 ```
@@ -57,11 +57,11 @@ To begin to develop with this API in your local environment, first, email me so 
 # Set Up, Testing
 
 1. Run `bundle` to install the dependencies
-2. Be sure the Postgres is running. Then run `rake db:create`, `rake db:migrate` and (optionally) `rake db:seed`. Note that seeding 200,000+ words take a very long time. It's intentionally designed to run in production, which took place in the background. The tests of the API functionality will work with or without the seeding.
+2. Be sure the Postgres is running. Then run `rake db:create`, `rake db:migrate` and (optionally) `rake db:seed`. Note that seeding 200,000+ words take a very long time. It's intentionally designed to run in production, which took place in the background. The tests of the API functionality will work with or without the seeding the development environment.
 3. `thin start` will serve up the API and front end at `localhost:3000`. The server must be running for the tests to pass.
-4. `ruby run_tests.rb` during development to ensure you haven't broken the core functionality or model validations.
+4. Run `ruby run_tests.rb` during development to ensure you haven't broken the core functionality or model validations.
 
-## Interacting with the Local API
+# Interacting with the Local API
 
 These commands will show you how the API works locally.
 
@@ -98,7 +98,7 @@ HTTP/1.1 200 OK
   ]
 }
 
-# Specifying maximum number of anagrams
+# Specifying maximum number of anagrams with limit
 $ curl -i http://localhost:3000/anagrams/read.json?limit=1
 HTTP/1.1 200 OK
 ...
@@ -128,7 +128,7 @@ HTTP/1.1 200 OK
 
 While the live API page currently has the anagram search function enabled, the entire API is actually live and working.
 
-To see this API running, simply change `http://localhost:3000` to `https://anagrammatist.herokuapp.com`. Note that it's running on hobby-dev Heroku, so there's going to be room for improvement in performance. Those dynamos get sleepy after a while.
+To see this API running, simply change `http://localhost:3000` to `https://anagrammatist.herokuapp.com` in the curl commands above. Note that it's running on hobby-dev Heroku, so there's going to be room for improvement in performance. Those dynamos get sleepy after a while.
 
 For one example, to grab the anagrams for any word:
 
@@ -149,7 +149,7 @@ Additional features that would be interesting to add are end points to return da
 I'd love to implement anagrams with multiple words or entire sentences.
 Things like `no more stars` and `astronomers`, `a perfectionist` and `I often practice` or, my favorite, `Election results` and	`Lies – let's recount`. This would require some fixes on spacing and a bigger source of data.
 
-# Uses? Scrabble!
+## Uses? Scrabble!
 
 The live search functionality here does not discriminate on whether the text entered is a word or not. It searches by the key, so this app is a perfectly useful scrabble word solver. Enter some (or all) of the letters on your board and you're <s>cheating</s> winning in no time!
 

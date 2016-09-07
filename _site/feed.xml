@@ -6,9 +6,59 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 07 Sep 2016 12:52:41 -0600</pubDate>
-    <lastBuildDate>Wed, 07 Sep 2016 12:52:41 -0600</lastBuildDate>
+    <pubDate>Wed, 07 Sep 2016 13:03:14 -0600</pubDate>
+    <lastBuildDate>Wed, 07 Sep 2016 13:03:14 -0600</lastBuildDate>
     <generator>Jekyll v3.2.0</generator>
+    
+      <item>
+        <title>Database Transactions with Postgres and ActiveRecord</title>
+        <description>&lt;p&gt;In refactoring my &lt;a href=&quot;http://dev.thelucasmoore.com/2016/09/01/Building-An-Anagram-API.html&quot;&gt;anagram API project&lt;/a&gt;, I was asked how to handle multiple requests that were attempting to &lt;code class=&quot;highlighter-rouge&quot;&gt;POST&lt;/code&gt; words to the database and shared a key.
+As the code currently is, one request would pull out and modify the table row. The second concurrent request would therefore be silently lost.
+That’s no good.&lt;/p&gt;
+
+&lt;p&gt;Here’s the code I had.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'words'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find_or_create_by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;key: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;exclude?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So how can this be resolved? With a &lt;a href=&quot;http://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html&quot;&gt;transaction&lt;/a&gt;, of course!&lt;/p&gt;
+
+&lt;p&gt;A transaction is a block wrapped around SQL statements, which will only persist if there are no errors in the block.
+This means nothing will be executed until the entire block is valid. The changes happen as one structure, not many pieces.&lt;/p&gt;
+
+&lt;p&gt;For the two concurrent requests, by wrapping the logic in a &lt;code class=&quot;highlighter-rouge&quot;&gt;.transaction&lt;/code&gt; block, it will now tell us if it fails with a database rollback.&lt;/p&gt;
+
+&lt;p&gt;Transactions can be called on a class method or an instance method. In this refactor, I chose to call the &lt;code class=&quot;highlighter-rouge&quot;&gt;.transaction&lt;/code&gt; on the &lt;code class=&quot;highlighter-rouge&quot;&gt;anagram&lt;/code&gt; variable which is the instance of the key found in our Anagram database.&lt;/p&gt;
+
+&lt;p&gt;I could call it on the Anagram model itself, but by moving it down to one specific instance of the Anagram class, it catches the specific instance of trying to modify one row of the table at the same time.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'words'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find_or_create_by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;key: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;transaction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;exclude?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Interestingly, both the &lt;code class=&quot;highlighter-rouge&quot;&gt;.save&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.destroy&lt;/code&gt; methods are already wrapped in a transaction in ActiveRecord. So the rollback errors I’ve been seeing when attempting to save an invalid databse entry have actually been thanks to transactions!&lt;/p&gt;
+</description>
+        <pubDate>Tue, 06 Sep 2016 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2016/09/06/Database-Transactions-with-Postgres-and-ActiveRecord.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/09/06/Database-Transactions-with-Postgres-and-ActiveRecord.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Building an Anagram API</title>
@@ -1162,39 +1212,6 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
         <pubDate>Sun, 05 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>What to consider when building an API</title>
-        <description>&lt;p&gt;Digging into APIs is one of the reasons I’m &lt;a href=&quot;http://dev.thelucasmoore.com/2016/05/15/Why-Im-Learning-To-Develop-Software.html&quot;&gt;learning to code&lt;/a&gt;. Application Programming Interfaces (APIs) and a crucial part of the deep structure of the web. There’s so much data accessible for developers to play with. It’s a ton of fun. After building a few projects that incorporate APIs, I’ve got some ideas about how to best build them.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-to-consider&quot;&gt;What to Consider&lt;/h2&gt;
-
-&lt;p&gt;When building an API for my latest project, I kept three main factors in mind. Simplicity, comprehensiveness and security.&lt;/p&gt;
-
-&lt;h1 id=&quot;simplicity&quot;&gt;Simplicity&lt;/h1&gt;
-
-&lt;p&gt;A simple API is beautiful thing. When building my latest application’s API, I shared only the data I wanted to be rendered on my front end. This was an application that tracked both artists and genres, so I considered whether to always render the full nested data structure. In the end, I decided to keep it the most simple. This is to help developers easily sort through the data, even as the scale grows larger. Simple is always best.&lt;/p&gt;
-
-&lt;p&gt;Keep the level of nested attributes below three levels. If you need to go deeper than that, reconsider the structure and split the data up into separate endpoints.&lt;/p&gt;
-
-&lt;h1 id=&quot;comprehensiveness&quot;&gt;Comprehensiveness&lt;/h1&gt;
-
-&lt;p&gt;It’s also crucial to balance simplicity with comprehensiveness. Thinking of what data developers might play with is a large part of why APIs even exist. I was disappointed to dig into the Spotify API recently and realize that the total number of streams, artist biographies and amount of plays users have of each track are unavailable. I had to work around this for my &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;final project&lt;/a&gt;, but I could have just made it work more easily if the API was more comprehensive in its dataset.&lt;/p&gt;
-
-&lt;h1 id=&quot;security&quot;&gt;Security&lt;/h1&gt;
-
-&lt;p&gt;The last major consideration for building an API is security. Does the API expose any user data like emails, passwords (gosh I hope not), any &lt;a href=&quot;https://labs.detectify.com/2016/04/28/slack-bot-token-leakage-exposing-business-critical-information/&quot;&gt;API tokens&lt;/a&gt; or Oauth refresh tokens? That’s obviously a big no-no, but it does happen, as you can read in the link above.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-not-to-do&quot;&gt;What not to do&lt;/h2&gt;
-
-&lt;p&gt;When playing around with the Last.fm API in a recent project, I encountered one of the JSON data keys that began with a hashtag. This was frustrating. The character interferes with normal javascript syntax and I couldn’t access the data without some complicated work arounds. This could be avoided if they’d stuck to formal object naming conventions of using strings and integers.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 01 Jun 2016 00:00:00 -0600</pubDate>
-        <link>http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</guid>
         
         
       </item>

@@ -6,9 +6,173 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 17 Aug 2016 15:49:12 -0600</pubDate>
-    <lastBuildDate>Wed, 17 Aug 2016 15:49:12 -0600</lastBuildDate>
+    <pubDate>Wed, 07 Sep 2016 12:52:41 -0600</pubDate>
+    <lastBuildDate>Wed, 07 Sep 2016 12:52:41 -0600</lastBuildDate>
     <generator>Jekyll v3.2.0</generator>
+    
+      <item>
+        <title>Building an Anagram API</title>
+        <description>&lt;h2 id=&quot;anagrammatist&quot;&gt;Anagrammatist&lt;/h2&gt;
+
+&lt;p&gt;An anagrammatist is someone who create anagrams. This is the API for aspiring annagrammatists.&lt;/p&gt;
+
+&lt;h2 id=&quot;implementation-details&quot;&gt;Implementation details&lt;/h2&gt;
+
+&lt;p&gt;The goal for this API is to return anagrams for any word as quickly as possible.
+The data store of this API digests a text file of every word in the English language (or at least the 235,886 most frequently used words).
+Then the results of anagrams for any word are instantly available.&lt;/p&gt;
+
+&lt;p&gt;This API is built in Ruby, utilizing Sinatra to render JSON data at each end point. &lt;a href=&quot;https://anagrammatist.herokuapp.com/&quot;&gt;The deployed app&lt;/a&gt; has a front end built with Angular, for instant search of the whole database.&lt;/p&gt;
+
+&lt;h2 id=&quot;design-overview-and-trade-offs-considered&quot;&gt;Design overview and trade-offs considered&lt;/h2&gt;
+
+&lt;p&gt;I am always intentional with the things I design, sketching out the overarching structure on paper before digging into the build. Here’s a few things I considered and the final decisions I made.&lt;/p&gt;
+
+&lt;h1 id=&quot;sinatra-vs-rails&quot;&gt;Sinatra vs. Rails&lt;/h1&gt;
+
+&lt;p&gt;The decision to use Sinatra instead of Rails here was purposeful. Rails is a fully featured MVC framework. I do love to build things with Rails, but it seemed like overkill to simply run one model, one controller and one view. Additionally, while some of the magic of Rails can be nice, I wanted to build the environment, tests and database configuration entirely on my own. I’m hungry to learn and I seek out challenges.&lt;/p&gt;
+
+&lt;p&gt;One example of such a challenge came with an app crash at deployment. I learned that I needed to manually export the $RACK_ENV variable to Heroku in my Procfile for this web application to function. The Rails apps I’ve deployed in the past seemed to handle this easily, but I enjoy developing as deeply as possible. In this case, I got to build out the Rack Middleware environments for testing, development and deployment entirely by myself. (along with Stackoverflow, of course)&lt;/p&gt;
+
+&lt;h1 id=&quot;activerecord-vs-redis&quot;&gt;ActiveRecord vs. Redis&lt;/h1&gt;
+
+&lt;p&gt;My first instinct with the need for a fast API was to create a datastore in Redis. While this would be fast, having 200,000+ words loaded into memory and not persisted to a database had a bit of a funky code smell to it. I tried it and did not like it.&lt;/p&gt;
+
+&lt;p&gt;The one advantage of this decision remained however. The delete end point would simply be clearing the cache from memory (&lt;code class=&quot;highlighter-rouge&quot;&gt;redis.flushall&lt;/code&gt;) instead of destroying the contents of the database. In production, with so many words in the database, re-seeding it will take quite a while.&lt;/p&gt;
+
+&lt;p&gt;When considering the end user’s story for interacting with this API, they simply want instant results. Using ActiveRecord to store the Anagram model, as well as the ability to seed the database with the contents of the entire dictionary, has meant that the queries to the API are essentially instant. &lt;a href=&quot;https://anagrammatist.herokuapp.com/&quot;&gt;You can see that here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;data-structure&quot;&gt;Data Structure&lt;/h1&gt;
+
+&lt;p&gt;Each anagram is found by it’s key, which is the word split into letters, sorted and joined back together. Words with the same key are stored in an array called ‘words’ in the Anagram class. This process of finding the key for a word is done in the controller with a helper:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;find_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;join&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;find_key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;read&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; &quot;ader&quot;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find_by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;key: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ader&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;words&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ared&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;read&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;dare&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;dear&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;creating-this-in-your-local-environment&quot;&gt;Creating this in your local environment&lt;/h2&gt;
+
+&lt;p&gt;To begin to develop with this API in your local environment, first, email me so I can add you to the private github repo. Then fork/clone this repo. If you’re working out the zip file, well, perfect. We’re ready to get started.&lt;/p&gt;
+
+&lt;h1 id=&quot;set-up-testing&quot;&gt;Set Up, Testing&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle&lt;/code&gt; to install the dependencies&lt;/li&gt;
+  &lt;li&gt;Be sure the Postgres is running. Then run &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:create&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:migrate&lt;/code&gt; and (optionally) &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:seed&lt;/code&gt;. Note that seeding 200,000+ words take a very long time. It’s intentionally designed to run in production, which took place in the background. The tests of the API functionality will work with or without the seeding the development environment.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;thin start&lt;/code&gt; will serve up the API and front end at &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:3000&lt;/code&gt;. The server must be running for the tests to pass.&lt;/li&gt;
+  &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;ruby run_tests.rb&lt;/code&gt; during development to ensure you haven’t broken the core functionality or model validations.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;interacting-with-the-local-api&quot;&gt;Interacting with the Local API&lt;/h1&gt;
+
+&lt;p&gt;These commands will show you how the API works locally.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-{bash}&quot;&gt;# Adding words to the corpus
+$ curl -i -X POST -d '{ &quot;words&quot;: [&quot;read&quot;, &quot;dear&quot;, &quot;dare&quot;] }' http://localhost:3000/words.json
+HTTP/1.1 201 Created
+...
+
+# Checking if a set of words are anagrams
+$ curl -i -X POST -d '{ &quot;words&quot;: [&quot;read&quot;, &quot;dear&quot;, &quot;dare&quot;] }' http://localhost:3000/anagrams.json
+HTTP/1.1 201 Created
+...
+{
+  anagrams?: true
+}
+
+# ... or if a set of words are NOT anagrams at the same end point
+$ curl -i -X POST -d '{ &quot;words&quot;: [&quot;cool&quot;, &quot;stuff&quot;, &quot;huh?&quot;] }' http://localhost:3000/anagrams.json
+HTTP/1.1 201 Created
+...
+{
+  anagrams?: false
+}
+
+# Fetching anagrams
+$ curl -i http://localhost:3000/anagrams/read.json
+HTTP/1.1 200 OK
+...
+{
+  anagrams: [
+    &quot;dear&quot;,
+    &quot;dare&quot;
+  ]
+}
+
+# Specifying maximum number of anagrams with limit
+$ curl -i http://localhost:3000/anagrams/read.json?limit=1
+HTTP/1.1 200 OK
+...
+{
+  anagrams: [
+    &quot;dare&quot;
+  ]
+}
+
+# Delete single word
+$ curl -i -X DELETE http://localhost:3000/words/read.json
+HTTP/1.1 200 OK
+...
+
+# Delete all words
+$ curl -i -X DELETE http://localhost:3000/words.json
+HTTP/1.1 204 No Content
+...
+
+# Delete a word and all it's anagrams
+$ curl -i -X DELETE http://localhost:3000/anagrams/read.json
+HTTP/1.1 200 OK
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;interacting-with-the-live-api&quot;&gt;Interacting with the Live API&lt;/h2&gt;
+
+&lt;p&gt;While the live API page currently has the anagram search function enabled, the entire API is actually live and working.&lt;/p&gt;
+
+&lt;p&gt;To see this API running, simply change &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:3000&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;https://anagrammatist.herokuapp.com&lt;/code&gt; in the curl commands above. Note that it’s running on hobby-dev Heroku, so there’s going to be room for improvement in performance. Those dynamos get sleepy after a while.&lt;/p&gt;
+
+&lt;p&gt;For one example, to grab the anagrams for any word:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -i https://anagrammatist.herokuapp.com//anagrams/read.json
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Note, the DELETE ALL end point has been disabled in production. Sure, we could build out an authorization scheme with JWTs to ensure only admins can use it, or utilize the famously heavy Devise gem. Or perhaps CanCanCan for permissions. But let’s keep it simple, alright? Nobody can delete the data store if the end point doesn’t even exist.&lt;/p&gt;
+
+&lt;h2 id=&quot;features-to-add-to-the-api&quot;&gt;Features to add to the API&lt;/h2&gt;
+
+&lt;p&gt;One bonus feature I did add was an anagram checker. Any set of words posted will return &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;, depending on whether the words are anagrams of each other.&lt;/p&gt;
+
+&lt;p&gt;The other feature I added is to delete a word AND all of it’s anagrams.&lt;/p&gt;
+
+&lt;p&gt;Additional features that would be interesting to add are end points to return data, like maximum/minimum/average number of anagrams in the database. This can be done with custom Postgres queries or using ActiveRecord’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Anagram.find_by_sql(&quot;SELECT ... yadayadayada&quot;)&lt;/code&gt; ability.&lt;/p&gt;
+
+&lt;p&gt;I’d love to implement anagrams with multiple words or entire sentences.
+Things like &lt;code class=&quot;highlighter-rouge&quot;&gt;no more stars&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;astronomers&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;a perfectionist&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;I often practice&lt;/code&gt; or, my favorite, &lt;code class=&quot;highlighter-rouge&quot;&gt;Election results&lt;/code&gt; and	&lt;code class=&quot;highlighter-rouge&quot;&gt;Lies – let's recount&lt;/code&gt;. This would require some fixes on spacing and a bigger source of data.&lt;/p&gt;
+
+&lt;h2 id=&quot;uses-scrabble&quot;&gt;Uses? Scrabble!&lt;/h2&gt;
+
+&lt;p&gt;The live search functionality here does not discriminate on whether the text entered is a word or not. It searches by the key, so this app is a perfectly useful scrabble word solver. Enter some (or all) of the letters on your board and you’re &lt;s&gt;cheating&lt;/s&gt; winning in no time!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://pad1.whstatic.com/images/thumb/e/e1/Manage-a-Rack-in-Scrabble-Step-3-Version-2.jpg/aid1916432-728px-Manage-a-Rack-in-Scrabble-Step-3-Version-2.jpg&quot; alt=&quot;anagrams and scrabble&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;“What? Oh no, I’m just texting someone. I’m not cheating at family scrabble on my phone with a web application I built.” -me, probably soon.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 01 Sep 2016 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2016/09/01/Building-An-Anagram-API.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/09/01/Building-An-Anagram-API.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Learning React. Thinking in React.</title>
@@ -1031,173 +1195,6 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
         <pubDate>Wed, 01 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/01/What-to-consider-when-building-an-api.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Updating My Rails Project with Javascipt</title>
-        <description>&lt;p&gt;I had a lot of fun building my &lt;a href=&quot;http://dev.thelucasmoore.com/2016/05/01/Rails-Project-Time.html&quot;&gt;first rails app&lt;/a&gt; a few weeks ago.
-Now it’s time to go back over the project and add in some functionality with javascript. I used jQuery to build some front end elements here.&lt;/p&gt;
-
-&lt;p&gt;You can see a quick run through of this code in action here, or in the nifty gifs below.
-This is a longer post because I learned a lot here.&lt;/p&gt;
-
-&lt;iframe width=&quot;420&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/Owt-AIWWckc&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-
-&lt;h2 id=&quot;rendering-rails-model-data-in-json&quot;&gt;Rendering Rails Model Data in JSON&lt;/h2&gt;
-
-&lt;p&gt;There’s three simple steps to turn rails data models into JSON.&lt;/p&gt;
-
-&lt;p&gt;First, I added the &lt;em&gt;‘active_model_serializers’&lt;/em&gt; gem to the gemfile and ran &lt;code&gt;bundle install&lt;/code&gt; and &lt;code&gt;rails g serializer (modelname)&lt;/code&gt; for each model I wanted to serialize. Then in &lt;em&gt;App &amp;gt; Serializers&lt;/em&gt; I edited the serializer format to include the data I needed.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-rails&quot;&gt;class RecipeSerializer &amp;lt; ActiveModel::Serializer
-  attributes :id, :name, :description, :user_id, :rating
-  has_many :ingredients
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To render this data in the view, we can add the following into the controller instead of simply ‘render :show’.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-rails&quot;&gt;def show
-  ...
-  respond_to do |format|
-    format.html {render :show}
-    format.json {render json:@recipe}
-  end
-end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;So now when I go to &lt;code&gt;/recipes/:id.json&lt;/code&gt;, the JSON object is there, waiting to be parsed! 
-To accomplish my goals on this lab, I serialized recipes, ingredients and comments.&lt;/p&gt;
-
-&lt;h2 id=&quot;grabbing-data-with-getjson&quot;&gt;Grabbing Data with $.getJSON&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/js_ingredient_show.gif&quot; alt=&quot;js-recipe&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I create page specific javascript using &lt;code&gt;&amp;lt;%= content_for :ingredient do %&amp;gt;&lt;/code&gt; in my views.&lt;/p&gt;
-
-&lt;p&gt;As you can see in the gif above, I added a click event to the ingredient show page, which grabs the JSON. 
-It then gets parsed and displayed. So the recipe show page is rendered within another page, with the options to read more or hide the information.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;linkOverride&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a#recipe&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// prevent link from clicking through&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;loadRecipes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;href&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// pass link to loadRecipes method&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;loadRecipes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;target_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getJSON&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;target_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;.json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// add .json to the url&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;handleResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// pass off to handle the response&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;creating-new-data-with-ajax-requests&quot;&gt;Creating New Data with $.Ajax Requests&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/js_add_comment.gif&quot; alt=&quot;new comment&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Getting a little more complex now, I built instant comment functionality. A user adds a new comment, which makes an Ajax request to create the comment. 
-At the same time, the comment is instantly rendered on the page and the comment box is hidden, limiting recipes to having one comment per user per visit. 
-I utilized the magic of the &lt;code&gt;serialize()&lt;/code&gt; method, which passes the form submission as serialized data, which rails is ready to process.&lt;/p&gt;
-
-&lt;p&gt;The code to accomplish this:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createMethods&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'div#new_comment form'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;submit&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// identifying the form with jQuery selectors&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// prevent form from submitting&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;recipe_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'currentTarget'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'4'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'value'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// grab recipe ID from the event&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;values&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;serialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// I understand this magic.&lt;/span&gt;
-
-  &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// post serialized data to the restful route&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;http://localhost:3000/recipes/&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;recipe_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/comments/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'post'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;dataType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'json'&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// when done, render that comment instantly on the page.&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'div#new_comment form'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.newUser'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;%= current_user.name %&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot; says:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#newComment'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'content'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;editing-and-updating-data-with-ajax&quot;&gt;Editing and Updating Data with $.Ajax&lt;/h2&gt;
-
-&lt;p&gt;I used similar code to edit, update and delete comments. The structure is basically the same as above, so check out the functionality and comments for each one.&lt;/p&gt;
-
-&lt;h1 id=&quot;editing-comments&quot;&gt;Editing Comments&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/js-edit-comment.gif&quot; alt=&quot;edit comment&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The edit comment form is hidden with CSS and needs to be shown conditionally when a user clicks on the edit link.
-The most difficult part about editing comments in this way was selecting the exact comment to show only that form.&lt;/p&gt;
-
-&lt;p&gt;I accomplished this by passing the comment ID into the class, so each comment and form was within a unique class, like &lt;code&gt;.commentos-64&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# views/comments/index.html.erb
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;commentos-&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;edit_comment_form&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text_field_tag&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hidden_field_tag&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:user_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hidden_field_tag&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:recipe_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@recipe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hidden_field_tag&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;submit_tag&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Edit&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;id: :submit_edit&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;After much tinkering, the key was to stop using generic class-based selectors (&lt;code&gt;#edit_comment_form&lt;/code&gt;) and to dig out the next sibling, parent node of the click event, which was the that form specifically: &lt;code&gt;.commentos-(id) form&lt;/code&gt;. Then the CSS of the form is switched to show, allowing a user to edit the comment.&lt;/p&gt;
-
-&lt;h1 id=&quot;deleting-comments&quot;&gt;Deleting Comments&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/js_comment_delete.gif&quot; alt=&quot;delete comment&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I wanted to have a confirmation prompt, to ensure a user meant to delete their comment. If they say yes, the logic to delete the comment is executed.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;deleteMethods&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'a#delete'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;click&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'target'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'href'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;confirm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Are you sure?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// tied confirmation to a variable&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//only if the variable returns true, execute deletion&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'delete'&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;deleteResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;deleteResponse&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//overwrite comment with deleted message&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'target'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'parentElement'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Comment Deleted&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// the comment will disappear upon page refresh&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h1 id=&quot;updating-recipeingredients&quot;&gt;Updating RecipeIngredients&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/js_update_ingredients.gif&quot; alt=&quot;recipe ingredients&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I also wrote the functionality to update the quantity of ingredients in a recipe, which is stored in a RecipeIngredients join table. A simple alert pops up to show that the update was successful.&lt;/p&gt;
-
-&lt;h2 id=&quot;so-what-now&quot;&gt;So What Now?&lt;/h2&gt;
-
-&lt;p&gt;I am just starting to get my hands dirty with javascript. I have a lot more to learn. I understand that a user could edit anyones comments by manipulating the CSS of the comment edit form, showing it and updating the comment. I have some ideas of how to fix that in my next update.&lt;/p&gt;
-
-&lt;p&gt;But mostly, I am excited to finally understand all of these interconnected parts of a web application. Rails for the backend, HTML and CSS in the view, Javascript for front end logic. Seeing this security flaw is a step forward.&lt;/p&gt;
-
-&lt;p&gt;By the way, I made these rad gifs with &lt;a href=&quot;http://giphy.com/posts/giphy-launches-giphy-capture-for-mac&quot;&gt;the giphy capture tool&lt;/a&gt;.&lt;/p&gt;
-
-</description>
-        <pubDate>Thu, 26 May 2016 00:00:00 -0600</pubDate>
-        <link>http://thelucasmoore.github.io/2016/05/26/Updating-A-Rails-Project-With-Javascript.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/05/26/Updating-A-Rails-Project-With-Javascript.html</guid>
         
         
       </item>

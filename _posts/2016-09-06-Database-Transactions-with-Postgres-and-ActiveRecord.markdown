@@ -38,9 +38,11 @@ data['words'].each do |word|
   if anagram.words.exclude?(word)
     anagram.words.push(word)
   end
-  anagram.save
+  anagram.save!
   end
 end
 ```
 
-Interestingly, both the `.save` and `.destroy` methods are already wrapped in a transaction in ActiveRecord. So the rollback errors I've been seeing when attempting to save an invalid databse entry have actually been thanks to transactions! 
+Also note that I changed `.save` to `.save!`, which raises an exception if it doesn't execute correctly, instead of simply returning `false`. This is needed to make sure the block will not run if saving doesn't work. 
+
+Interestingly, both the `.save` and `.destroy` methods are already wrapped in a transaction in ActiveRecord. So the rollback errors I've been seeing when attempting to save an invalid database entry have actually been thanks to transactions.

@@ -6,9 +6,117 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 07 Sep 2016 13:03:14 -0600</pubDate>
-    <lastBuildDate>Wed, 07 Sep 2016 13:03:14 -0600</lastBuildDate>
+    <pubDate>Fri, 16 Sep 2016 12:20:07 -0600</pubDate>
+    <lastBuildDate>Fri, 16 Sep 2016 12:20:07 -0600</lastBuildDate>
     <generator>Jekyll v3.2.0</generator>
+    
+      <item>
+        <title>Data Structures in Ruby</title>
+        <description>&lt;p&gt;As a developer without a CS degree, I’ve set out to learn more complex data types on my own. I’ll share what I’ve learned and hopefully you’ll learn something too.&lt;/p&gt;
+
+&lt;p&gt;Inspired by &lt;a href=&quot;https://github.com/codemix/itsy-bitsy-data-structures/blob/master/itsy-bitsy-data-structures.js&quot;&gt;Itsy Bitsy Data Structures&lt;/a&gt;, I’ve got some examples of useful data structure below, all in Ruby. The examples here are simplified versions of other articles. Be sure to check out all the stuff I link to for more in depth examples.&lt;/p&gt;
+
+&lt;h2 id=&quot;linked-list&quot;&gt;Linked List&lt;/h2&gt;
+
+&lt;p&gt;A linked list stores data associations in an ordered set, linking one piece of data to others.
+Ruby doesn’t have a &lt;code class=&quot;highlighter-rouge&quot;&gt;List&lt;/code&gt; object built in, but an &lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt; is able to accomplish &lt;a href=&quot;https://www.sitepoint.com/rubys-missing-data-structure/&quot;&gt;most of the same objectives&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Building a &lt;a href=&quot;http://matt.weppler.me/2013/08/14/implementing-a-linked-list-in-ruby.html&quot;&gt;simple linked list in Ruby&lt;/a&gt;, which allows us to see the link between two data points, as well as the next data point looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Node&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;attr_accessor&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:next&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;node_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;nil?&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;node_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; -&amp;gt; &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;stacks-and-queues&quot;&gt;Stacks and Queues&lt;/h2&gt;
+
+&lt;p&gt;Again, Ruby can do these things with &lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;A stack is simply an array that has a bias towards the top (first) and bottom (last) of the stack. Here &lt;code class=&quot;highlighter-rouge&quot;&gt;.push&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.pop&lt;/code&gt; on an Array will work in much the same way as a Stack.&lt;/p&gt;
+
+&lt;p&gt;A Queue behaves like, well a queue. It’s a stack that removes data from the front of the line. By limiting the functionality of an Array to &lt;code class=&quot;highlighter-rouge&quot;&gt;.push&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.shift&lt;/code&gt;, we can build a queue in Ruby.&lt;/p&gt;
+
+&lt;h2 id=&quot;hash-table&quot;&gt;Hash Table&lt;/h2&gt;
+
+&lt;p&gt;For hash tables Ruby luckily has the &lt;a href=&quot;https://ruby-doc.org/core-1.9.3/Hash.html&quot;&gt;Hash class&lt;/a&gt; to play around with. A hash stores key/value pairs for quick access to the precise data we want. There’s some snazzy uses built right into Ruby, like &lt;code class=&quot;highlighter-rouge&quot;&gt;.invert&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;select&lt;/code&gt; which take a block.&lt;/p&gt;
+
+&lt;p&gt;Here’s an example using &lt;code class=&quot;highlighter-rouge&quot;&gt;Hash.new&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# (AND/OR)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;a&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;b&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;a&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; 100&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;b&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;b&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; KeyError: key not found: &quot;b&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;binary-search-trees&quot;&gt;Binary Search Trees&lt;/h2&gt;
+
+&lt;p&gt;This data structure blew my mind when I first encountered it.
+This visualization from &lt;a href=&quot;https://github.com/codemix/itsy-bitsy-data-structures/blob/master/itsy-bitsy-data-structures.js&quot;&gt;Itsy Bitsy Data Structures&lt;/a&gt; helps a lot.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;This&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;makes&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;traversal&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;very&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;efficient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Say&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;were&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;trying&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;our&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tree&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;             &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;         &lt;span class=&quot;o&quot;&gt;&amp;lt;---&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;so&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;           &lt;span class=&quot;sr&quot;&gt;/     &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\
+&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;        &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;         &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;lt;---&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;so&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;      &lt;span class=&quot;sr&quot;&gt;/   &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;      /&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;---&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Weve&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reached&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Notice&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;how&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;we&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;only&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;had&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;checks&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reach&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;If&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;we&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;were&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;expand&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tree&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;We&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;go&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;125&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;62&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Only&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;checks&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To build this in Ruby is quite simple. More details in this &lt;a href=&quot;http://zvkemp.github.io/blog/2014/04/25/binary-search-trees-in-ruby/&quot;&gt;source&lt;/a&gt;. A very simplified version looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;BinaryTree&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Node&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# our three features:&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;attr_reader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:value&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;attr_accessor&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:right&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;vi&quot;&gt;@value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;insert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# the value is already present&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Fri, 16 Sep 2016 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2016/09/16/Data-Structures-in-Ruby.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/09/16/Data-Structures-in-Ruby.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Database Transactions with Postgres and ActiveRecord</title>
@@ -28,14 +136,14 @@ That’s no good.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;So how can this be resolved? With a &lt;a href=&quot;http://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html&quot;&gt;transaction&lt;/a&gt;, of course!&lt;/p&gt;
+&lt;p&gt;This be resolved with a &lt;a href=&quot;http://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html&quot;&gt;transaction&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;A transaction is a block wrapped around SQL statements, which will only persist if there are no errors in the block.
 This means nothing will be executed until the entire block is valid. The changes happen as one structure, not many pieces.&lt;/p&gt;
 
 &lt;p&gt;For the two concurrent requests, by wrapping the logic in a &lt;code class=&quot;highlighter-rouge&quot;&gt;.transaction&lt;/code&gt; block, it will now tell us if it fails with a database rollback.&lt;/p&gt;
 
-&lt;p&gt;Transactions can be called on a class method or an instance method. In this refactor, I chose to call the &lt;code class=&quot;highlighter-rouge&quot;&gt;.transaction&lt;/code&gt; on the &lt;code class=&quot;highlighter-rouge&quot;&gt;anagram&lt;/code&gt; variable which is the instance of the key found in our Anagram database.&lt;/p&gt;
+&lt;p&gt;Transactions can be called on a class method or an instance method. In this refactor, I chose to call the &lt;code class=&quot;highlighter-rouge&quot;&gt;.transaction&lt;/code&gt; on the &lt;code class=&quot;highlighter-rouge&quot;&gt;anagram&lt;/code&gt; variable which is the instance of the Anagram with that particular key.&lt;/p&gt;
 
 &lt;p&gt;I could call it on the Anagram model itself, but by moving it down to one specific instance of the Anagram class, it catches the specific instance of trying to modify one row of the table at the same time.&lt;/p&gt;
 
@@ -45,13 +153,15 @@ This means nothing will be executed until the entire block is valid. The changes
   &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;exclude?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;word&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;anagram&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save!&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Interestingly, both the &lt;code class=&quot;highlighter-rouge&quot;&gt;.save&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.destroy&lt;/code&gt; methods are already wrapped in a transaction in ActiveRecord. So the rollback errors I’ve been seeing when attempting to save an invalid databse entry have actually been thanks to transactions!&lt;/p&gt;
+&lt;p&gt;Also note that I changed &lt;code class=&quot;highlighter-rouge&quot;&gt;.save&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;.save!&lt;/code&gt;, which raises an exception if it doesn’t execute correctly, instead of simply returning &lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;. This is needed to make sure the block will not run if saving doesn’t successfully execute.&lt;/p&gt;
+
+&lt;p&gt;Interestingly, both the &lt;code class=&quot;highlighter-rouge&quot;&gt;.save&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.destroy&lt;/code&gt; methods are already wrapped in a transaction in ActiveRecord. So the rollback errors I’ve been seeing when attempting to save an invalid database entry have actually been thanks to transactions all along.&lt;/p&gt;
 </description>
         <pubDate>Tue, 06 Sep 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/09/06/Database-Transactions-with-Postgres-and-ActiveRecord.html</link>
@@ -1096,122 +1206,6 @@ Or read about this &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-
         <pubDate>Mon, 06 Jun 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>The Spotify API and Angular</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/assets/logo.png&quot; alt=&quot;spotify logo&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;potify-a-full-stack-web-application&quot;&gt;$$$potify: A Full Stack Web Application&lt;/h2&gt;
-
-&lt;p&gt;For my final project, I built a web application that allows users to estimate how much money an artist has earned on Spotify. I built this because I love music and, honestly, this is a website I would use. I’m proud to know how to make this!&lt;/p&gt;
-
-&lt;p&gt;I am so excited about this project. While building it I stopped suddenly and thought, “Wow, I know what I am doing!” The interconnected puzzle of the backend and the front end finally fit together in my mind. I learn best by doing and hacking away at this project was a joy. There were many-a-fist-pumps to be had. I know this is the first of many great web apps I’ll build with these new skills.&lt;/p&gt;
-
-&lt;p&gt;Check out my walk through video of this application below and read on to see how it’s constructed. Check it out on &lt;a href=&quot;https://github.com/TheLucasMoore/rails-angular-final-project&quot;&gt;Github&lt;/a&gt; too.&lt;/p&gt;
-
-&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/Hh2tm5K1kvc&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-
-&lt;h2 id=&quot;the-rails-back-end&quot;&gt;The Rails Back End&lt;/h2&gt;
-
-&lt;p&gt;The backend is built with Rails and uses Devise, &lt;a href=&quot;https://github.com/icoretech/omniauth-spotify&quot;&gt;Omniauth-Spotify&lt;/a&gt; and Active Model Serializers.&lt;/p&gt;
-
-&lt;p&gt;A user has many artists, an artist has many users and many genres, and genres have many artists. This many-to-many relationship is stored in two join tables: user_artists and artist_genres.&lt;/p&gt;
-
-&lt;p&gt;When a user logs into their Spotify account, they automatically create an account on the website and their top artists are saved to the database. The data for a user’s top five artists and their genres are all persisted to the database by methods on their respective models. Here’s an example of the &lt;code&gt;Artist.parse_from_user&lt;/code&gt; method, which saves artist data from the Spotify API to the database.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Artist&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# This is called from the OmniAuth Callbacks Controller with the array of top artists&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;parse_from_user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;artist&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;newbie&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Artist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find_or_create_by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;name: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;artist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;newbie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;artist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# ... etc&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;artists&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newbie&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;artists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newbie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;newbie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;I strategically chose this structure because I wanted a user to be able to share their charts on social media. This requires the data to be saved to the database, so there is a permalink of the user’s chart. Handling Spotify authentication on the backend makes the website more secure as well, as API tokens don’t need to be exposed in the front-end code.&lt;/p&gt;
-
-&lt;p&gt;My love for rails deepened while building this full stack app. Ruby is such a graceful language and the rails framework has so many magical little touches. It’s a pleasure to build projects with rails and to structure them to fit a front-end framework like Angular JS.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-angular-front-end&quot;&gt;The Angular Front End&lt;/h2&gt;
-
-&lt;p&gt;The front end is built with Angular. The bower-rails gem is the package manager for the front end, which blew my mind with its simplicity.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://start.jcolemorrison.com/angularjs-rails-4-1-and-ui-router-tutorial/&quot;&gt;I used ui-router (great tutorial here)&lt;/a&gt; to manage the page states. Each page has it’s own controller which holds the page-specific javascript. These controllers call on specific services to make API requests for each specific API I used. More on APIs below.&lt;/p&gt;
-
-&lt;p&gt;This is a single page application, meaning all the page loads are done instantly through Angular. They don’t make requests to the server, causing a page refresh. This gives the app a flawless feel and speedy UI.&lt;/p&gt;
-
-&lt;h1 id=&quot;dependency-injection&quot;&gt;Dependency Injection&lt;/h1&gt;
-
-&lt;p&gt;In this project, I learned the importance of dependency injection for angular controllers. An error I frequently encountered when calling to a service was something like:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;Spotify&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getArtists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;artist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;undefined&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;After seeing this error a few times I started to get the hang of things. The controller for the home page, which uses the Spotify service, needs to take SpotifyService as an argument. Without it, Angular doesn’t know to connect the two, so the method I called returned as undefined.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;HomeController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SpotifyService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                      &lt;span class=&quot;c1&quot;&gt;// ^^^^ This fixes that error!&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;SpotifyService&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getArtist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;artist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;c1&quot;&gt;// ...etc&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;angular&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'HomeController'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;HomeController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/TheLucasMoore/rails-angular-final-project/tree/master/app/assets/javascripts/ng-app/controllers&quot;&gt;The full code is on Github.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;calling-to-apis&quot;&gt;Calling to APIs&lt;/h2&gt;
-
-&lt;p&gt;I made use of the Spotify API to pull data for artists and user’s top tracks. I supplemented that data with calls to the Last.fm API because Spotify doesn’t release the number of steams an artist has on their API, which is &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/01/What-to-consider-when-building-an-api.html&quot;&gt;something to consider when building an API&lt;/a&gt;. This website isn’t a perfect estimate of artist’s earnings. It’s simply a proof of concept.&lt;/p&gt;
-
-&lt;p&gt;So when a user searches for an artist on the front page, two services make calls to Last.fm and Spotify. First, I used the query feature of both APIs to return an array of possible matches from their databases. Then I selected the first response from the array, making an assumption that the closest match is first. It’s been right 99% of the time, so far. Please let me know if you find an artist that doesn’t render correctly.&lt;/p&gt;
-
-&lt;p&gt;I grab the artist-specific id from the first API get request and then make a second request. That returns the full information for that artist from both APIs. The structure is similar for both, so here’s what the Last.fm service looks like:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;LastfmService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'http://ws.audioscrobbler.com/2.0/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;API_KEY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'################'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;searchFor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;?method=artist.search&amp;amp;artist=&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;amp;api_key=&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;API_KEY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;amp;format=json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getArtist&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;artist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;?method=artist.getinfo&amp;amp;artist=&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;artist&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;amp;api_key=&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;API_KEY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;amp;format=json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;angular&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'LastfmService'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;LastfmService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This returns an artist’s information in JSON format, which is super tidy and fun. I then extract that information and pass it to the view.&lt;/p&gt;
-
-&lt;h2 id=&quot;wrapping-up&quot;&gt;Wrapping Up&lt;/h2&gt;
-
-&lt;p&gt;My favorite part of this project was connecting everything I learned in my four months of this coding bootcamp. The backend and the front end finally came together into a full stack app. I understand all the moving parts! I wrote a separate post about connecting the front end and the back end, &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/06/Connecting-Rails-To-Angular-Full-Stack-Web-Development.html&quot;&gt;which you can read here&lt;/a&gt; if you want some dense code snippets.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 05 Jun 2016 00:00:00 -0600</pubDate>
-        <link>http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/05/The-Spotify-API-and-Angular.html</guid>
         
         
       </item>

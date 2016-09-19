@@ -6,12 +6,12 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 19 Sep 2016 10:11:49 -0600</pubDate>
-    <lastBuildDate>Mon, 19 Sep 2016 10:11:49 -0600</lastBuildDate>
+    <pubDate>Mon, 19 Sep 2016 10:27:27 -0600</pubDate>
+    <lastBuildDate>Mon, 19 Sep 2016 10:27:27 -0600</lastBuildDate>
     <generator>Jekyll v3.2.0</generator>
     
       <item>
-        <title>Speeding Up Rails Apps and ActiveRecord</title>
+        <title>Speeding Up A Rails App</title>
         <description>&lt;p&gt;A vanilla Rails app will take you quite far. But when it’s time to identify and optimize a specific endpoint, there are a few tricks to speed things up.&lt;/p&gt;
 
 &lt;h2 id=&quot;indexes-on-the-database&quot;&gt;Indexes on the Database&lt;/h2&gt;
@@ -75,9 +75,9 @@
 
 &lt;p&gt;What sort of things have you found to be useful in speeding up a Rails application? Let me know on &lt;a href=&quot;https://twitter.com/thelucasmoore&quot;&gt;twitter&lt;/a&gt;!&lt;/p&gt;
 </description>
-        <pubDate>Mon, 19 Sep 2016 00:00:00 -0600</pubDate>
-        <link>http://thelucasmoore.github.io/2016/09/19/Speeding-Up-A-Rails-App.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/09/19/Speeding-Up-A-Rails-App.html</guid>
+        <pubDate>Sun, 18 Sep 2016 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2016/09/18/Speeding-Up-A-Rails-App.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/09/18/Speeding-Up-A-Rails-App.html</guid>
         
         
       </item>

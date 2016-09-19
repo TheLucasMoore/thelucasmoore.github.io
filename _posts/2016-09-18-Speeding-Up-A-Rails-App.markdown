@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Speeding Up Rails Apps and ActiveRecord
+title: Speeding Up A Rails App
 author: Lucas Moore
 ---
 

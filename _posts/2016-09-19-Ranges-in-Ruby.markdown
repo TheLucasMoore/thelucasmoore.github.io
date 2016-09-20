@@ -4,9 +4,11 @@ title: Ranges in Ruby
 author: Lucas Moore
 ---
 
-I was recently struggling through a coding exercise. I was tasked to create an method that takes in an array of ranges and outputs a new, simplified set of ranges, which accounts for their overlap.
+I was recently struggling through a coding exercise. I was tasked with creating a method that takes in an array of ranges and outputs a new, simplified set of ranges, which accounts for their overlap.
 
-I did some [refreshing on the Range docs](https://ruby-doc.org/core-2.2.0/Range.html) and also found a simple way to [sort and divide a Set](http://apidock.com/ruby/Set/divide) by a block, which will come in quite useful, as we'll see.
+I did some [*refreshing on the Range docs*](https://ruby-doc.org/core-2.2.0/Range.html) (and had been searching for `.cover?` all along!)
+
+I also found a simple way to [*sort and divide a Set by a block*](http://apidock.com/ruby/Set/divide), which will come in quite useful, as we'll see.
 
 The input:
 `[(2..6), (1..5), (8..9)]`

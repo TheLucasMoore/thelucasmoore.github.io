@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Lucas Moore: Ranges in Ruby</title>
-  <meta name="description" content="I was recently struggling through a coding exercise. I was tasked to create an method that takes in an array of ranges and outputs a new, simplified set of r...">
+  <meta name="description" content="I was recently struggling through a coding exercise. I was tasked with creating a method that takes in an array of ranges and outputs a new, simplified set o...">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://thelucasmoore.github.io/2016/09/19/Ranges-in-Ruby.html">
@@ -80,9 +80,11 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>I was recently struggling through a coding exercise. I was tasked to create an method that takes in an array of ranges and outputs a new, simplified set of ranges, which accounts for their overlap.</p>
+    <p>I was recently struggling through a coding exercise. I was tasked with creating a method that takes in an array of ranges and outputs a new, simplified set of ranges, which accounts for their overlap.</p>
 
-<p>I did some <a href="https://ruby-doc.org/core-2.2.0/Range.html">refreshing on the Range docs</a> and also found a simple way to <a href="http://apidock.com/ruby/Set/divide">sort and divide a Set</a> by a block, which will come in quite useful, as we’ll see.</p>
+<p>I did some <a href="https://ruby-doc.org/core-2.2.0/Range.html"><em>refreshing on the Range docs</em></a> (and had been searching for <code class="highlighter-rouge">.cover?</code> all along!)</p>
+
+<p>I also found a simple way to <a href="http://apidock.com/ruby/Set/divide"><em>sort and divide a Set by a block</em></a>, which will come in quite useful, as we’ll see.</p>
 
 <p>The input:
 <code class="highlighter-rouge">[(2..6), (1..5), (8..9)]</code></p>

@@ -6,15 +6,17 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 20 Sep 2016 15:41:03 -0600</pubDate>
-    <lastBuildDate>Tue, 20 Sep 2016 15:41:03 -0600</lastBuildDate>
+    <pubDate>Tue, 20 Sep 2016 16:07:30 -0600</pubDate>
+    <lastBuildDate>Tue, 20 Sep 2016 16:07:30 -0600</lastBuildDate>
     <generator>Jekyll v3.2.0</generator>
     
       <item>
         <title>Ranges in Ruby</title>
-        <description>&lt;p&gt;I was recently struggling through a coding exercise. I was tasked to create an method that takes in an array of ranges and outputs a new, simplified set of ranges, which accounts for their overlap.&lt;/p&gt;
+        <description>&lt;p&gt;I was recently struggling through a coding exercise. I was tasked with creating a method that takes in an array of ranges and outputs a new, simplified set of ranges, which accounts for their overlap.&lt;/p&gt;
 
-&lt;p&gt;I did some &lt;a href=&quot;https://ruby-doc.org/core-2.2.0/Range.html&quot;&gt;refreshing on the Range docs&lt;/a&gt; and also found a simple way to &lt;a href=&quot;http://apidock.com/ruby/Set/divide&quot;&gt;sort and divide a Set&lt;/a&gt; by a block, which will come in quite useful, as we’ll see.&lt;/p&gt;
+&lt;p&gt;I did some &lt;a href=&quot;https://ruby-doc.org/core-2.2.0/Range.html&quot;&gt;&lt;em&gt;refreshing on the Range docs&lt;/em&gt;&lt;/a&gt; (and had been searching for &lt;code class=&quot;highlighter-rouge&quot;&gt;.cover?&lt;/code&gt; all along!)&lt;/p&gt;
+
+&lt;p&gt;I also found a simple way to &lt;a href=&quot;http://apidock.com/ruby/Set/divide&quot;&gt;&lt;em&gt;sort and divide a Set by a block&lt;/em&gt;&lt;/a&gt;, which will come in quite useful, as we’ll see.&lt;/p&gt;
 
 &lt;p&gt;The input:
 &lt;code class=&quot;highlighter-rouge&quot;&gt;[(2..6), (1..5), (8..9)]&lt;/code&gt;&lt;/p&gt;

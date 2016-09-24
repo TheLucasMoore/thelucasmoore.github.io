@@ -46,3 +46,34 @@ def join_ranges_together(ranges_array)
   return joined_ranges_array
 end
 ```
+
+The limitation here is that it requires the range to be put into an array, storing it in memory. So a simple range into the billions would  break the entire function. So how can this function be optimized to join ranges without manually storing each part of it in an array?
+
+An example that would destroy this first method is:
+`breaking_ranges = [(1..200_000_000_000), (3..300_000_000_000)]`
+
+We can assume if a number contains the minimum, the two ranges overlap. So we can check a range against all the other ranges. If there's overlap, we can set a new start point and end point, then create a new range from there.
+
+```ruby
+def better_range_maker(ranges_array)
+combined_ranges = []
+  ranges_array.each do |range|
+    start = range.begin
+    finish = range.end
+
+    ranges_array.each do |other_range|
+      if other_range.include?(start)
+        start = other_range.begin
+      end
+      if other_range.include?(finish)
+        finish = other_range.end
+      end
+    end
+    range = Range.new(start, finish)
+    combined_ranges.push(range) unless combined_ranges.include?(range)
+  end
+  return combined_ranges
+end
+```
+
+This uses much less memory. But it also will iterate through the array twice, giving us an `On^2` runtime. So it isn't perfect, I know. 

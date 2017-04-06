@@ -123,6 +123,37 @@
 </code></pre>
 </div>
 
+<p>The limitation here is that it requires the range to be put into an array, storing it in memory. So a simple range into the billions would  break the entire function. So how can this function be optimized to join ranges without manually storing each part of it in an array?</p>
+
+<p>An example that would destroy this first method is:
+<code class="highlighter-rouge">breaking_ranges = [(1..200_000_000_000), (3..300_000_000_000)]</code></p>
+
+<p>We can assume if a number contains the minimum, the two ranges overlap. So we can check a range against all the other ranges. If there’s overlap, we can set a new start point and end point, then create a new range from there.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">better_range_maker</span><span class="p">(</span><span class="n">ranges_array</span><span class="p">)</span>
+<span class="n">combined_ranges</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">ranges_array</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">range</span><span class="o">|</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="nf">begin</span>
+    <span class="n">finish</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="nf">end</span>
+
+    <span class="n">ranges_array</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">other_range</span><span class="o">|</span>
+      <span class="k">if</span> <span class="n">other_range</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">other_range</span><span class="p">.</span><span class="nf">begin</span>
+      <span class="k">end</span>
+      <span class="k">if</span> <span class="n">other_range</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">finish</span><span class="p">)</span>
+        <span class="n">finish</span> <span class="o">=</span> <span class="n">other_range</span><span class="p">.</span><span class="nf">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="n">range</span> <span class="o">=</span> <span class="no">Range</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">)</span>
+    <span class="n">combined_ranges</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">range</span><span class="p">)</span> <span class="k">unless</span> <span class="n">combined_ranges</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">range</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="k">return</span> <span class="n">combined_ranges</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>This uses much less memory. But it also will iterate through the array twice, giving us an <code class="highlighter-rouge">On^2</code> runtime. So it isn’t perfect, I know.</p>
+
   </div>
 </article>
 

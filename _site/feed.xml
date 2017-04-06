@@ -6,9 +6,79 @@
 </description>
     <link>http://thelucasmoore.github.io/</link>
     <atom:link href="http://thelucasmoore.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 20 Sep 2016 16:07:30 -0600</pubDate>
-    <lastBuildDate>Tue, 20 Sep 2016 16:07:30 -0600</lastBuildDate>
+    <pubDate>Wed, 05 Apr 2017 19:07:30 -0600</pubDate>
+    <lastBuildDate>Wed, 05 Apr 2017 19:07:30 -0600</lastBuildDate>
     <generator>Jekyll v3.2.0</generator>
+    
+      <item>
+        <title>AWS Lambda and NodeJS Slack bot</title>
+        <description>&lt;p&gt;I’ve wrapped up a neat project using &lt;a href=&quot;https://aws.amazon.com/lambda/&quot;&gt;AWS Lambda&lt;/a&gt; (with &lt;a href=&quot;https://serverless.com/&quot;&gt;Serverless&lt;/a&gt; behind the scenes) to improve the musical &lt;a href=&quot;http://mewsic.herokuapp.com/&quot;&gt;Mew Slack bot&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I wrote about this project when I &lt;a href=&quot;http://dev.thelucasmoore.com/2016/07/11/Building-Slack-Bots-with-Node.html&quot;&gt;first made it&lt;/a&gt; months ago.
+Now I’ve gone back and improved the h*ck out of it.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/mewsic.gif&quot; alt=&quot;mewsic&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;the-problems&quot;&gt;The Problems&lt;/h3&gt;
+
+&lt;h1 id=&quot;response-time&quot;&gt;Response Time&lt;/h1&gt;
+&lt;p&gt;Slack requests need a response within 3 seconds or they’ll time out and kick an error to the user.
+The old Node/Express endpoints were hosted on a free Heroku dyno, so as soon as a request was made, it would attempt to wake the dyno, which would obviously time out. So the integration didn’t work on the first call, but worked on the second, once the Heroku app was awake. No bueno.&lt;/p&gt;
+
+&lt;h1 id=&quot;content-errors&quot;&gt;Content Errors&lt;/h1&gt;
+&lt;p&gt;Some slash commands used two API calls to get their information. Requesting an artist’s bio and top tracks happened separately. This caused issues where the data from Last.fm would return one artist and Spotify would return another artist.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-solution&quot;&gt;The Solution&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/lambda.jpg&quot; alt=&quot;lambda&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;go-serverless&quot;&gt;Go Serverless&lt;/h1&gt;
+&lt;p&gt;Rethinking the infrastructure, AWS Lambda is the perfect option to deliver instant responses. It is a code-only, serverless solution. Request information, the Lambda spins up, kicks out a response and then spins back down. There’s a free tier of a million requests a month. Afterwards, it’s &lt;a href=&quot;https://aws.amazon.com/lambda/pricing/&quot;&gt;insanely cheap&lt;/a&gt;. That solves our response time issue.&lt;/p&gt;
+
+&lt;p&gt;We use the Serverless framework at Ibotta, so I learned it. Check out &lt;a href=&quot;https://serverless.com/framework/docs/&quot;&gt;the docs&lt;/a&gt;, which are super straight forward.&lt;/p&gt;
+
+&lt;h1 id=&quot;use-promises&quot;&gt;Use Promises&lt;/h1&gt;
+&lt;p&gt;For the mismatched data issue, I sat down and properly learned how to use &lt;a href=&quot;https://github.com/maxogden/art-of-node#callbacks&quot;&gt;Node’s Promises and callbacks&lt;/a&gt; for async requests. I wanted the fewest dependencies possible, so I followed &lt;a href=&quot;https://www.tomas-dvorak.cz/posts/nodejs-request-without-dependencies/&quot;&gt;this guide&lt;/a&gt; to writing a Promise function myself.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-i-learned&quot;&gt;What I learned&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Lambas don’t have a great system for deploying. Serverless fixes that. Using &lt;code class=&quot;highlighter-rouge&quot;&gt;serverless deploy&lt;/code&gt; will zip up the files, send them to S3, create your lambdas and then put API Gateway endpoints in front of them. Snazzy stuff. I then pointed the Slack app to the production end points from API Gateway.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Slack requests come encoded in &lt;code class=&quot;highlighter-rouge&quot;&gt;x-www-form-urlencoded&lt;/code&gt; format. We need it to be JSON so we can pull out necessary information for the API requests the bot makes. I followed part of &lt;a href=&quot;http://www.ryanray.me/serverless-slack-integrations&quot;&gt;this blog post by Ryan Ray&lt;/a&gt; to do a data transformation within API gateway.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Testing is crucial. I used &lt;a href=&quot;https://www.npmjs.com/package/lambda-tester&quot;&gt;lambda-tester&lt;/a&gt; to create specs around each endpoint.
+I was testing from Postman for a while. Making changes, redeploying and then testing again isn’t the best workflow. I’m obviously keeping the API keys secret in &lt;code class=&quot;highlighter-rouge&quot;&gt;process.env&lt;/code&gt;, which means you can’t run the specs locally if you cloned it.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;try-it-out&quot;&gt;Try it out!&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/TheLucasMoore/mewsic_aws_lambda&quot;&gt;Check out the code&lt;/a&gt;
+on my personal Github page.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://mewsic.herokuapp.com/&quot;&gt;Install the Slack Bot&lt;/a&gt; on your Slack channel already!&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://twitter.com/thelucasmoore&quot;&gt;Let me know&lt;/a&gt; what you think.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&amp;lt;3 Lucas&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Wed, 05 Apr 2017 00:00:00 -0600</pubDate>
+        <link>http://thelucasmoore.github.io/2017/04/05/AWS-Lambda-and-Node-Slackbot.html</link>
+        <guid isPermaLink="true">http://thelucasmoore.github.io/2017/04/05/AWS-Lambda-and-Node-Slackbot.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Ranges in Ruby</title>
@@ -54,6 +124,37 @@
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;The limitation here is that it requires the range to be put into an array, storing it in memory. So a simple range into the billions would  break the entire function. So how can this function be optimized to join ranges without manually storing each part of it in an array?&lt;/p&gt;
+
+&lt;p&gt;An example that would destroy this first method is:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;breaking_ranges = [(1..200_000_000_000), (3..300_000_000_000)]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;We can assume if a number contains the minimum, the two ranges overlap. So we can check a range against all the other ranges. If there’s overlap, we can set a new start point and end point, then create a new range from there.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;better_range_maker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ranges_array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;combined_ranges&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;ranges_array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;begin&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;finish&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;ranges_array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;other_range&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;other_range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;other_range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;begin&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;other_range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;finish&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;finish&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;other_range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;range&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finish&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;combined_ranges&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;combined_ranges&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;include?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;combined_ranges&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This uses much less memory. But it also will iterate through the array twice, giving us an &lt;code class=&quot;highlighter-rouge&quot;&gt;On^2&lt;/code&gt; runtime. So it isn’t perfect, I know.&lt;/p&gt;
 </description>
         <pubDate>Mon, 19 Sep 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/09/19/Ranges-in-Ruby.html</link>
@@ -950,86 +1051,6 @@ installing component
         <pubDate>Fri, 01 Jul 2016 00:00:00 -0600</pubDate>
         <link>http://thelucasmoore.github.io/2016/07/01/Using-CLI-Generators-in-Rails-and-Angular-2.html</link>
         <guid isPermaLink="true">http://thelucasmoore.github.io/2016/07/01/Using-CLI-Generators-in-Rails-and-Angular-2.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Deploying Angular Apps to Heroku, Lessons Learned</title>
-        <description>&lt;p&gt;This article is about my final project, &lt;a href=&quot;http://www.ssspotify.com&quot;&gt;$$$potify.com&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;As I have been putting the finishing touches on my final project, I’m preparing to deploy it on &lt;a href=&quot;https://devcenter.heroku.com/start&quot;&gt;Heroku&lt;/a&gt; to share with the world! To accomplish this, there are some changes I’ve had to make in my code.&lt;/p&gt;
-
-&lt;p&gt;Errors are my favorite. Debugging a program requires part intuition and part creativity. So when I first attempted to deploy my &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;final project&lt;/a&gt; to Heroku I was met with a few errors, which I learned how to fix.&lt;/p&gt;
-
-&lt;h2 id=&quot;moving-from-sqlite3-to-a-postgres-database&quot;&gt;Moving from SQLite3 to a Postgres Database&lt;/h2&gt;
-
-&lt;p&gt;Heroku doesn’t play well with SQLite, so when I first tried to deploy my application, the build failed. The messages informed me that I needed to switch my database from &lt;a href=&quot;http://railscasts.com/episodes/342-migrating-to-postgresql&quot;&gt;SQLite3 to Postgres&lt;/a&gt;. That process was simple. I updated my gemfile, ran &lt;code&gt;bundle update&lt;/code&gt; and then ran a &lt;a href=&quot;http://postgresapp.com/&quot;&gt;postgres server&lt;/a&gt; on my local machine. Rake allows me to drop and migrate the database quite simply, so this wasn’t a huge issue. My migrations all kept the database structure intact on the new server.&lt;/p&gt;
-
-&lt;h2 id=&quot;sass-compiling-error&quot;&gt;SASS Compiling Error&lt;/h2&gt;
-
-&lt;p&gt;A simple syntax error broke my entire build! I forgot a colon in one of my SASS files. As the SCSS was compiled into CSS, that error caused issues. Luckily, the log showed me the exact file and line number, so I went back and revised it. Oops. Shipping code into production is a serious endeavour.&lt;/p&gt;
-
-&lt;h2 id=&quot;from-http-to-https&quot;&gt;From HTTP to HTTPS&lt;/h2&gt;
-
-&lt;p&gt;Heroku has SSL certificates by default, which means the URLs are all &lt;code&gt;https://&lt;/code&gt; instead of unencrypted &lt;code&gt;http://&lt;/code&gt;. As I was making my API requests to Last.fm, the endpoint URL used HTTP, which mixed encrypted and unencryped content rendered on the page. This is unsecure and the content coming through was blocked by Firefox and Chrome. By switching the request URL to HTTPS, I was able to fix things up and it works!&lt;/p&gt;
-
-&lt;h2 id=&quot;application-build-failure&quot;&gt;Application Build Failure&lt;/h2&gt;
-
-&lt;p&gt;Ahh! One on deploy, I got this error.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/app-error.png&quot; alt=&quot;heroku error&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I &lt;a href=&quot;http://stackoverflow.com/questions/13496827/heroku-deployment-error-h10-app-crashed&quot;&gt;found a solution&lt;/a&gt;, which was to run &lt;code&gt;$ heroku run rails console&lt;/code&gt;. This spit out a more verbose error message than what I saw in the Heroku log. It revealed some code I had uncommented in an attempt to create a user session earlier. It wasn’t actually needed, so commenting it out again fixed the problem.&lt;/p&gt;
-
-&lt;p&gt;On that note, it’s also necessary to migrate the database on the remote Heroku connection by running &lt;code&gt;$ heroku run rake db:migrate&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;undefined-method-from-minification-of-javascript&quot;&gt;Undefined Method from Minification of Javascript&lt;/h2&gt;
-
-&lt;p&gt;The biggest struggle was adapting Angular to work after going through minification. In my project, one of the Angular controllers looks like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenreController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$stateParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;BackEndService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                      &lt;span class=&quot;c1&quot;&gt;// ^^^ Dependency Injection!&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ctrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$stateParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;init&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;BackEndService&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getGenre&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;artists&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;artists&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;angular&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'GenreController'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;GenreController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Now when compiling the javascript for deployment, it becomes minified, meaning the code now looks something like:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/minified.png&quot; alt=&quot;minified code&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I mentioned &lt;a href=&quot;http://dev.thelucasmoore.com/2016/06/05/The-Spotify-API-and-Angular.html&quot;&gt;dependency injection&lt;/a&gt; in the writeup of my final project. I learned lots about the quirks of Angular in that process. The issue here is when the code becomes minified, it replaces the names of the dependecies with letters. This makes the code smaller and therefore quicker. But Angular doesn’t know which dependencies are which. Hence, the errors.&lt;/p&gt;
-
-&lt;p&gt;To override this, I explicitly wrote out the injections for each controller like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;GenreController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$inject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'$stateParams'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'BackEndService'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;adding-a-domain-name&quot;&gt;Adding a Domain Name&lt;/h2&gt;
-
-&lt;p&gt;After buying and connecting my project to &lt;a href=&quot;http://www.ssspotify.com&quot;&gt;$$$potify.com&lt;/a&gt;, I had to be sure to go back into the ‘My Applications’ tab of the Spotify Developers panel. There, I added both &lt;code&gt;https://www.ssspotify.com/users/auth/spotify/callback&lt;/code&gt; and &lt;code&gt;https://ssspotify.com/users/auth/spotify/callback&lt;/code&gt; to the redirect URIs. This way, Spotify knows about the new address too!&lt;/p&gt;
-
-&lt;p&gt;That did the trick! &lt;a href=&quot;http://www.ssspotify.com&quot;&gt;Check out my final project right here&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 21 Jun 2016 00:00:00 -0600</pubDate>
-        <link>http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html</link>
-        <guid isPermaLink="true">http://thelucasmoore.github.io/2016/06/21/Deploying-Angular-Apps-to-Heroku.html</guid>
         
         
       </item>

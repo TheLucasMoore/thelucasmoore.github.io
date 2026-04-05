@@ -4,7 +4,13 @@ title: Home
 ---
 
 <div class="home">
-  {% assign recent_posts = site.posts | where_exp: "post", "post.date.year > 2017" %}
+  {% assign recent_posts = "" | split: "" %}
+  {% for post in site.posts %}
+    {% assign post_year = post.date | date: "%Y" | plus: 0 %}
+    {% if post_year > 2017 %}
+      {% assign recent_posts = recent_posts | push: post %}
+    {% endif %}
+  {% endfor %}
 
   {% if recent_posts.size > 0 %}
     <ul class="post-list">

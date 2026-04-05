@@ -1,0 +1,49 @@
+/* Custom Giscus dark theme matching site palette */
+/* Overrides GitHub Primer CSS variables used inside the Giscus iframe */
+
+:root {
+  --color-canvas-default:             #0f172a;
+  --color-canvas-subtle:              #1e293b;
+  --color-canvas-inset:               #0b1120;
+  --color-canvas-overlay:             #1e293b;
+
+  --color-border-default:             #1e293b;
+  --color-border-muted:               #1e293b;
+  --color-border-subtle:              rgba(148, 163, 184, 0.1);
+
+  --color-fg-default:                 #e2e8f0;
+  --color-fg-muted:                   #94a3b8;
+  --color-fg-subtle:                  #64748b;
+  --color-fg-onemphasis:              #ffffff;
+
+  --color-accent-fg:                  #60a5fa;
+  --color-accent-emphasis:            #2563eb;
+  --color-accent-subtle:              #1e3a5f;
+  --color-accent-muted:               rgba(96, 165, 250, 0.2);
+
+  --color-neutral-muted:              rgba(100, 116, 139, 0.15);
+  --color-neutral-subtle:             rgba(100, 116, 139, 0.08);
+
+  --color-btn-bg:                     #1e293b;
+  --color-btn-border:                 #334155;
+  --color-btn-hover-bg:               #293548;
+  --color-btn-hover-border:           #475569;
+  --color-btn-text:                   #e2e8f0;
+  --color-btn-shadow:                 0 0 transparent;
+  --color-btn-inset-shadow:           0 0 transparent;
+
+  --color-btn-primary-bg:             #2563eb;
+  --color-btn-primary-border:         #1d4ed8;
+  --color-btn-primary-hover-bg:       #1d4ed8;
+  --color-btn-primary-hover-border:   #1e40af;
+  --color-btn-primary-text:           #ffffff;
+  --color-btn-primary-shadow:         0 0 transparent;
+  --color-btn-primary-inset-shadow:   0 0 transparent;
+
+  --color-social-reaction-bg-hover:   #1e293b;
+  --color-social-reaction-bg-reacted: rgba(37, 99, 235, 0.15);
+
+  --color-header-bg:                  #0f172a;
+  --color-header-search-bg:           #1e293b;
+  --color-header-search-border:       #334155;
+}

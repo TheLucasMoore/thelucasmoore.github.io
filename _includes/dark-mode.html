@@ -2,6 +2,8 @@
 (function() {
   var toggle = document.getElementById('dark-toggle');
   var icon   = document.getElementById('theme-icon');
+  var DARK_GISCUS  = '{{ site.url }}/assets/giscus-dark.css';
+  var LIGHT_GISCUS = 'light';
 
   function getTheme() {
     return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
@@ -10,11 +12,18 @@
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-    // Moon = currently light (click to go dark), Sun = currently dark (click to go light)
     icon.innerHTML = theme === 'dark' ? '&#9728;' : '&#9790;';
+
+    // Sync Giscus iframe theme
+    var giscusFrame = document.querySelector('iframe.giscus-frame');
+    if (giscusFrame) {
+      giscusFrame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: theme === 'dark' ? DARK_GISCUS : LIGHT_GISCUS } } },
+        'https://giscus.app'
+      );
+    }
   }
 
-  // Set correct icon on load
   applyTheme(getTheme());
 
   if (toggle) {

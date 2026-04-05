@@ -1,0 +1,7 @@
+{% assign words = content | number_of_words %}
+{% if words < 200 %}
+  {% assign minutes = 1 %}
+{% else %}
+  {% assign minutes = words | divided_by: 200 %}
+{% endif %}
+<span class="reading-time">{{ minutes }} min read</span>

@@ -1,0 +1,50 @@
+// Reading time
+.reading-time {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+
+  &::before { content: "·"; margin-right: 0.4rem; }
+}
+
+// Buttondown subscribe form
+.buttondown-form {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  input[type="email"] {
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    min-width: 220px;
+    transition: border-color 0.15s ease;
+
+    &::placeholder { color: var(--color-text-muted); }
+
+    &:focus {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 1px;
+      border-color: var(--color-accent);
+    }
+  }
+
+  button[type="submit"] {
+    padding: 0.5rem 1rem;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover { background: var(--color-accent-hover); }
+  }
+}

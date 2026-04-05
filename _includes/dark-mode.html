@@ -1,0 +1,26 @@
+<script>
+(function() {
+  var toggle = document.getElementById('dark-toggle');
+  var icon   = document.getElementById('theme-icon');
+
+  function getTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    // Moon = currently light (click to go dark), Sun = currently dark (click to go light)
+    icon.innerHTML = theme === 'dark' ? '&#9728;' : '&#9790;';
+  }
+
+  // Set correct icon on load
+  applyTheme(getTheme());
+
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    });
+  }
+})();
+</script>

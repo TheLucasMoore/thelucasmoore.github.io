@@ -1,0 +1,51 @@
+// SCSS variables — build-time only (breakpoints, spacing)
+$content-width: 740px;
+$on-palm:       600px;
+$on-laptop:     800px;
+
+@mixin media-query($device) {
+  @media screen and (max-width: $device) { @content; }
+}
+
+// CSS Custom Properties — light theme (default)
+:root {
+  --color-bg:           #ffffff;
+  --color-text:         #1a1a1a;
+  --color-text-muted:   #6b7280;
+  --color-accent:       #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-border:       #e5e7eb;
+  --color-code-bg:      #f3f4f6;
+  --color-blockquote:   #f9fafb;
+  --color-header-bg:    #ffffff;
+  --color-tag-bg:       #eff6ff;
+  --color-tag-text:     #1d4ed8;
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code',
+               Menlo, Consolas, monospace;
+
+  --font-size-base: 1.0625rem;
+  --font-size-sm:   0.875rem;
+  --font-size-lg:   1.125rem;
+  --line-height:    1.75;
+
+  --radius:        4px;
+  --header-height: 60px;
+}
+
+// Dark theme — applied by JS via data-theme="dark" on <html>
+[data-theme="dark"] {
+  --color-bg:           #0f172a;
+  --color-text:         #e2e8f0;
+  --color-text-muted:   #94a3b8;
+  --color-accent:       #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-border:       #1e293b;
+  --color-code-bg:      #1e293b;
+  --color-blockquote:   #1e293b;
+  --color-header-bg:    #0f172a;
+  --color-tag-bg:       #1e3a5f;
+  --color-tag-text:     #93c5fd;
+}

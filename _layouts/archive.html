@@ -1,0 +1,22 @@
+---
+layout: default
+---
+<div class="archive-header">
+  <h1>
+    {% if page.type == 'tag' %}Posts tagged "{{ page.title }}"
+    {% elsif page.type == 'category' %}Category: {{ page.title }}
+    {% else %}{{ page.title }}{% endif %}
+  </h1>
+  <p>{{ page.posts.size }} post{% if page.posts.size != 1 %}s{% endif %}</p>
+</div>
+
+<ul class="post-list">
+  {% for post in page.posts %}
+    <li>
+      <div class="post-meta">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+      </div>
+      <h2><a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    </li>
+  {% endfor %}
+</ul>

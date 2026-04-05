@@ -4,28 +4,38 @@ title: Home
 ---
 
 <div class="home">
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <div class="post-meta">
-          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
-          {% assign words = post.content | number_of_words %}
-          {% if words < 200 %}{% assign minutes = 1 %}{% else %}{% assign minutes = words | divided_by: 200 %}{% endif %}
-          <span class="reading-time">{{ minutes }} min read</span>
-        </div>
+  {% assign recent_posts = site.posts | where_exp: "post", "post.date.year > 2017" %}
 
-        <h2><a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-
-        {% if post.excerpt %}
-          <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
-        {% endif %}
-
-        {% if post.tags.size > 0 %}
-          <div style="margin-top: 0.5rem;">
-            {% include tag-list.html tags=post.tags %}
+  {% if recent_posts.size > 0 %}
+    <ul class="post-list">
+      {% for post in recent_posts %}
+        <li>
+          <div class="post-meta">
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+            {% assign words = post.content | number_of_words %}
+            {% if words < 200 %}{% assign minutes = 1 %}{% else %}{% assign minutes = words | divided_by: 200 %}{% endif %}
+            <span class="reading-time">{{ minutes }} min read</span>
           </div>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
+
+          <h2><a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+
+          {% if post.excerpt %}
+            <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+          {% endif %}
+
+          {% if post.tags.size > 0 %}
+            <div style="margin-top: 0.5rem;">
+              {% include tag-list.html tags=post.tags %}
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="post-excerpt">New posts coming soon. <a href="{{ '/archive' | relative_url }}">Browse the archive</a> in the meantime.</p>
+  {% endif %}
+
+  <p style="margin-top: 2rem; font-size: var(--font-size-sm); color: var(--color-text-muted);">
+    Looking for older posts? <a href="{{ '/archive' | relative_url }}">View the archive &rarr;</a>
+  </p>
 </div>

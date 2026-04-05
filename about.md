@@ -11,8 +11,12 @@ permalink: /about
 >-E.F. Schumacher
 >
 
-Hey there. My name is Lucas. I'm a software engineer and graduate of [Learn.co](https://flatironschool.com/campuses/online/). I currently work as a Platform Engineer at [Ibotta](https://ibotta.com/register?friend=jlhfxqn). I debug all day long and write about what I learn.
+Hey there. My name is Lucas. I'm a software engineer with a decade of experience.
 
-Besides Ruby on Rails, I'm interested in spoken languages, meditation and accelerated learning.
+* I started this blog 10 years ago as I completed [Flatiron School](https://flatironschool.com/campuses/online/).
+* Platform Engineer at [Ibotta](https://ibotta.com/) for four years in Colorado.
+* Currently a Staff Engineer at [Guild](https://guild.com/)
+
+Besides software, I'm interested in bluegrass music, biking and fatherhood.
 
 Simple is always best.

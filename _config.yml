@@ -1,14 +1,16 @@
 # Site settings
 title: Coding Notes
-email: hey@thelucasmoore.com
+email: lucasedwardmoore@gmail.com
 description: >
-  Software engineering notes on Ruby, Rails, JavaScript, AWS, and systems thinking.
+  Software engineering notes
   Written by Lucas Moore.
 baseurl: ""
 url: "https://thelucasmoore.github.io"
 author: Lucas Moore
-twitter_username: thelucasmoore
+twitter_username: lucasdotnet
 github_username: thelucasmoore
+linkedin_username: thelucasmoore
+substack_url: https://monadnock.substack.com
 
 # Build settings
 markdown: kramdown
@@ -47,7 +49,7 @@ feed:
 
 # jekyll-seo-tag
 twitter:
-  username: thelucasmoore
+  username: lucasdotnet
 
 # Giscus comments (get values from giscus.app)
 giscus:

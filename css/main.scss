@@ -3,10 +3,8 @@
 ---
 @charset "utf-8";
 
-@import
-  "variables",
-  "base",
-  "layout",
-  "components",
-  "syntax-highlighting"
-;
+@use 'variables';
+@use 'base';
+@use 'layout';
+@use 'components';
+@use 'syntax-highlighting';

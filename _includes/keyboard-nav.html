@@ -26,14 +26,17 @@
     listItems[index].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
-  // ── Konami code ───────────────────────────────────────────────────────────
+  // ── Konami code → rainbow mode ────────────────────────────────────────────
   var KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown',
                 'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   var kIdx = 0;
 
   function triggerKonami() {
-    var modal = document.getElementById('konami-modal');
-    if (modal) modal.style.display = 'flex';
+    document.body.classList.add('rainbow-mode');
+  }
+
+  function stopRainbow() {
+    document.body.classList.remove('rainbow-mode');
   }
 
   // ── Keyboard handler ──────────────────────────────────────────────────────
@@ -92,18 +95,9 @@
     }
   });
 
-  // ── Close Konami modal ────────────────────────────────────────────────────
-  document.addEventListener('click', function(e) {
-    var modal = document.getElementById('konami-modal');
-    if (modal && (e.target === modal || e.target.closest('#konami-close'))) {
-      modal.style.display = 'none';
-    }
-  });
+  // ── Escape stops rainbow mode ─────────────────────────────────────────────
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      var modal = document.getElementById('konami-modal');
-      if (modal) modal.style.display = 'none';
-    }
+    if (e.key === 'Escape') stopRainbow();
   });
 })();
 </script>

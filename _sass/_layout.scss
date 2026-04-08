@@ -378,64 +378,11 @@
   50%, 100% { opacity: 0; }
 }
 
-// ── Konami code modal ────────────────────────────────────────────────────────
-#konami-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
+// ── Konami code → rainbow mode ────────────────────────────────────────────────
+@keyframes rainbow-spin {
+  to { filter: hue-rotate(360deg); }
 }
 
-.konami-dialog {
-  background: var(--color-bg);
-  border: var(--border-width) solid var(--color-border);
-  box-shadow: inset 0 0 0 3px var(--color-bg),
-              inset 0 0 0 6px var(--color-border);
-  padding: 2.5rem;
-  max-width: 380px;
-  width: 90%;
-  text-align: left;
-
-  p {
-    font-size: 0.55rem;
-    line-height: 2.2;
-    margin-bottom: 0.75rem;
-    color: var(--color-text);
-  }
-
-  .konami-speaker {
-    color: var(--color-accent);
-    margin-bottom: 1.25rem;
-    font-size: 0.6rem;
-  }
-
-  .konami-title {
-    color: var(--color-accent);
-    font-size: 0.65rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .konami-hint {
-    font-size: 0.45rem;
-    color: var(--color-text-muted);
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  button#konami-close {
-    display: block;
-    background: var(--color-accent);
-    color: var(--color-bg);
-    border: 2px solid var(--color-border);
-    border-radius: 0;
-    padding: 0.4rem 1rem;
-    font-family: var(--font-sans);
-    font-size: 0.5rem;
-    cursor: pointer;
-
-    &:hover { background: var(--color-accent-hover); }
-  }
+body.rainbow-mode {
+  animation: rainbow-spin 0.5s linear infinite;
 }

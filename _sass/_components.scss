@@ -10,7 +10,7 @@
     position: absolute;
     font-size: 9rem;
     left: 50%;
-    top: 35%;                          // approximate eye level in headshot
+    top: 30%;                          // approximate eye level in headshot
     transform: translateX(-52%) translateY(-400%); // slight left correction for emoji glyph offset
     opacity: 0;
     transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 1.4),

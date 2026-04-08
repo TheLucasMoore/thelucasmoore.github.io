@@ -38,19 +38,18 @@ $on-laptop:     800px;
   --border-width:  3px;            // consistent thick border
 }
 
-// Dark theme — Original Game Boy DMG screen palette (4-color green)
-// #0f380f (darkest) / #306230 (dark) / #8bac0f (light) / #9bbc0f (lightest)
+// Dark theme — warm charcoal, echoes the parchment light mode
 [data-theme="dark"] {
-  --color-bg:           #0f380f;   // darkest GB green — off-pixel background
-  --color-text:         #9bbc0f;   // lightest GB green — foreground/text
-  --color-text-muted:   #8bac0f;   // second-lightest green
-  --color-accent:       #9bbc0f;   // same as text — everything is green on DMG
-  --color-accent-hover: #c8d420;   // slightly brighter for hover states
-  --color-border:       #306230;   // second-darkest green for borders
-  --color-code-bg:      #306230;   // dark-mid green for code backgrounds
-  --color-blockquote:   #1a4a1a;   // between bg and border
-  --color-header-bg:    #0a280a;   // even darker than bg — deep DMG bezel
-  --color-header-text:  #9bbc0f;   // lightest green for header text
-  --color-tag-bg:       #306230;   // mid-dark green for tag backgrounds
-  --color-tag-text:     #9bbc0f;   // lightest green for tag text
+  --color-bg:           #1c1814;   // dark warm charcoal
+  --color-text:         #e8e0d0;   // warm off-white — echoes parchment
+  --color-text-muted:   #9a9080;   // muted warm grey
+  --color-accent:       #e03020;   // brighter red (legible on dark bg)
+  --color-accent-hover: #ff4030;
+  --color-border:       #3a3028;   // dark warm border
+  --color-code-bg:      #2c2820;   // slightly lighter than bg
+  --color-blockquote:   #252018;   // slightly lighter than bg
+  --color-header-bg:    #120e0a;   // near-black warm
+  --color-header-text:  #e8e0d0;   // same as text
+  --color-tag-bg:       #e03020;   // keep red tags
+  --color-tag-text:     #1c1814;   // dark text on red
 }

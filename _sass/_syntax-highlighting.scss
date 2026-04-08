@@ -33,27 +33,29 @@
   .w                      { color: #b8a888; }
 }
 
-// Dark mode — authentic 4-color Game Boy DMG screen (monochromatic green)
-// Only #9bbc0f and #8bac0f are used — a real DMG can only show 4 shades
+// Dark mode — warm charcoal with red/amber/cream accents
 [data-theme="dark"] .highlight {
-  background: #306230;
-  color: #9bbc0f;
-  border-color: #306230;
+  background: #2c2820;
+  color: #e8e0d0;
+  border-color: #3a3028;
 
-  .c, .cm, .c1, .cs, .cp { color: #8bac0f; font-style: normal; } // Comment — light green
-  .err                    { color: #9bbc0f; background: #0f380f; }
-  .k, .kc, .kd, .kp, .kr { color: #9bbc0f; font-weight: 400; }   // Keyword — lightest
-  .kt                     { color: #9bbc0f; font-weight: 400; }
-  .s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sx, .sr, .ss { color: #8bac0f; } // String
-  .m, .mf, .mh, .mi, .mo, .il { color: #9bbc0f; }                // Numbers
-  .o, .ow                 { color: #8bac0f; font-weight: 400; }   // Operator
-  .na, .nb, .nc, .no, .ni, .ne, .nf, .nn, .nv, .bp, .vc, .vg, .vi { color: #9bbc0f; }
-  .nt                     { color: #9bbc0f; }
+  .c, .cm, .c1, .cs, .cp { color: #7a7060; font-style: normal; } // Comment — muted warm grey
+  .err                    { color: #e03020; background: #3a1810; }
+  .k, .kc, .kd, .kp, .kr { color: #e8c080; font-weight: 400; }   // Keyword — amber
+  .kt                     { color: #e8c080; font-weight: 400; }
+  .s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sx, .sr, .ss { color: #c8a870; } // String — warm tan
+  .m, .mf, .mh, .mi, .mo, .il { color: #a0c0d8; }                // Number — muted blue
+  .o, .ow                 { color: #e8e0d0; font-weight: 400; }   // Operator — text color
+  .na, .nb                { color: #b8b0a0; }                     // Name — grey
+  .nc, .ne, .nf           { color: #e8c080; font-weight: 400; }   // Class/Func — amber
+  .no, .ni, .nv, .vc, .vg, .vi { color: #b8b0a0; }              // Variables — grey
+  .nt                     { color: #a0c0d8; }                     // Tag — muted blue
+  .nn, .bp                { color: #7a7060; }                     // Namespace — muted
   .ge                     { font-style: normal; }
-  .gr                     { color: #9bbc0f; }
-  .gd, .gd .x            { color: #0f380f; background: #8bac0f; }// Deleted
-  .gi, .gi .x            { color: #9bbc0f; background: #0f380f; }// Inserted
-  .gh, .gu, .gp           { color: #8bac0f; }
+  .gr                     { color: #e03020; }
+  .gd, .gd .x            { color: #e03020; background: #3a1810; }// Deleted — red
+  .gi, .gi .x            { color: #80c880; background: #103010; }// Inserted — muted green
+  .gh, .gu, .gp           { color: #7a7060; }
   .gs                     { font-weight: 400; }
-  .w                      { color: #306230; }
+  .w                      { color: #3a3028; }
 }

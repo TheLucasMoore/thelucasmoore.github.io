@@ -1,9 +1,46 @@
-// Reading time
+// Deal With It — profile photo easter egg
+.deal-with-it {
+  position: relative;
+  display: block;
+  cursor: pointer;
+
+  img { display: block; }
+
+  .glasses {
+    position: absolute;
+    font-size: 9rem;
+    left: 49%;
+    top: 25%;
+    transform: translateX(-52%) translateY(-400%); // slight left correction for emoji glyph offset
+    opacity: 0;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 1.4),
+                opacity 0.15s ease;
+    pointer-events: none;
+    filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.9));
+    line-height: 1;
+    user-select: none;
+  }
+
+  &:hover .glasses {
+    transform: translateX(-52%) translateY(0);
+    opacity: 1;
+  }
+}
+
+// Reading time — HP stat badge
 .reading-time {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.2em 0.4em;
+  background: var(--color-code-bg);
 
-  &::before { content: "·"; margin-right: 0.4rem; }
+  &::before {
+    content: "\231B";
+    margin-right: 0.3rem;
+    color: var(--color-accent);
+    font-weight: 400;
+  }
 }
 
 // Buttondown subscribe form
@@ -15,8 +52,8 @@
 
   input[type="email"] {
     padding: 0.5rem 0.875rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: 0;
     background: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-sans);
@@ -24,11 +61,14 @@
     min-width: 220px;
     transition: border-color 0.15s ease;
 
-    &::placeholder { color: var(--color-text-muted); }
+    &::placeholder {
+      color: var(--color-text-muted);
+      font-family: var(--font-sans);
+    }
 
     &:focus {
       outline: 2px solid var(--color-accent);
-      outline-offset: 1px;
+      outline-offset: 0px;
       border-color: var(--color-accent);
     }
   }
@@ -36,13 +76,15 @@
   button[type="submit"] {
     padding: 0.5rem 1rem;
     background: var(--color-accent);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius);
+    color: var(--color-bg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: 0;
     font-family: var(--font-sans);
     font-size: var(--font-size-sm);
-    font-weight: 500;
+    font-weight: 400;
     cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     transition: background-color 0.15s ease;
 
     &:hover { background: var(--color-accent-hover); }

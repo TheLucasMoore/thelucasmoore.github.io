@@ -4,7 +4,7 @@ title: Archive
 permalink: /archive/
 ---
 
-Posts from 2016–2017, written while learning web development at Flatiron School.
+Posts from 2016–2017, written while learning web development at Flatiron School. This blog from a decade ago is left here as a testament to the days before AI and how we used to write software with typing and stack overflow and deep googling.
 
 <ul class="post-list">
   {% for post in site.posts %}

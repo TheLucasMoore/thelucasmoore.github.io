@@ -1,11 +1,12 @@
 <footer class="site-footer">
   <div class="wrapper">
-    <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}</p>
+    <p class="footer-copyright">&copy; {{ site.time | date: '%Y' }} {{ site.author }}</p>
     <ul class="footer-links">
       <li><a href="https://github.com/{{ site.github_username }}">GitHub</a></li>
       <li><a href="https://linkedin.com/in/{{ site.linkedin_username }}">LinkedIn</a></li>
       <li><a href="{{ site.substack_url }}">Substack</a></li>
       <li><a href="{{ '/feed.xml' | relative_url }}">RSS</a></li>
     </ul>
+    <p class="footer-press-start" aria-hidden="true">PRESS START</p>
   </div>
 </footer>

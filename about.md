@@ -4,7 +4,10 @@ title: About Me
 permalink: /about
 ---
 
-![Lucas Moore](/assets/lucas.jpg "Lucas Moore")
+<div class="deal-with-it">
+  <img src="/assets/lucas.jpg" alt="Lucas Moore">
+  <span class="glasses" aria-hidden="true">🕶</span>
+</div>
 
 >“Any intelligent fool can make things bigger, more complex, and more violent.
 >It takes a touch of genius, and a lot of courage, to move in the opposite direction.”

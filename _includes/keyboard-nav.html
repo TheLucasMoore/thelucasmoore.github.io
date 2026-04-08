@@ -1,0 +1,103 @@
+<script>
+(function() {
+  // ── Top nav (left / right) ────────────────────────────────────────────────
+  var navLinks  = Array.from(document.querySelectorAll('.site-nav .page-link'));
+  var navIndex  = -1;
+
+  function activateNav(index) {
+    navLinks.forEach(function(a) { a.classList.remove('nav-active'); });
+    if (index < 0 || index >= navLinks.length) { navIndex = -1; return; }
+    navIndex = index;
+    navLinks[index].classList.add('nav-active');
+  }
+
+  // ── Post list (up / down) ─────────────────────────────────────────────────
+  var listItems = Array.from(document.querySelectorAll('.post-list > li'));
+  var postLinks = listItems.map(function(li) {
+    return li.querySelector('a.post-link');
+  }).filter(Boolean);
+  var postIndex = -1;
+
+  function activatePost(index) {
+    listItems.forEach(function(li) { li.classList.remove('is-active'); });
+    if (index < 0 || index >= listItems.length) { postIndex = -1; return; }
+    postIndex = index;
+    listItems[index].classList.add('is-active');
+    listItems[index].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  // ── Konami code → rainbow mode ────────────────────────────────────────────
+  var KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown',
+                'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  var kIdx = 0;
+
+  function triggerKonami() {
+    document.body.classList.add('rainbow-mode');
+  }
+
+  function stopRainbow() {
+    document.body.classList.remove('rainbow-mode');
+  }
+
+  // ── Keyboard handler ──────────────────────────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    // Track Konami sequence (case-insensitive for b/a)
+    var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (k === KONAMI[kIdx]) {
+      kIdx++;
+      if (kIdx === KONAMI.length) { kIdx = 0; triggerKonami(); return; }
+    } else {
+      // Restart from 1 if this key begins the sequence, else full reset
+      kIdx = 0;
+      if (k === KONAMI[0]) kIdx = 1;
+    }
+
+    var key = e.key;
+
+    if (key === 'ArrowLeft') {
+      e.preventDefault();
+      // Move ▶ left through nav — wrap around
+      activateNav(navIndex <= 0 ? navLinks.length - 1 : navIndex - 1);
+      activatePost(-1);
+
+    } else if (key === 'ArrowRight') {
+      e.preventDefault();
+      // Move ▶ right through nav — wrap around
+      activateNav(navIndex >= navLinks.length - 1 ? 0 : navIndex + 1);
+      activatePost(-1);
+
+    } else if (key === 'ArrowDown') {
+      e.preventDefault();
+      activateNav(-1);
+      if (postLinks.length > 0) {
+        activatePost(postIndex < postLinks.length - 1 ? postIndex + 1 : postIndex);
+      } else {
+        window.scrollBy({ top: 120, behavior: 'smooth' });
+      }
+
+    } else if (key === 'ArrowUp') {
+      e.preventDefault();
+      activateNav(-1);
+      if (postLinks.length > 0) {
+        activatePost(postIndex > 0 ? postIndex - 1 : 0);
+      } else {
+        window.scrollBy({ top: -120, behavior: 'smooth' });
+      }
+
+    } else if (key === 'Enter') {
+      if (navIndex >= 0) {
+        navLinks[navIndex].click();
+      } else if (postIndex >= 0) {
+        postLinks[postIndex].click();
+      }
+    }
+  });
+
+  // ── Escape stops rainbow mode ─────────────────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') stopRainbow();
+  });
+})();
+</script>

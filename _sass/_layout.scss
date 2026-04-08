@@ -29,6 +29,14 @@
   &:visited { color: var(--color-header-text); }
 }
 
+// HP hearts in header nav
+.site-hp {
+  color: var(--color-accent);
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  opacity: 0.9;
+}
+
 .site-nav {
   display: flex;
   align-items: center;
@@ -281,4 +289,136 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 1.5rem;
+}
+
+// ── Keyboard navigation active state ────────────────────────────────────────
+// Applied by JS when the user navigates the post list with arrow keys
+.post-list > li.is-active {
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 3px var(--color-bg),
+              inset 0 0 0 6px var(--color-accent);
+
+  .post-link {
+    color: var(--color-accent);
+
+    &::before {
+      content: '\25B6 ';
+    }
+  }
+}
+
+// ── Post content glyphs ──────────────────────────────────────────────────────
+// ◆ marker before h2 headings inside post body
+.post-content h2::before {
+  content: '\25C6 ';
+  color: var(--color-accent);
+  font-size: 0.6em;
+}
+
+// ── Post page navigation (prev/next) ────────────────────────────────────────
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: var(--border-width) solid var(--color-border);
+
+  a {
+    font-size: 0.45rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border: 2px solid var(--color-border);
+    padding: 0.5rem 0.75rem;
+    max-width: 45%;
+    line-height: 2.0;
+    transition: border-color 0.1s ease, color 0.1s ease;
+
+    &:hover {
+      color: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    &.post-nav-prev::before { content: '\25C4 '; color: var(--color-accent); }
+    &.post-nav-next { text-align: right; }
+    &.post-nav-next::after  { content: ' \25BA'; color: var(--color-accent); }
+  }
+}
+
+// ── Footer glyphs ────────────────────────────────────────────────────────────
+.footer-press-start {
+  width: 100%;
+  text-align: center;
+  font-size: 0.45rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.2em;
+  margin-top: 1rem;
+  animation: blink-text 1.2s step-start infinite;
+}
+
+@keyframes blink-text {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+// ── Konami code modal ────────────────────────────────────────────────────────
+#konami-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.konami-dialog {
+  background: var(--color-bg);
+  border: var(--border-width) solid var(--color-border);
+  box-shadow: inset 0 0 0 3px var(--color-bg),
+              inset 0 0 0 6px var(--color-border);
+  padding: 2.5rem;
+  max-width: 380px;
+  width: 90%;
+  text-align: left;
+
+  p {
+    font-size: 0.55rem;
+    line-height: 2.2;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .konami-speaker {
+    color: var(--color-accent);
+    margin-bottom: 1.25rem;
+    font-size: 0.6rem;
+  }
+
+  .konami-title {
+    color: var(--color-accent);
+    font-size: 0.65rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .konami-hint {
+    font-size: 0.45rem;
+    color: var(--color-text-muted);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  button#konami-close {
+    display: block;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 0;
+    padding: 0.4rem 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.5rem;
+    cursor: pointer;
+
+    &:hover { background: var(--color-accent-hover); }
+  }
 }

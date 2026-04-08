@@ -1,0 +1,98 @@
+<script>
+(function() {
+  // ── Post list navigation (home + archive pages) ───────────────────────────
+  var listItems = Array.from(document.querySelectorAll('.post-list > li'));
+  var postLinks = listItems.map(function(li) {
+    return li.querySelector('a.post-link');
+  }).filter(Boolean);
+  var current = -1;
+
+  function activate(index) {
+    listItems.forEach(function(li) { li.classList.remove('is-active'); });
+    if (index < 0 || index >= listItems.length) { current = -1; return; }
+    current = index;
+    listItems[index].classList.add('is-active');
+    listItems[index].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  // ── Post page prev/next (set via data attrs on <body>) ────────────────────
+  var olderUrl = document.body.getAttribute('data-older-url');
+  var newerUrl = document.body.getAttribute('data-newer-url');
+
+  // ── Konami code ───────────────────────────────────────────────────────────
+  var KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown',
+                'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  var kIdx = 0;
+
+  function triggerKonami() {
+    var modal = document.getElementById('konami-modal');
+    if (modal) modal.style.display = 'flex';
+  }
+
+  // ── Keyboard handler ──────────────────────────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    // Track Konami sequence
+    if (e.key === KONAMI[kIdx]) {
+      kIdx++;
+      if (kIdx === KONAMI.length) { kIdx = 0; triggerKonami(); return; }
+    } else {
+      kIdx = (e.key === KONAMI[0]) ? 1 : 0;
+    }
+
+    var key = e.key;
+
+    if (postLinks.length > 0) {
+      // List page: up/down navigates posts, left/right switches pages
+      if (key === 'ArrowDown') {
+        e.preventDefault();
+        activate(current < postLinks.length - 1 ? current + 1 : current);
+      } else if (key === 'ArrowUp') {
+        e.preventDefault();
+        activate(current > 0 ? current - 1 : 0);
+      } else if (key === 'Enter' && current >= 0) {
+        postLinks[current].click();
+      } else if (key === 'ArrowLeft') {
+        // Home → Archive, Archive → Home
+        if (window.location.pathname.indexOf('/archive') >= 0) {
+          window.location.href = '/';
+        }
+      } else if (key === 'ArrowRight') {
+        if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+          window.location.href = '/archive/';
+        }
+      }
+    } else {
+      // Post page: left/right = older/newer post, up/down = scroll
+      if (key === 'ArrowLeft' && olderUrl) {
+        e.preventDefault();
+        window.location.href = olderUrl;
+      } else if (key === 'ArrowRight' && newerUrl) {
+        e.preventDefault();
+        window.location.href = newerUrl;
+      } else if (key === 'ArrowUp') {
+        e.preventDefault();
+        window.scrollBy({ top: -120, behavior: 'smooth' });
+      } else if (key === 'ArrowDown') {
+        e.preventDefault();
+        window.scrollBy({ top: 120, behavior: 'smooth' });
+      }
+    }
+  });
+
+  // ── Close Konami modal ────────────────────────────────────────────────────
+  document.addEventListener('click', function(e) {
+    var modal = document.getElementById('konami-modal');
+    if (modal && (e.target === modal || e.target.closest('#konami-close'))) {
+      modal.style.display = 'none';
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var modal = document.getElementById('konami-modal');
+      if (modal) modal.style.display = 'none';
+    }
+  });
+})();
+</script>

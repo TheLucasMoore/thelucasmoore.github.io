@@ -32,7 +32,18 @@ img {
   display: block;
   border-radius: 0;
   border: var(--border-width) solid var(--color-border);
+  // Pokemon card double-border: outer gap + outer ring
+  box-shadow:
+    0 0 0 3px var(--color-bg),
+    0 0 0 6px var(--color-border);
   image-rendering: pixelated;
+  // Warm parchment tint in light mode
+  filter: sepia(0.25) brightness(0.92);
+}
+
+[data-theme="dark"] img {
+  // Desaturate and dim to match charcoal theme
+  filter: grayscale(0.5) brightness(0.72) sepia(0.1);
 }
 
 // Typographic scale — Press Start 2P must be used small; no fake bold or italic

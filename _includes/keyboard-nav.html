@@ -40,12 +40,15 @@
   document.addEventListener('keydown', function(e) {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-    // Track Konami sequence
-    if (e.key === KONAMI[kIdx]) {
+    // Track Konami sequence (case-insensitive for b/a)
+    var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (k === KONAMI[kIdx]) {
       kIdx++;
       if (kIdx === KONAMI.length) { kIdx = 0; triggerKonami(); return; }
     } else {
-      kIdx = (e.key === KONAMI[0]) ? 1 : 0;
+      // Restart from 1 if this key begins the sequence, else full reset
+      kIdx = 0;
+      if (k === KONAMI[0]) kIdx = 1;
     }
 
     var key = e.key;

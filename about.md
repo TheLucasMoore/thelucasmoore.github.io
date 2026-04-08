@@ -7,7 +7,6 @@ permalink: /about
 <div class="deal-with-it">
   <img src="/assets/lucas.jpg" alt="Lucas Moore">
   <span class="glasses" aria-hidden="true">🕶</span>
-  <span class="deal-text" aria-hidden="true">DEAL WITH IT.</span>
 </div>
 
 >“Any intelligent fool can make things bigger, more complex, and more violent.

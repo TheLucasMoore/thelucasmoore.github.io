@@ -7,45 +7,50 @@ $on-laptop:     800px;
   @media screen and (max-width: $device) { @content; }
 }
 
-// CSS Custom Properties — light theme (default)
+// CSS Custom Properties — light theme: Pokemon Red cartridge aesthetic
+// Palette: cream parchment, deep warm-black, Pokemon Red accent, dark casing header
 :root {
-  --color-bg:           #ffffff;
-  --color-text:         #1a1a1a;
-  --color-text-muted:   #6b7280;
-  --color-accent:       #2563eb;
-  --color-accent-hover: #1d4ed8;
-  --color-border:       #e5e7eb;
-  --color-code-bg:      #f3f4f6;
-  --color-blockquote:   #f9fafb;
-  --color-header-bg:    #ffffff;
-  --color-tag-bg:       #eff6ff;
-  --color-tag-text:     #1d4ed8;
+  --color-bg:           #f0e8c8;   // GB parchment — the iconic unlit LCD color
+  --color-text:         #1a0a00;   // near-black with warm brown tint
+  --color-text-muted:   #5c4a32;   // mid-brown for secondary text
+  --color-accent:       #c82800;   // Pokemon Red
+  --color-accent-hover: #9e1e00;   // darker red on hover
+  --color-border:       #1a0a00;   // same as text — thick black borders
+  --color-code-bg:      #ddd4a8;   // slightly darker parchment for code fields
+  --color-blockquote:   #e8deb8;   // slightly darker than bg for blockquotes
+  --color-header-bg:    #1a0a00;   // dark Game Boy casing for the header bar
+  --color-header-text:  #f0e8c8;   // parchment text on dark header
+  --color-tag-bg:       #c82800;   // red filled tag badges
+  --color-tag-text:     #f0e8c8;   // parchment text on red tags
 
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
-               'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code',
-               Menlo, Consolas, monospace;
+  // Typography — Press Start 2P only; it's a pixel font, mono fallback same
+  --font-sans: 'Press Start 2P', monospace;
+  --font-mono: 'Press Start 2P', monospace;
 
-  --font-size-base: 1.0625rem;
-  --font-size-sm:   0.875rem;
-  --font-size-lg:   1.125rem;
-  --line-height:    1.75;
+  // Sizes — Press Start 2P must be used small; 0.6rem ≈ 9.6px at browser default
+  --font-size-base: 0.6rem;
+  --font-size-sm:   0.5rem;
+  --font-size-lg:   0.7rem;
+  --line-height:    2.2;           // generous — pixel font needs breathing room
 
-  --radius:        4px;
-  --header-height: 60px;
+  --radius:        0px;            // zero rounded corners everywhere
+  --header-height: 64px;
+  --border-width:  3px;            // consistent thick border
 }
 
-// Dark theme — applied by JS via data-theme="dark" on <html>
+// Dark theme — Original Game Boy DMG screen palette (4-color green)
+// #0f380f (darkest) / #306230 (dark) / #8bac0f (light) / #9bbc0f (lightest)
 [data-theme="dark"] {
-  --color-bg:           #0f172a;
-  --color-text:         #e2e8f0;
-  --color-text-muted:   #94a3b8;
-  --color-accent:       #60a5fa;
-  --color-accent-hover: #93c5fd;
-  --color-border:       #1e293b;
-  --color-code-bg:      #1e293b;
-  --color-blockquote:   #1e293b;
-  --color-header-bg:    #0f172a;
-  --color-tag-bg:       #1e3a5f;
-  --color-tag-text:     #93c5fd;
+  --color-bg:           #0f380f;   // darkest GB green — off-pixel background
+  --color-text:         #9bbc0f;   // lightest GB green — foreground/text
+  --color-text-muted:   #8bac0f;   // second-lightest green
+  --color-accent:       #9bbc0f;   // same as text — everything is green on DMG
+  --color-accent-hover: #c8d420;   // slightly brighter for hover states
+  --color-border:       #306230;   // second-darkest green for borders
+  --color-code-bg:      #306230;   // dark-mid green for code backgrounds
+  --color-blockquote:   #1a4a1a;   // between bg and border
+  --color-header-bg:    #0a280a;   // even darker than bg — deep DMG bezel
+  --color-header-text:  #9bbc0f;   // lightest green for header text
+  --color-tag-bg:       #306230;   // mid-dark green for tag backgrounds
+  --color-tag-text:     #9bbc0f;   // lightest green for tag text
 }

@@ -1,23 +1,30 @@
 <script>
 (function() {
-  // ── Post list navigation (home + archive pages) ───────────────────────────
+  // ── Top nav (left / right) ────────────────────────────────────────────────
+  var navLinks  = Array.from(document.querySelectorAll('.site-nav .page-link'));
+  var navIndex  = -1;
+
+  function activateNav(index) {
+    navLinks.forEach(function(a) { a.classList.remove('nav-active'); });
+    if (index < 0 || index >= navLinks.length) { navIndex = -1; return; }
+    navIndex = index;
+    navLinks[index].classList.add('nav-active');
+  }
+
+  // ── Post list (up / down) ─────────────────────────────────────────────────
   var listItems = Array.from(document.querySelectorAll('.post-list > li'));
   var postLinks = listItems.map(function(li) {
     return li.querySelector('a.post-link');
   }).filter(Boolean);
-  var current = -1;
+  var postIndex = -1;
 
-  function activate(index) {
+  function activatePost(index) {
     listItems.forEach(function(li) { li.classList.remove('is-active'); });
-    if (index < 0 || index >= listItems.length) { current = -1; return; }
-    current = index;
+    if (index < 0 || index >= listItems.length) { postIndex = -1; return; }
+    postIndex = index;
     listItems[index].classList.add('is-active');
     listItems[index].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
-
-  // ── Post page prev/next (set via data attrs on <body>) ────────────────────
-  var olderUrl = document.body.getAttribute('data-older-url');
-  var newerUrl = document.body.getAttribute('data-newer-url');
 
   // ── Konami code ───────────────────────────────────────────────────────────
   var KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown',
@@ -43,40 +50,41 @@
 
     var key = e.key;
 
-    if (postLinks.length > 0) {
-      // List page: up/down navigates posts, left/right switches pages
-      if (key === 'ArrowDown') {
-        e.preventDefault();
-        activate(current < postLinks.length - 1 ? current + 1 : current);
-      } else if (key === 'ArrowUp') {
-        e.preventDefault();
-        activate(current > 0 ? current - 1 : 0);
-      } else if (key === 'Enter' && current >= 0) {
-        postLinks[current].click();
-      } else if (key === 'ArrowLeft') {
-        // Home → Archive, Archive → Home
-        if (window.location.pathname.indexOf('/archive') >= 0) {
-          window.location.href = '/';
-        }
-      } else if (key === 'ArrowRight') {
-        if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-          window.location.href = '/archive/';
-        }
-      }
-    } else {
-      // Post page: left/right = older/newer post, up/down = scroll
-      if (key === 'ArrowLeft' && olderUrl) {
-        e.preventDefault();
-        window.location.href = olderUrl;
-      } else if (key === 'ArrowRight' && newerUrl) {
-        e.preventDefault();
-        window.location.href = newerUrl;
-      } else if (key === 'ArrowUp') {
-        e.preventDefault();
-        window.scrollBy({ top: -120, behavior: 'smooth' });
-      } else if (key === 'ArrowDown') {
-        e.preventDefault();
+    if (key === 'ArrowLeft') {
+      e.preventDefault();
+      // Move ▶ left through nav — wrap around
+      activateNav(navIndex <= 0 ? navLinks.length - 1 : navIndex - 1);
+      activatePost(-1);
+
+    } else if (key === 'ArrowRight') {
+      e.preventDefault();
+      // Move ▶ right through nav — wrap around
+      activateNav(navIndex >= navLinks.length - 1 ? 0 : navIndex + 1);
+      activatePost(-1);
+
+    } else if (key === 'ArrowDown') {
+      e.preventDefault();
+      activateNav(-1);
+      if (postLinks.length > 0) {
+        activatePost(postIndex < postLinks.length - 1 ? postIndex + 1 : postIndex);
+      } else {
         window.scrollBy({ top: 120, behavior: 'smooth' });
+      }
+
+    } else if (key === 'ArrowUp') {
+      e.preventDefault();
+      activateNav(-1);
+      if (postLinks.length > 0) {
+        activatePost(postIndex > 0 ? postIndex - 1 : 0);
+      } else {
+        window.scrollBy({ top: -120, behavior: 'smooth' });
+      }
+
+    } else if (key === 'Enter') {
+      if (navIndex >= 0) {
+        navLinks[navIndex].click();
+      } else if (postIndex >= 0) {
+        postLinks[postIndex].click();
       }
     }
   });

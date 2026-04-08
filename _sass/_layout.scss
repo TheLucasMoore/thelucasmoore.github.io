@@ -70,6 +70,17 @@
     }
 
     &:visited { color: var(--color-header-text); }
+
+    // Active state set by keyboard nav JS — mirrors hover
+    &.nav-active {
+      color: var(--color-accent);
+      padding-left: 1em;
+
+      &::before {
+        content: '\25B6';
+        opacity: 1;
+      }
+    }
   }
 }
 

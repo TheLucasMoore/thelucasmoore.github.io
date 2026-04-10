@@ -1,28 +1,32 @@
-// Deal With It — profile photo easter egg
+// Deal With It — profile photo easter egg (double-click to activate)
 .deal-with-it {
   position: relative;
-  display: block;
+  display: inline-block;
   cursor: pointer;
+  user-select: none;
 
   img { display: block; }
 
   .glasses {
     position: absolute;
     font-size: 9rem;
-    left: 49%;
-    top: 25%;
-    transform: translateX(-52%) translateY(-400%); // slight left correction for emoji glyph offset
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%) translateY(-600px);
     opacity: 0;
     transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 1.4),
                 opacity 0.15s ease;
     pointer-events: none;
     filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.9));
     line-height: 1;
-    user-select: none;
+
+    @include media-query($on-palm) {
+      font-size: 5rem;
+    }
   }
 
-  &:hover .glasses {
-    transform: translateX(-52%) translateY(0);
+  &.active .glasses {
+    transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
 }

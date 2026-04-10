@@ -3,6 +3,8 @@ name: Build and Deploy Jekyll
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -30,6 +32,7 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+        if: github.event_name != 'pull_request'
 
       - name: Build with Jekyll
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
@@ -38,8 +41,10 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

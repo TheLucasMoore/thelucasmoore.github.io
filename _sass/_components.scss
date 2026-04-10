@@ -20,7 +20,7 @@
     filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.9));
     line-height: 1;
 
-    @include media-query($on-palm) {
+    @media screen and (max-width: 600px) {
       font-size: 5rem;
     }
   }
